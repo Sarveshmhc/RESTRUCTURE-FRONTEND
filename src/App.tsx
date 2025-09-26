@@ -22,7 +22,14 @@ const EmployeeDirectory = () => (
     <h1 className="text-2xl font-bold">Employee Directory</h1>
   </div>
 );
-// ...other HR and Employee page components...
+
+// Employee Pages
+const EmployeeDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold">Welcome Employee</h1>
+    <p className="text-gray-600 mt-2">Your dashboard is here.</p>
+  </div>
+);
 
 // Private Route Component
 interface PrivateRouteProps {
@@ -70,7 +77,7 @@ const App: React.FC = () => (
           <PrivateRoute allowedRole="employee">
             <BaseLayout>
               <Routes>
-                <Route path="home" element={<div>Employee Dashboard</div>} />
+                <Route path="home" element={<EmployeeDashboard />} />
                 <Route path="profile" element={<Profile />} />
                 {/* Add all other Employee routes here */}
                 <Route path="*" element={<Navigate to="/employee/home" replace />} />

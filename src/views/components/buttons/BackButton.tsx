@@ -1,44 +1,52 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface BackButtonProps {
   to?: string;
   label?: string;
-  variant?: "default" | "outline";
+  variant?: 'default' | 'home' | 'minimal';
   className?: string;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({
-  to,
-  label = "Back",
-  variant = "default",
-  className = "",
+const BackButton: React.FC<BackButtonProps> = ({ 
+  to = '/home', 
+  label = 'Back to Home',
+  variant = 'default',
+  className = ''
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (to) {
-      navigate(to);
-    } else {
-      navigate(-1);
-    }
+    navigate(to);
+  };
+
+  const baseClasses = "inline-flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 font-medium";
+  
+  const variantClasses = {
+    default: "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600",
+    home: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 border border-blue-200 dark:border-blue-800",
+    minimal: "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
   };
 
   return (
-    <button
-      type="button"
+    <motion.button
       onClick={handleClick}
-      className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-colors
-        ${variant === "default"
-          ? "bg-[var(--color-primary-light)] text-[var(--color-primary-dark)] hover:bg-[var(--color-primary)] hover:text-white"
-          : "border border-[var(--color-primary)] text-[var(--color-primary-dark)] bg-white hover:bg-[var(--color-primary-light)]"}
-        ${className}`}
-      style={{ minWidth: "fit-content" }}
+      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3 }}
     >
-      <ArrowLeft className="w-5 h-5" />
-      <span>{label}</span>
-    </button>
+      {variant === 'home' ? (
+        <Home className="w-4 h-4" />
+      ) : (
+        <ArrowLeft className="w-4 h-4" />
+      )}
+      {variant !== 'minimal' && <span>{label}</span>}
+    </motion.button>
   );
 };
 
