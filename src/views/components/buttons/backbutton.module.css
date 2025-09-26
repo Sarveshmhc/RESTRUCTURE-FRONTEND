@@ -1,0 +1,45 @@
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  
+  min-width: min-content;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+  outline: none;
+  border: none;
+}
+
+.default {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.default:hover,
+.default:focus {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.outline {
+  background: #fff;
+  color: var(--color-primary-dark);
+  border: 2px solid var(--color-primary);
+}
+
+.outline:hover,
+.outline:focus {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

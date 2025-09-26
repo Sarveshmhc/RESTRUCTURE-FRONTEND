@@ -1,0 +1,48 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  background: #f3f4f6;
+  border-radius: 999px;
+  padding: 0.25rem 1.5rem 0.25rem 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 500;
+  min-width: 80px;
+}
+.toggle.light {
+  background: #f3f4f6;
+  color: #2563eb;
+}
+.toggle.dark {
+  background: #18181b;
+  color: #f3f4f6;
+}
+.icon {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+.label {
+  font-size: 1rem;
+  margin-right: 1.5rem;
+}
+.slider {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2563eb;
+  transition: background 0.2s;
+}
+.sliderLight {
+  background: #2563eb;
+}
+.sliderDark {
+  background: #f3f4f6;
+  border: 2px solid #2563eb;
+}

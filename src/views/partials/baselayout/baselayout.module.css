@@ -1,0 +1,32 @@
+.layoutWrapper {
+  display: flex;
+  height: 100vh;
+  background: #f1f5f9;
+}
+
+.mainArea {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.contentArea {
+  flex: 1;
+  padding: 2rem;
+  background: #ffffff;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Example for baselayout.module.css */
+.layoutWrapper {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.contentArea {
+  background: var(--bg);
+  color: var(--text);
+}

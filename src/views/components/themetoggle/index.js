@@ -1,0 +1,3 @@
+import ToggleSwitch from "../components/themetoggle";
+// ...
+<ToggleSwitch />

@@ -1,0 +1,11 @@
+.toploading {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 4px;
+  background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+  z-index: 99999;
+  animation: loadingBar 1.2s linear infinite;
+}
+@keyframes loadingBar {
+  0% { left: -100vw; }
+  100% { left: 100vw; }
+}

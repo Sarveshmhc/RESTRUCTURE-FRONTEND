@@ -1,0 +1,4 @@
+.calendar { border: 1px solid #ddd; border-radius: 8px; padding: 8px; text-align: center; width: 60px; }
+.month { font-size: 12px; color: #888; }
+.day { font-size: 24px; font-weight: bold; }
+.year { font-size: 10px; color: #bbb; }

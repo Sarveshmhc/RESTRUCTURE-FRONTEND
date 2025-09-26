@@ -1,0 +1,5 @@
+.tabs { }
+.tabList { display: flex; gap: 1rem; }
+.tab { padding: 0.5rem 1rem; border: none; background: #f3f4f6; cursor: pointer; border-radius: 6px 6px 0 0; }
+.active { background: #2563eb; color: #fff; }
+.tabPanel { padding: 1rem; background: #fff; border-radius: 0 0 6px 6px; }
