@@ -138,17 +138,7 @@ const hrSidebarItems: SidebarItem[] = [
   },
   
   { label: "Inbox", icon: InboxIcon, path: "/hr/inbox" },
-  {
-    label: "Help Desk",
-    icon: HelpCircle,
-    path: "/hr/help-desk",
-    hasDropdown: true,
-    subItems: [
-      { label: "Employee Queries", icon: HelpCircle, path: "/hr/help-desk/queries" },
-      { label: "Knowledge Base", icon: BookOpen, path: "/hr/help-desk/kb" },
-      { label: "FAQ", icon: HelpCircle, path: "/hr/help-desk/faq" },
-    ],
-  },
+
   {
     label: "Settings",
     icon: Settings,
@@ -172,8 +162,8 @@ const hrSidebarItems: SidebarItem[] = [
 
 
 const employeeSidebarItems: SidebarItem[] = [
-  { label: "Home", icon: User, path: "/employee/home" },
-  { label: "My Profile", icon: Users, path: "/employee/profile" },
+  { label: "Home", icon: User, path: "/emp-home" },
+  { label: "Profile", icon: Users, path: "/emp-home/profile" },
   {
     label: "My Attendance",
     icon: Calendar,
