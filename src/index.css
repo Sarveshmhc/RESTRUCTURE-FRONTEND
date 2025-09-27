@@ -72,31 +72,19 @@
 .dark {
   --bg: #0f172a;
   --text: #f1f5f9;
-
-  --header-bg:#0f172a;
+  --header-bg: #0f172a;
   --header-text: #f1f5f9;
   --sidebar-bg: #0f172a;
   --sidebar-text: #f1f5f9;
-  --sidebar-active:#3B82F620;
+  --sidebar-active: #3B82F620;
   --sidebar-active-text: #3b82f6;
-  --sidebar-hover: #4b5769;
-  --sidebar-footer-bg:#0f172a;
-
-  --header-bg: #1e293b;
-  --header-text: #f1f5f9;
-  --sidebar-bg: #1e293b;
-  --sidebar-text: #f1f5f9;
-  --sidebar-active: #3b82f6;
   --sidebar-hover: #334155;
-  --sidebar-footer-bg: #1e293b;
-
+  --sidebar-footer-bg: #0f172a;
   --search-border: #475569;
   --search-border-hover: #64748b;
   --search-border-focus: #3b82f6;
   --search-bg: #334155;
-
   --border-color: #475569;
-
 }
 
 #root {

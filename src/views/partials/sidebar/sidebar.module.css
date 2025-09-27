@@ -6,20 +6,12 @@
   width: 18rem;
   display: flex;
   flex-direction: column;
-
   transition: width 0.3s ease, box-shadow 0.2s ease;
   min-width: 0;
   position: relative;
   z-index: 10;
   border-right: 1px solid var(--border-color);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
-
-  transition: width 0.3s ease;
-  min-width: 0;
-  position: relative;
-  z-index: 10;
-  border-right: 1px solid var(--color-gray-200);
-
 }
 
 /* Collapsed sidebar */
@@ -33,10 +25,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-
   border-bottom: 1px solid var(--border-color);
-
-  border-bottom: 1px solid var(--color-gray-200);
 
   height: auto;
   min-height: 4rem;
@@ -112,36 +101,6 @@
   transform: scale(1.1);
 }
 
-
-}
-
-.collapseBtn:focus {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-}
-
-/* Legacy collapse icon styles (keeping for backward compatibility) */
-.collapseIcon {
-  color: var(--color-gray-400);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  transition: color 0.2s, background 0.2s, transform 0.1s;
-  outline: none;
-}
-
-.collapseIcon:hover {
-  color: var(--sidebar-text);
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.1);
-}
-
-
 .collapseIcon:focus {
   color: var(--sidebar-text);
   background: rgba(255, 255, 255, 0.2);
@@ -198,11 +157,7 @@
 /* Active state for sidebar links */
 .sidebarLink.active {
   background: var(--sidebar-active) !important;
-
   color: var(--sidebar-active-text) !important;
-=======
-  color: #ffffff !important;
-
   font-weight: 600;
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
@@ -210,11 +165,7 @@
 /* Maintain active state on hover */
 .sidebarLink.active:hover {
   background: var(--sidebar-active) !important;
-
   color: var(--sidebar-active-text) !important;
-=======
-  color: #ffffff !important;
-
   transform: translateX(0);
 }
 
@@ -288,11 +239,7 @@
 
 .dropdownMenu .sidebarLink.active {
   background: rgba(59, 130, 246, 0.1) !important;
-
   color: var(--sidebar-active-text) !important;
-
-  color: var(--sidebar-active) !important;
-
   font-weight: 500;
 }
 
@@ -303,11 +250,7 @@
 /* Sidebar footer */
 .sidebarFooter {
   padding: 1rem 1.5rem;
-
   border-top: 1px solid var(--border-color);
-  
-  border-top: 1px solid var(--color-gray-200);
-
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
