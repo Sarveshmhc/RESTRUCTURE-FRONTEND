@@ -25,8 +25,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-
   height: auto;
   min-height: 4rem;
 }
@@ -250,7 +248,6 @@
 /* Sidebar footer */
 .sidebarFooter {
   padding: 1rem 1.5rem;
-  border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
