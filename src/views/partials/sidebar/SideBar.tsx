@@ -37,8 +37,7 @@ import {
   MessageSquare,
   Settings,
   Palette,
-  //ChevronLeft,
-  PanelLeft,
+  ChevronLeft,
 } from "lucide-react";
 
 interface SideBarProps {
@@ -76,7 +75,7 @@ const hrSidebarItems: SidebarItem[] = [
     icon: Briefcase,
     path: "/hr/recruitment",
     hasDropdown: true,
-   subItems: [
+    subItems: [
       { label: "Job Requisition Management", icon: FileText, path: "/recruitment/job-requisition" },
       { label: "Job Posting & Advertisement", icon: Plus, path: "/recruitment/job-posting" },
       { label: "Application Tracking System", icon: Search, path: "/recruitment/ats" },
@@ -123,7 +122,7 @@ const hrSidebarItems: SidebarItem[] = [
     label: "Organization",
     icon: Building2,
     path: "hr/organizations",
-  },{
+  }, {
     label: "Help Desk",
     icon: Headphones,
     path: "/help-desk",
@@ -136,7 +135,7 @@ const hrSidebarItems: SidebarItem[] = [
       { label: "Feedback & Engagement", icon: MessageSquare, path: "/help-desk/feedback" },
     ],
   },
-  
+
   { label: "Inbox", icon: InboxIcon, path: "/hr/inbox" },
 
   {
@@ -154,7 +153,7 @@ const hrSidebarItems: SidebarItem[] = [
   { label: "Announcements", icon: Bell, path: "/hr/announcements" },
 ];
 
-  
+
 
 
 
@@ -222,13 +221,13 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  
+
 
   const sidebarItems =
     user?.role === "hr" ? hrSidebarItems : employeeSidebarItems;
 
   // Helper to check if a sidebar item or its subitems is active
-   const isItemActive = (item: SidebarItem) => {
+  const isItemActive = (item: SidebarItem) => {
     if (location.pathname === item.path) return true;
     if (item.subItems) {
       return item.subItems.some((sub) => location.pathname === sub.path);
@@ -238,20 +237,26 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ""}`}>
-    <div className={styles.sidebarHeader}>
-  <span className={styles.sidebarTitle}>
-    {user?.role === "hr" ? "HR Portal" : "Employee Portal"}
-  </span>
-  <button
-  className={styles.collapseBtn}
-  onClick={onToggle}
-  title="Toggle Sidebar"
-  aria-label="Toggle Sidebar"
-  type="button"
->
-  <PanelLeft size={32} />
-</button>
-</div>
+      <div className={styles.sidebarHeader}>
+        <span className={styles.sidebarTitle}>
+          {user?.role === "hr" ? "HR Portal" : "Employee Portal"}
+        </span>
+        <div
+          className={styles.collapseIcon}
+          onClick={onToggle}
+          title={isCollapsed ? "Open Sidebar" : "Close Sidebar"}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onToggle();
+            }
+          }}
+        >
+          {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+        </div>
+      </div>
       <nav className={styles.sidebarNav}>
         {sidebarItems.map((item) => {
           const active = isItemActive(item);
@@ -281,9 +286,8 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
                     <Link
                       key={sub.label}
                       to={sub.path}
-                      className={`${styles.sidebarLink} ${
-                        location.pathname === sub.path ? styles.active : ""
-                      }`}
+                      className={`${styles.sidebarLink} ${location.pathname === sub.path ? styles.active : ""
+                        }`}
                     >
                       <sub.icon className={styles.sidebarIcon} />
                       <span>{sub.label}</span>
