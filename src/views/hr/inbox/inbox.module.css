@@ -1,0 +1,316 @@
+.inboxRoot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface, #fff);
+}
+
+.inboxHeader {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1.5rem 2rem 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.04);
+}
+
+.inboxTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4f7cf3;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.inboxSubtitle {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+.composeBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #4f7cf3;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.composeBtn:hover {
+  background: #3356c7;
+}
+
+.inboxMain {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.messageList {
+  width: 33.3333%;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageSearch {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  font-size: 1rem;
+  color: #334155;
+  outline: none;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.filterBar {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.filterBtn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 9999px;
+  border: none;
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.filterBtnActive {
+  background: #a4bdf5;
+  color: #223a8c;
+}
+
+.messageItem {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #fff;
+}
+
+.messageItem:hover {
+  background: #f5f8ff;
+}
+
+.messageItemActive {
+  background: #a4bdf5;
+}
+
+.messageUnread {
+  background: #e6edfe;
+}
+
+.messageAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #c7d7fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.messageContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.messageSender {
+  font-weight: 600;
+  color: #223a8c;
+  font-size: 1rem;
+}
+
+.messageSubject {
+  font-size: 1rem;
+  color: #4b5563;
+  font-weight: 500;
+  margin: 0.15rem 0;
+}
+
+.messageSnippet {
+  font-size: 0.95rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.messageMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+.priorityHigh {
+  color: #ef4444;
+}
+
+.priorityLow {
+  color: #22c55e;
+}
+
+.starred {
+  color: #f59e42;
+}
+
+.attachment {
+  color: #b84ff3;
+}
+
+.selectedMessagePanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f9fafb;
+}
+
+.selectedMessageHeader {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.selectedMessageTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #223a8c;
+}
+
+.selectedMessageActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.selectedMessageContent {
+  flex: 1;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  margin: 1rem;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.04);
+}
+
+.replyBox {
+  background: #f3f4f6;
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.replyInput {
+  flex: 1;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: #fff;
+  color: #334155;
+  resize: none;
+}
+
+.replySendBtn {
+  background: #4f7cf3;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.replySendBtn:hover {
+  background: #3356c7;
+}
+
+.contactsSidebar {
+  width: 20rem;
+  background: #fff;
+  border-left: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.contactsHeader {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #223a8c;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.contactItem:hover {
+  background: #f5f8ff;
+}
+
+.contactAvatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: #e1a4f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactName {
+  font-weight: 500;
+  color: #223a8c;
+}
+
+.contactMeta {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
