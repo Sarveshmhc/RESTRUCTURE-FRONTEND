@@ -161,9 +161,9 @@ const hrSidebarItems: SidebarItem[] = [
 
 
 
-const employeeSidebarItems: SidebarItem[] = [
-  { label: "Home", icon: User, path: "/emp-home" },
-  { label: "Profile", icon: Users, path: "/emp-home/profile" },
+const employeeSidebarItems = [
+  { label: "Home", icon: User, path: "/employee/home" },
+  { label: "Profile", icon: Users, path: "/employee/profile" },
   {
     label: "My Attendance",
     icon: Calendar,
@@ -187,12 +187,34 @@ const employeeSidebarItems: SidebarItem[] = [
   },
   { label: "Payroll", icon: DollarSign, path: "/employee/payroll" },
   { label: "Policies", icon: BookOpen, path: "/employee/policies" },
+  {
+    label: "Help Desk",
+    icon: HelpCircle,
+    path: "/employee/help-desk",
+    hasDropdown: true,
+    subItems: [
+      { label: "Create Support Ticket", icon: Plus, path: "/employee/help-desk/create-ticket" },
+      { label: "Ticket Tracking", icon: MessageSquare, path: "/employee/help-desk/tracking" },
+      { label: "Knowledge Base", icon: BookOpen, path: "/employee/help-desk/knowledge-base" },
+      { label: "Frequently Asked Questions", icon: HelpCircle, path: "/employee/help-desk/faq" },
+      { label: "Feedback & Engagement", icon: MessageSquare, path: "/employee/help-desk/feedback" },
+    ],
+  },
   { label: "Inbox", icon: InboxIcon, path: "/employee/inbox" },
-  { label: "Help Desk", icon: HelpCircle, path: "/employee/help-desk" },
-  { label: "Settings", icon: SettingsIcon, path: "/employee/settings" },
+  {
+    label: "Settings",
+    icon: Settings,
+    path: "/employee/settings",
+    hasDropdown: true,
+    subItems: [
+      { label: "General Settings", icon: Settings, path: "/employee/settings/general" },
+      { label: "Theme & Appearance", icon: Palette, path: "/employee/settings/theme" },
+      { label: "Notifications", icon: Bell, path: "/employee/settings/notifications" },
+      { label: "Security & Privacy", icon: Shield, path: "/employee/settings/security" },
+    ],
+  },
   { label: "Announcements", icon: Bell, path: "/employee/announcements" },
 ];
-
 
 const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
   const { user, logout } = useAuth();
