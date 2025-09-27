@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './views/auth/login/Login';
 import Profile from './views/partials/profile/Profile';
 import BaseLayout from './views/partials/baselayout/BaseLayout';
+import EmployeeInbox from "./views/employee/inbox/EmployeeInbox";
+import HRInbox from "./views/hr/inbox/HRInbox";
 
 // HR Pages
 const HRDashboard = () => (
@@ -64,6 +66,7 @@ const App: React.FC = () => (
                 <Route path="employee-profile" element={<Profile />} />
                 {/* Add all other HR routes here */}
                 <Route path="*" element={<Navigate to="/hr/home" replace />} />
+                <Route path="/hr/inbox" element={<HRInbox />} />
               </Routes>
             </BaseLayout>
           </PrivateRoute>
@@ -81,6 +84,7 @@ const App: React.FC = () => (
                 <Route path="profile" element={<Profile />} />
                 {/* Add all other Employee routes here */}
                 <Route path="*" element={<Navigate to="/employee/home" replace />} />
+                <Route path="inbox" element={<EmployeeInbox />} />
               </Routes>
             </BaseLayout>
           </PrivateRoute>

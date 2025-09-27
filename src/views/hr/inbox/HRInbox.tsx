@@ -83,7 +83,7 @@ const HRInbox: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
-  const [showCompose, setShowCompose] = useState(false);
+  const [, setShowCompose] = useState(false);
 
   const filteredMessages = mockMessages.filter((message) => {
     const matchesSearch =

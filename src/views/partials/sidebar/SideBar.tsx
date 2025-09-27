@@ -52,7 +52,7 @@ type SidebarItem = {
   hasDropdown?: boolean;
   subItems?: SidebarItem[];
 };
-//hi 
+
 const hrSidebarItems: SidebarItem[] = [
   { label: "Home", icon: User, path: "/hr/home" },
   {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 import SideBar from "../sidebar/SideBar";
 import HeaderBar from "../headerbar/HeaderBar";
 import styles from "./baselayout.module.css";
-//import { PanelLeft } from "lucide-react";
 
 const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -14,11 +14,13 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           isCollapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed((c) => !c)}
         />
-       
       </div>
       <div className={styles.mainArea}>
         <HeaderBar />
-        <div className={styles.contentArea}>{children}</div>
+        <div className={styles.contentArea}>
+          {children}
+          <Outlet />
+        </div>
       </div>
     </div>
   );
