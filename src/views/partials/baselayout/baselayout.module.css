@@ -19,7 +19,7 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
-  margin-left: 18rem; /* Default sidebar width */
+  margin-left: 18.5rem; /* Updated sidebar width */
   transition: margin-left 0.3s ease;
 }
 
@@ -33,7 +33,7 @@
   background: #ffffff;
   min-height: 0;
   overflow-y: auto;
-  margin-top: 6rem; /* Account for fixed header height + padding */
+  margin-top: 5rem; /* Header height (2rem) + padding (3rem) */
 }
 
 /* Apply theme variables */
