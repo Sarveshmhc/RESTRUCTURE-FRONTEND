@@ -71,12 +71,41 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Progress Bar - Exact Match from Screenshot */
+/* Profile Completion Section - Matching Screenshot */
+.profileCompletion {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.completionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.completionTitle {
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.95;
+  letter-spacing: 0.025em;
+}
+
+.completionPercentage {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .progressContainer {
   width: 100%;
 }
 
-.progressBar {
+/* Override existing ProgressBar styles to match screenshot */
+.progressContainer :global(.progressbar) {
   height: 8px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
@@ -84,21 +113,11 @@
   width: 100%;
 }
 
-.progressFill {
+.progressContainer :global(.bar) {
   height: 100%;
-  width: 70%; /* Static 70% to match screenshot */
   background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
   border-radius: 10px;
-  animation: fillProgress 1s ease-out;
-}
-
-@keyframes fillProgress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 70%;
-  }
+  transition: width 1s ease-out;
 }
 
 /* Responsive Design */

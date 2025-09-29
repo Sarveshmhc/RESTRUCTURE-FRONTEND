@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './hrhomepage.module.css';
 import Avatar from '../../components/avatar/Avatar';
+import ProgressBar from '../../components/progress-bar/ProgressBar';
 
 const HRHomepage: React.FC = () => {
     const { user } = useAuth();
@@ -42,10 +43,14 @@ const HRHomepage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Progress Bar - Exact Match */}
-                    <div className={styles.progressContainer}>
-                        <div className={styles.progressBar}>
-                            <div className={styles.progressFill}></div>
+                    {/* Profile Completion - Matching Screenshot */}
+                    <div className={styles.profileCompletion}>
+                        <div className={styles.completionHeader}>
+                            <span className={styles.completionTitle}>Profile Completion</span>
+                            <span className={styles.completionPercentage}>60%</span>
+                        </div>
+                        <div className={styles.progressContainer}>
+                            <ProgressBar value={60} />
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ value }) => (
   <div className={styles.progressbar}>
     <div
       className={styles.bar}
+      style={{ width: `${value}%` }}
       data-progress={value}
     />
   </div>
