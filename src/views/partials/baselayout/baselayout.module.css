@@ -2,6 +2,15 @@
   display: flex;
   height: 100vh;
   background: #f1f5f9;
+  position: relative;
+}
+
+.sidebarWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100;
 }
 
 .mainArea {
@@ -10,6 +19,12 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
+  margin-left: 18rem; /* Default sidebar width */
+  transition: margin-left 0.3s ease;
+}
+
+.mainArea.collapsed {
+  margin-left: 4rem; /* Collapsed sidebar width */
 }
 
 .contentArea {
@@ -18,9 +33,10 @@
   background: #ffffff;
   min-height: 0;
   overflow-y: auto;
+  margin-top: 6rem; /* Account for fixed header height + padding */
 }
 
-/* Example for baselayout.module.css */
+/* Apply theme variables */
 .layoutWrapper {
   background: var(--bg);
   color: var(--text);

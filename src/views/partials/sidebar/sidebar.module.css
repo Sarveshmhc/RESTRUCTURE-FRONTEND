@@ -8,8 +8,10 @@
   flex-direction: column;
   transition: width 0.3s ease, box-shadow 0.2s ease;
   min-width: 0;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   border-right: 1px solid var(--border-color);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
 }
@@ -25,8 +27,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-
   height: auto;
   min-height: 3rem;
 }
@@ -259,7 +259,6 @@
 /* Sidebar footer */
 .sidebarFooter {
   padding: 1rem 1.5rem;
-  border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;

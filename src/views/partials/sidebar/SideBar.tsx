@@ -221,9 +221,27 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Get stable user role to prevent blinking on reload
+  const getUserRole = () => {
+    if (user?.role) return user.role;
+    // Fallback to localStorage to prevent blinking
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        return parsedUser.role || 'employee';
+      }
+    } catch (error) {
+      console.error('Error reading user role from localStorage:', error);
+    }
+    return 'employee'; // default fallback
+  };
+
+  const userRole = getUserRole();
+
 
   const sidebarItems =
-    user?.role === "hr" ? hrSidebarItems : employeeSidebarItems;
+    userRole === "hr" ? hrSidebarItems : employeeSidebarItems;
 
   // Helper to check if a sidebar item or its subitems is active
   const isItemActive = (item: SidebarItem) => {
@@ -238,7 +256,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ""}`}>
       <div className={styles.sidebarHeader}>
         <span className={styles.sidebarTitle}>
-          {user?.role === "hr" ? "HR Portal" : "Employee Portal"}
+          {userRole === "hr" ? "HR Portal" : "Employee Portal"}
         </span>
         <div
           className={styles.collapseIcon}

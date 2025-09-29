@@ -8,12 +8,14 @@ interface HeaderBarProps {
   onSearch?: (query: string) => void;
   onRefresh?: () => void;
   onNotificationsClick?: () => void;
+  isCollapsed?: boolean;
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
   onSearch,
   onRefresh,
   onNotificationsClick,
+  isCollapsed = false,
 }) => {
   const [search, setSearch] = React.useState("");
   const { user } = useAuth();
@@ -22,11 +24,11 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   const initials =
     user?.email
       ? user.email
-          .split("@")[0]
-          .split(/[.\-_]/)
-          .map((s) => s[0]?.toUpperCase())
-          .join("")
-          .slice(0, 2)
+        .split("@")[0]
+        .split(/[.\-_]/)
+        .map((s) => s[0]?.toUpperCase())
+        .join("")
+        .slice(0, 2)
       : "U";
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +37,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   };
 
   return (
-    <header className={styles.headerbar}>
+    <header className={`${styles.headerbar} ${isCollapsed ? styles.collapsed : ''}`}>
       <div className={styles.searchContainer}>
         <Search className={styles.searchIcon} />
         <input
