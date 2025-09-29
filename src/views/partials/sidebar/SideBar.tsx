@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useThemeStore } from "../../contexts/ThemeStore";
-import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sidebar";
+import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sidebarcontent";
 import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
 import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
 import styles from "./sidebar.module.css";

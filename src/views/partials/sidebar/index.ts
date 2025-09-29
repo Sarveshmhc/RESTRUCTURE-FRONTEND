@@ -3,4 +3,4 @@ export { default } from "./SideBar";
 export { default as SideBar } from "./SideBar";
 
 // Export the sidebar configuration and types
-export * from "./sidebar";
+export * from "./sidebarcontent";
