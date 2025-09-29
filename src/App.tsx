@@ -7,12 +7,9 @@ import EmployeeInbox from "./views/employee/inbox/EmployeeInbox";
 import HRInbox from "./views/hr/inbox/HRInbox";
 
 // HR Pages
-const HRDashboard = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold">Welcome HR Manager</h1>
-    <p className="text-gray-600 mt-2">Hope you are having a great day.</p>
-  </div>
-);
+import HRHomepage from './views/hr/homepage/HRHomepage';
+
+const HRDashboard = () => <HRHomepage />;
 const AllEmployees = () => (
   <div className="p-6">
     <h1 className="text-2xl font-bold">All Employees</h1>

@@ -1,0 +1,57 @@
+import React from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import styles from './hrhomepage.module.css';
+import Avatar from '../../components/avatar/Avatar';
+
+const HRHomepage: React.FC = () => {
+    const { user } = useAuth();
+
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    const timeString = currentDate.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    return (
+        <div className={styles.homepage}>
+            {/* Welcome Section - Matching Screenshot Exactly */}
+            <div className={styles.welcomeSection}>
+                <div className={styles.welcomeCard}>
+                    <div className={styles.profileArea}>
+                        <Avatar
+                            src={(user as any)?.profilePicture || ''}
+                            alt={(user as any)?.name || 'HR Manager'}
+                            size={80}
+                        />
+                        <div className={styles.welcomeText}>
+                            <h1 className={styles.welcomeTitle}>Welcome</h1>
+                            <p className={styles.welcomeSubtitle}>Hope you are having a great day.</p>
+                        </div>
+                        <div className={styles.dateTimeArea}>
+                            <div className={styles.dateInfo}>
+                                <span className={styles.dayDate}>{dateString}</span>
+                                <span className={styles.lastPunch}>Last punch: {timeString}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Progress Bar - Exact Match */}
+                    <div className={styles.progressContainer}>
+                        <div className={styles.progressBar}>
+                            <div className={styles.progressFill}></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default HRHomepage;
