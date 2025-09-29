@@ -319,3 +319,12 @@
   padding: 1rem 0.25rem;
 
 }
+
+/* Sidebar logo image */
+.sidebarLogoImg {
+  height: 40px;   /* Reduce as needed */
+  width: auto;
+  max-width: 170px; /* Optional: limit max width */
+  object-fit: contain;
+  display: block;
+}

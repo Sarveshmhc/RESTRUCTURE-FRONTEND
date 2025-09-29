@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useThemeStore } from "../../contexts/ThemeStore";
+import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
+import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
 import styles from "./sidebar.module.css";
+
 
 import {
   User,
@@ -255,8 +258,12 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ""}`}>
       <div className={styles.sidebarHeader}>
-        <span className={styles.sidebarTitle}>
-          {userRole === "hr" ? "HR Portal" : "Employee Portal"}
+        <span className={`${styles.sidebarTitle} ${styles.sidebarTitleFlex}`}>
+          <img
+            src={isDark ? mhCover : mhLogo}
+            alt="MH Cognition Logo"
+            className={styles.sidebarLogoImg}
+          />
         </span>
         <div
           className={styles.collapseIcon}
