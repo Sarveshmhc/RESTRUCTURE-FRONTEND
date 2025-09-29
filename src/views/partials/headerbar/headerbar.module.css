@@ -1,14 +1,23 @@
 .headerbar {
-  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - 18rem); /* Adjust for sidebar width */
   background: var(--header-bg);
   color: var(--header-text);
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
   padding: 1.5rem 2rem 1.5rem 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(30,41,59,0.04);
   height: 3rem;
+  z-index: 90;
+  transition: width 0.3s ease;
+}
+
+.headerbar.collapsed {
+  width: calc(100% - 4rem); /* Adjust for collapsed sidebar width */
 }
 
 .searchContainer {

@@ -15,8 +15,8 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           onToggle={() => setSidebarCollapsed((c) => !c)}
         />
       </div>
-      <div className={styles.mainArea}>
-        <HeaderBar />
+      <div className={`${styles.mainArea} ${sidebarCollapsed ? styles.collapsed : ''}`}>
+        <HeaderBar isCollapsed={sidebarCollapsed} />
         <div className={styles.contentArea}>
           {children}
           <Outlet />
