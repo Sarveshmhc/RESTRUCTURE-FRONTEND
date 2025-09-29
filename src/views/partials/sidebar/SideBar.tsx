@@ -13,7 +13,6 @@ import {
   BookOpen,
   Inbox as InboxIcon,
   HelpCircle,
-  Settings as SettingsIcon,
   Bell,
   ChevronDown,
   ChevronRight,

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './autoscroll.module.css';
+import styles from './auto-scroll.module.css';
 
 export interface AutoScrollProps {
   children: React.ReactNode;

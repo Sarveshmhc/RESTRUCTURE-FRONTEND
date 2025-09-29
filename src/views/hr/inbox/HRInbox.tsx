@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import BaseLayout from "../../partials/baselayout/BaseLayout";
 import { MessageSquare, Search, Plus, User, Star, Paperclip, Reply, Forward, Trash2, Send } from "lucide-react";
 import Button from "../../components/buttons/Button";
 import styles from "./inbox.module.css";
@@ -116,7 +115,7 @@ const HRInbox: React.FC = () => {
   };
 
   return (
-    <BaseLayout>
+
       <div className={styles.inboxRoot}>
         {/* Header */}
         <header className={styles.inboxHeader}>
@@ -259,7 +258,6 @@ const HRInbox: React.FC = () => {
           </div>
         </div>
       </div>
-    </BaseLayout>
   );
 };
 

@@ -65,8 +65,8 @@ const App: React.FC = () => (
                 <Route path="employees/directory" element={<EmployeeDirectory />} />
                 <Route path="employee-profile" element={<Profile />} />
                 {/* Add all other HR routes here */}
+                <Route path="inbox" element={<HRInbox />} /> {/* <-- FIXED HERE */}
                 <Route path="*" element={<Navigate to="/hr/home" replace />} />
-                <Route path="/hr/inbox" element={<HRInbox />} />
               </Routes>
             </BaseLayout>
           </PrivateRoute>
@@ -83,8 +83,8 @@ const App: React.FC = () => (
                 <Route path="home" element={<EmployeeDashboard />} />
                 <Route path="profile" element={<Profile />} />
                 {/* Add all other Employee routes here */}
+                <Route path="inbox" element={<EmployeeInbox />} /> {/* <-- FIXED HERE */}
                 <Route path="*" element={<Navigate to="/employee/home" replace />} />
-                <Route path="inbox" element={<EmployeeInbox />} />
               </Routes>
             </BaseLayout>
           </PrivateRoute>
