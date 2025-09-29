@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useThemeStore } from "../../contexts/ThemeStore";
@@ -10,10 +10,11 @@ import styles from "./sidebar.module.css";
 import {
   ChevronDown,
   ChevronRight,
-  Sun,
-  Moon,
   LogOut,
   ChevronLeft,
+  ChevronUp,
+  User as UserIcon,
+  Settings as SettingsIcon
 } from "lucide-react";
 
 interface SideBarProps {
@@ -23,7 +24,7 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
   const { user, logout } = useAuth();
-  const { isDark, toggleTheme } = useThemeStore();
+  const { isDark, } = useThemeStore();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -96,6 +97,78 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
     );
   };
 
+  const SidebarProfileFooter: React.FC<{ user: any }> = ({ user }) => {
+    const [open, setOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      function handleClick(e: MouseEvent) {
+        if (ref.current && !ref.current.contains(e.target as Node)) {
+          setOpen(false);
+        }
+      }
+      if (open) document.addEventListener("mousedown", handleClick);
+      return () => document.removeEventListener("mousedown", handleClick);
+    }, [open]);
+
+    const initials =
+      user?.firstName && user?.lastName
+        ? user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
+        : user?.role === "hr"
+        ? "HR"
+        : "U";
+
+    return (
+      <div className={styles.footerRoot} ref={ref}>
+        <button
+          className={styles.profileBtn}
+          onClick={() => setOpen((v) => !v)}
+          aria-haspopup="true"
+          aria-expanded={open}
+        >
+          <div className={styles.avatar}>
+            <span>{initials}</span>
+          </div>
+          <div className={styles.profileInfo}>
+            <div className={styles.profileName}>{user?.firstName || user?.role?.toUpperCase() || "User"}</div>
+            <div className={styles.profileRole}>Profile</div>
+          </div>
+          {open ? (
+            <ChevronUp className={styles.chevron} />
+          ) : (
+            <ChevronDown className={styles.chevron} />
+          )}
+        </button>
+        {open && (
+          <div className={styles.profileDropdown}>
+            <button
+              className={styles.dropdownItem}
+              onClick={() => {
+                setOpen(false);
+                navigate(user?.role === "hr" ? "/hr/profile" : "/employee/profile");
+              }}
+            >
+              <UserIcon className={styles.dropdownIcon} />
+              Profile
+            </button>
+            <button
+              className={styles.logoutDropdownItem}
+              onClick={() => {
+                setOpen(false);
+                logout();
+                navigate("/login");
+              }}
+            >
+              <LogOut className={styles.dropdownIcon} />
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded}`}>
       <div className={styles.sidebarHeader}>
@@ -119,27 +192,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
       </nav>
 
       <div className={styles.sidebarFooter}>
-        <button
-          className={styles.themeToggle}
-          onClick={toggleTheme}
-        >
-          {isDark ? <Sun className={styles.footerIcon} /> : <Moon className={styles.footerIcon} />}
-          {!isCollapsed && (
-            <span className={styles.footerBtnText}>
-              {isDark ? "Light Mode" : "Dark Mode"}
-            </span>
-          )}
-        </button>
-        <button
-          className={styles.logoutBtn}
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-        >
-          <LogOut className={styles.footerIcon} />
-          {!isCollapsed && <span className={styles.footerBtnText}>Logout</span>}
-        </button>
+        <SidebarProfileFooter user={user} />
       </div>
     </aside>
   );

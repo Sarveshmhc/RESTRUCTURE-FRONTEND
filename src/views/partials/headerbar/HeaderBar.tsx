@@ -1,19 +1,17 @@
 import React from "react";
 import styles from "./headerbar.module.css";
-import { Search, RotateCcw, Bell } from "lucide-react";
-// Update the import path below if AuthContext is located elsewhere
+import { Search, Bell } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
+import ThemeToggle from "../../components/themetoggle/ThemeToggle";
 
 interface HeaderBarProps {
   onSearch?: (query: string) => void;
-  onRefresh?: () => void;
   onNotificationsClick?: () => void;
   isCollapsed?: boolean;
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
   onSearch,
-  onRefresh,
   onNotificationsClick,
   isCollapsed = false,
 }) => {
@@ -24,11 +22,11 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   const initials =
     user?.email
       ? user.email
-        .split("@")[0]
-        .split(/[.\-_]/)
-        .map((s) => s[0]?.toUpperCase())
-        .join("")
-        .slice(0, 2)
+          .split("@")[0]
+          .split(/[.\-_]/)
+          .map((s) => s[0]?.toUpperCase())
+          .join("")
+          .slice(0, 2)
       : "U";
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,14 +45,9 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
           value={search}
           onChange={handleSearchChange}
         />
-        <button
-          type="button"
-          className={styles.iconBtn}
-          title="Refresh"
-          onClick={onRefresh}
-        >
-          <RotateCcw className={styles.actionIcon} />
-        </button>
+        {/* Theme toggle goes here */}
+        <ThemeToggle />
+        {/* Notification icon */}
         <button
           type="button"
           className={styles.iconBtn}
