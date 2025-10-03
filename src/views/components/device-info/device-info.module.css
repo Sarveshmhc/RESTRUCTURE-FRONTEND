@@ -1,0 +1,181 @@
+/* Device Info Component Styles */
+.deviceInfo {
+  background: var(--card-background, #ffffff);
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.deviceDisplay {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.deviceIcon {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: var(--accent-background, #f8f9fa);
+  border-radius: 50%;
+}
+
+.deviceDetails {
+  flex: 1;
+}
+
+.deviceTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary, #333333);
+}
+
+.deviceDescription {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #666666);
+  line-height: 1.4;
+}
+
+.debugInfo {
+  background: var(--code-background, #f8f9fa);
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+}
+
+.debugInfo h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
+  color: var(--text-primary, #333333);
+}
+
+.debugInfo ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.debugInfo li {
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary, #555555);
+}
+
+.debugInfo strong {
+  color: var(--accent-color, #007bff);
+  font-weight: 600;
+}
+
+/* Device-specific layouts */
+.mobileLayout {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.mobileLayout .deviceDisplay {
+  flex-direction: column;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.mobileLayout .deviceIcon {
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.mobileLayout .deviceTitle {
+  font-size: 1rem;
+}
+
+.mobileLayout .deviceDescription {
+  font-size: 0.8rem;
+}
+
+.tabletLayout {
+  padding: 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.tabletLayout .deviceIcon {
+  font-size: 2.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.desktopLayout {
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.desktopLayout .deviceDisplay {
+  gap: 1.5rem;
+}
+
+.desktopLayout .deviceIcon {
+  font-size: 2.5rem;
+  width: 4rem;
+  height: 4rem;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .deviceInfo {
+    background: var(--card-background-dark, #2d3748);
+    border-color: var(--border-color-dark, #4a5568);
+  }
+  
+  .deviceTitle {
+    color: var(--text-primary-dark, #f7fafc);
+  }
+  
+  .deviceDescription {
+    color: var(--text-secondary-dark, #cbd5e0);
+  }
+  
+  .debugInfo {
+    background: var(--code-background-dark, #1a202c);
+  }
+  
+  .debugInfo h4 {
+    color: var(--text-primary-dark, #f7fafc);
+  }
+  
+  .debugInfo li {
+    color: var(--text-secondary-dark, #a0aec0);
+  }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 767px) {
+  .deviceInfo {
+    padding: 0.75rem;
+    margin: 0.5rem;
+  }
+  
+  .debugInfo {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .deviceInfo {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .deviceInfo {
+    padding: 1.5rem;
+  }
+}

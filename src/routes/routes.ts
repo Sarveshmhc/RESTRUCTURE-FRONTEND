@@ -4,11 +4,11 @@ import React, { lazy } from 'react';
 const HRHomepage = lazy(() => import('../views/hr/homepage/HRHomepage'));
 
 // Placeholder component for routes that don't exist yet
-const PlaceholderComponent = lazy(() => import('../components/PlaceholderComponent'));
+const PlaceholderComponent = lazy(() => import('../views/components/placeholder/PlaceholderComponent'));
 
 export interface RouteConfig {
   path: string;
-  component: React.ComponentType<any>;
+  component: React.ComponentType<Record<string, unknown>>;
   title: string;
   roles: ('hr' | 'employee')[];
   children?: RouteConfig[];
@@ -88,7 +88,7 @@ export const routeConfig: RouteConfig[] = [
     title: 'Settings',
     roles: ['hr'],
   },
-  
+
   // Employee Routes
   {
     path: '/employee/home',

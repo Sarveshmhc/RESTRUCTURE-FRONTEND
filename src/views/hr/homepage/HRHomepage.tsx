@@ -27,8 +27,8 @@ const HRHomepage: React.FC = () => {
                 <div className={styles.welcomeCard}>
                     <div className={styles.profileArea}>
                         <Avatar
-                            src={(user as any)?.profilePicture || ''}
-                            alt={(user as any)?.name || 'HR Manager'}
+                            src={user?.profilePicture || ''}
+                            alt={user?.name || 'HR Manager'}
                             size={80}
                         />
                         <div className={styles.welcomeText}>

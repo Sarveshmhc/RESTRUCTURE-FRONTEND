@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 
-interface User {
+export interface User {
   id: string;
   role: string;
   email: string;
   username: string;
+  name?: string;
+  profilePicture?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 interface AuthContextType {
@@ -87,7 +91,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setError("Invalid email or password");
         return false;
       }
-    } catch (err) {
+    } catch (error) {
+      console.error("Login error:", error);
       setError("Login failed. Please try again.");
       return false;
     } finally {

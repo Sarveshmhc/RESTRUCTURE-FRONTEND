@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { routeConfig } from '../config/routes';
-import ProtectedRoute from '../components/ProtectedRoute';
+import { routeConfig } from './routes';
+import ProtectedRoute from '../views/components/placeholder/ProtectedRoute';
 import BaseLayout from '../views/partials/baselayout/BaseLayout';
 
 // Import existing auth pages

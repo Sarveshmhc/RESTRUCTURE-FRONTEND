@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import type { User } from "../../contexts/AuthContext";
 import { useThemeStore } from "../../contexts/ThemeStore";
 import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sidebarcontent";
 import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
@@ -14,20 +15,20 @@ import {
   ChevronLeft,
   ChevronUp,
   User as UserIcon,
-  Settings as SettingsIcon
+  X
 } from "lucide-react";
 
 interface SideBarProps {
   isCollapsed: boolean;
   onToggle: () => void;
+  isMobile?: boolean;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
+const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = false }) => {
   const { user, logout } = useAuth();
   const { isDark, } = useThemeStore();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Get sidebar items based on user role
   const sidebarItems = user?.role === "hr" ? hrSidebarItems : employeeSidebarItems;
@@ -97,7 +98,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
     );
   };
 
-  const SidebarProfileFooter: React.FC<{ user: any }> = ({ user }) => {
+  const SidebarProfileFooter: React.FC<{ user: User | null }> = ({ user }) => {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
@@ -116,8 +117,8 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
       user?.firstName && user?.lastName
         ? user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
         : user?.role === "hr"
-        ? "HR"
-        : "U";
+          ? "HR"
+          : "U";
 
     return (
       <div className={styles.footerRoot} ref={ref}>
@@ -170,7 +171,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
   };
 
   return (
-    <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded}`}>
+    <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded} ${isMobile ? styles.mobile : ''}`}>
       <div className={styles.sidebarHeader}>
         <div className={styles.logoContainer}>
           <img
@@ -179,12 +180,22 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle }) => {
             className={styles.logo}
           />
         </div>
-        <button
-          className={styles.toggleButton}
-          onClick={onToggle}
-        >
-          <ChevronLeft className={`${styles.toggleIcon} ${isCollapsed ? styles.rotated : ''}`} />
-        </button>
+        {isMobile ? (
+          <button
+            className={styles.mobileCloseButton}
+            onClick={onToggle}
+            title="Close Menu"
+          >
+            <X className={styles.closeIcon} />
+          </button>
+        ) : (
+          <button
+            className={styles.toggleButton}
+            onClick={onToggle}
+          >
+            <ChevronLeft className={`${styles.toggleIcon} ${isCollapsed ? styles.rotated : ''}`} />
+          </button>
+        )}
       </div>
 
       <nav className={styles.sidebarNav}>

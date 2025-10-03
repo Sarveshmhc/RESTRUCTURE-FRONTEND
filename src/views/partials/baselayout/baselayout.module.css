@@ -1,16 +1,42 @@
 .layoutWrapper {
   display: flex;
+  flex-direction: column;
   height: 100vh;
-  background: #f1f5f9;
+  width: 100vw;
+  background: var(--bg);
   position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.headerRow {
+  display: flex;
+  height: 4rem;
+  flex-shrink: 0;
+}
+
+.contentRow {
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .sidebarWrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
+  width: 18.5rem;
   height: 100vh;
-  z-index: 100;
+  position: relative;
+  z-index: var(--z-sidebar, 100);
+  flex-shrink: 0;
+  overflow: visible; /* Allow dropdown to extend outside wrapper */
+  /* Enhanced smooth width transitions */
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Hardware acceleration for smooth performance */
+  will-change: width;
+}
+
+.sidebarWrapper.collapsed {
+  width: 4rem;
 }
 
 .mainArea {
@@ -19,30 +45,134 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
-  margin-left: 18.5rem; /* Updated sidebar width */
-  transition: margin-left 0.3s ease;
-}
-
-.mainArea.collapsed {
-  margin-left: 4rem; /* Collapsed sidebar width */
+  background: var(--bg);
+  overflow: hidden;
+  /* Enhanced smooth layout transitions */
+  transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contentArea {
   flex: 1;
-  padding: 2rem;
-  background: #ffffff;
+  padding: var(--spacing-xl, 2rem);
+  background: var(--bg);
+  color: var(--text);
   min-height: 0;
   overflow-y: auto;
-  margin-top: 5rem; /* Header height (2rem) + padding (3rem) */
+  border-radius: 0;
+  /* Enhanced smooth content transitions */
+  transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Apply theme variables */
+/* Apply theme variables and smooth animations */
 .layoutWrapper {
   background: var(--bg);
   color: var(--text);
 }
 
-.contentArea {
-  background: var(--bg);
-  color: var(--text);
+.sidebarWrapper,
+.mainArea {
+  will-change: transform; /* Optimize animations */
+}
+
+/* Mobile responsive styles - Clean and optimized */
+@media (max-width: 799px) {
+  .layoutWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .contentRow {
+    position: relative;
+    flex: 1;
+  }
+
+  .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 300px;
+    transform: translateX(-100%);
+    z-index: 1000;
+    box-shadow: none;
+    /* Enhanced smooth mobile transitions */
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hardware acceleration for mobile performance */
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .sidebarWrapper.mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 300px;
+    z-index: 1000;
+  }
+
+  .sidebarWrapper.mobileOpen {
+    transform: translateX(0);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .mobileOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
+    z-index: 999;
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(1px); /* Subtle blur for modern feel */
+  }
+
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+      backdrop-filter: blur(0px);
+    }
+    to { 
+      opacity: 1; 
+      backdrop-filter: blur(1px);
+    }
+  }
+
+  .mainArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .contentArea {
+    flex: 1;
+    padding: 1.5rem 1.25rem;
+    background: var(--mobile-content-background, #ffffff);
+    border-radius: 0;
+    box-shadow: none;
+    overflow-y: auto;
+  }
+}
+
+/* Tablet responsive styles - Clean and balanced */
+@media (min-width: 800px) and (max-width: 1024px) {
+  .sidebarWrapper {
+    width: 16rem; /* Smaller sidebar for tablet */
+  }
+
+  .sidebarWrapper.collapsed {
+    width: 4rem;
+  }
+
+  .contentArea {
+    padding: 1.75rem 2rem;
+    background: var(--tablet-content-background, #ffffff);
+    border-radius: 0;
+  }
 }
