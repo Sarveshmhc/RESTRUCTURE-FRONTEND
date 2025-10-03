@@ -1,1 +1,1 @@
-export { default as FileViewer } from "./fileviewer/FileViewer";
+export { default as FileViewer } from './FileViewer.tsx';

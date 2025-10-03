@@ -1,1 +1,1 @@
-export { default } from './TopLoading';
+export { default as TopLoading } from './TopLoading.tsx';

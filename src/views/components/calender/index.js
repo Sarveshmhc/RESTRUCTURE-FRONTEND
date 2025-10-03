@@ -1,1 +1,1 @@
-export { default } from './Calendar';
+export { default as Calender } from './Calender.tsx';

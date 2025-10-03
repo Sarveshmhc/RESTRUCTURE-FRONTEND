@@ -1,1 +1,1 @@
-export { default } from './CautionBox';
+export { default as CautionBox } from './CautionBox.tsx';

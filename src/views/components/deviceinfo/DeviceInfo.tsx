@@ -1,6 +1,6 @@
 import React from "react";
 import { useDeviceType, useIsMobile, useIsTablet, DeviceType } from "../../../hooks/use-mobile";
-import styles from "./device-info.module.css";
+import styles from "./deviceinfo.module.css";
 
 interface DeviceInfoProps {
     showDebugInfo?: boolean;

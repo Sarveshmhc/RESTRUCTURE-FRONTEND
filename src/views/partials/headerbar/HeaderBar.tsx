@@ -10,6 +10,8 @@ interface HeaderBarProps {
   isCollapsed?: boolean;
   onToggle?: () => void;
   isMobile?: boolean;
+  onMenuClick?: () => void;
+  showMenuButton?: boolean;
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
@@ -18,6 +20,8 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   isCollapsed = false,
   onToggle,
   isMobile = false,
+  onMenuClick,
+  showMenuButton,
 }) => {
   const [search, setSearch] = React.useState("");
   const { user } = useAuth();
@@ -49,6 +53,15 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
           title="Toggle Menu"
         >
           <Menu className={styles.menuIcon} />
+        </button>
+      )}
+      {showMenuButton && (
+        <button
+          className="lg:hidden mr-4 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+          onClick={onMenuClick}
+          aria-label="Open sidebar"
+        >
+          <span className="material-icons">menu</span>
         </button>
       )}
 

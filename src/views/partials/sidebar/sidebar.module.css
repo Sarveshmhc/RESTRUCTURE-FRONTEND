@@ -999,8 +999,6 @@
     height: calc(100vh - 160px); /* Account for header and footer */
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: var(--mobile-scrollbar-thumb, #cbd5e0) transparent;
   }
 
   .sidebarNav::-webkit-scrollbar {
@@ -1086,6 +1084,7 @@
     padding: 1.5rem;
     background: var(--mobile-sidebar-footer, #fafbfc);
     border-top: 1px solid var(--mobile-sidebar-footer-border, #f1f5f9);
+    -webkit-backdrop-filter: blur(8px); /* Safari/iOS support */
     backdrop-filter: blur(8px); /* Modern glass effect */
   }
 

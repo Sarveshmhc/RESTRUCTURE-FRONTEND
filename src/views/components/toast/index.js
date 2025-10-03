@@ -1,1 +1,1 @@
-export { default as Toast } from "./toast/Toast";
+export { default as Toast } from './Toast.tsx';

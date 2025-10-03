@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './basiccalendar.module.css';
+import styles from './basiccalender.module.css';
 
 export interface BasicCalendarProps {
   date: Date;

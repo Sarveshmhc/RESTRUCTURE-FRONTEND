@@ -1,1 +1,1 @@
-export { default as Modal } from "./modals/Modal";
+export { default as Modal } from './Modals.tsx';

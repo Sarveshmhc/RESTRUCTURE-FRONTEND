@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './hrhomepage.module.css';
 import Avatar from '../../components/avatar/Avatar';
-import ProgressBar from '../../components/progress-bar/ProgressBar';
+import ProgressBar from '../../components/progressbar/ProgressBar';
 
 const HRHomepage: React.FC = () => {
     const { user } = useAuth();

@@ -1,1 +1,1 @@
-export { default as FileUpload } from "./fileupload/FileUpload";
+export { default as FileUpload } from './FileUpload.tsx';

@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './calendar.module.css';
+import styles from './calender.module.css';
 
-export interface CalendarProps {
+export interface CalenderProps {
   children?: React.ReactNode;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ children }) => (
-  <div className={styles.calendar}>{children}</div>
+const Calender: React.FC<CalenderProps> = ({ children }) => (
+  <div className={styles.calender}>{children}</div>
 );
 
-export default Calendar;
+export default Calender;
