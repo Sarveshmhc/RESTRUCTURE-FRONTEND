@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./headerbar.module.css";
-import { Search, Menu } from "lucide-react";
+import { Search, Menu, Bell, BellDot } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import ThemeToggle from "../../components/themetoggle/ThemeToggle";
-import { Icon}  from '@components';
 
 interface HeaderBarProps {
   onSearch?: (query: string) => void;
-  onNotificationsClick?: () => void;
   isCollapsed?: boolean;
   onToggle?: () => void;
   isMobile?: boolean;
@@ -17,7 +15,6 @@ interface HeaderBarProps {
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
   onSearch,
-  onNotificationsClick,
   isCollapsed = false,
   onToggle,
   isMobile = false,
@@ -25,18 +22,22 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   showMenuButton,
 }) => {
   const [search, setSearch] = React.useState("");
-  const { user } = useAuth();
+  const [showNotifications, setShowNotifications] = useState(false);
+  // Mock notifications data
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: "New leave request from John Doe", time: "5 min ago", unread: true },
+    { id: 2, message: "Meeting reminder: Team standup at 2 PM", time: "1 hour ago", unread: true },
+    { id: 3, message: "Payroll has been processed successfully", time: "2 hours ago", unread: false },
+  ]);
 
-  // Get initials for avatar
-  const initials =
-    user?.email
-      ? user.email
-        .split("@")[0]
-        .split(/[.\-_]/)
-        .map((s) => s[0]?.toUpperCase())
-        .join("")
-        .slice(0, 2)
-      : "U";
+  const unreadCount = notifications.filter(n => n.unread).length;
+
+  const markAsRead = (id: number) => {
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
+  };
+  useAuth(); // keep hook to preserve auth side-effects if any
+
+  // (avatar initials removed - not used in this header)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -79,12 +80,43 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
       </div>
 
       {/* Right section with actions */}
-      <div className={styles.headerRight}>
-        <button className={styles.actionButton} aria-label="Notifications">
-          <Icon name="Bell" className={styles.actionIcon} />
-          <span className={styles.notificationBadge}></span>
-        </button>
-        <ThemeToggle />
+      <div className={styles.rightSection}>
+        {/* Notification button */}
+        <div className={styles.notificationContainer}>
+          <button className={styles.iconBtn} aria-label="Notifications" onClick={() => setShowNotifications(s => !s)}>
+            {unreadCount > 0 ? <BellDot className={styles.actionIcon} /> : <Bell className={styles.actionIcon} />}
+            {unreadCount > 0 && <span className={styles.notificationBadge}>{unreadCount}</span>}
+          </button>
+
+          {/* Simple dropdown (rendered when showNotifications=true) */}
+          {showNotifications && (
+            <div className={styles.notificationDropdown}>
+              <div className={styles.notificationHeader}>
+                <h3>Notifications</h3>
+                <span className={styles.notificationCount}>{unreadCount} new</span>
+              </div>
+              <div className={styles.notificationList}>
+                {notifications.map(n => (
+                  <div key={n.id} className={`${styles.notificationItem} ${n.unread ? styles.unread : ''}`} onClick={() => markAsRead(n.id)}>
+                    <div className={styles.notificationContent}>
+                      <p className={styles.notificationMessage}>{n.message}</p>
+                      <span className={styles.notificationTime}>{n.time}</span>
+                    </div>
+                    {n.unread && <div className={styles.unreadDot} />}
+                  </div>
+                ))}
+              </div>
+              <div className={styles.notificationFooter}>
+                <button className={styles.viewAllBtn}>View All Notifications</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Theme toggle next to notifications */}
+        <div>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
