@@ -1,0 +1,140 @@
+/* Base Sidebar Wrapper */
+.sidebarWrapper {
+  position: relative;
+  flex-shrink: 0;
+  height: 100vh;
+  background: var(--sidebar-bg);
+  border-right: 2px solid var(--sidebar-border);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: var(--z-sidebar, 100);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop Wrapper */
+.desktopWrapper {
+  width: 18rem; /* 288px - default desktop width */
+  position: relative;
+  border-right: 2px solid var(--sidebar-border);
+  box-shadow: 2px 0 8px var(--shadow, rgba(0, 0, 0, 0.05));
+}
+
+/* Update the collapsed desktop wrapper */
+.desktopWrapper.collapsed {
+  width: 4rem !important; /* Force 4rem width */
+  min-width: 4rem;
+  max-width: 4rem;
+  border-right: 1px solid var(--sidebar-border);
+  background: var(--sidebar-bg);
+  overflow: visible; /* Allow toggle button to show outside */
+}
+
+/* Ensure the wrapper doesn't interfere with sidebar styling */
+.desktopWrapper.collapsed .sidebar {
+  width: 100%;
+  background: var(--sidebar-bg);
+}
+
+/* Tablet Wrapper */
+.tabletWrapper {
+  width: 4rem; /* Always collapsed on tablet */
+  position: relative;
+  border-right: 1px solid var(--sidebar-border);
+  box-shadow: 1px 0 4px var(--shadow, rgba(0, 0, 0, 0.03));
+}
+
+/* Mobile Wrapper */
+.mobileWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 20rem; /* 320px - mobile sidebar width */
+  z-index: 1000;
+  transform: translateX(-100%);
+  box-shadow: none;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--sidebar-bg);
+  border-right: none;
+}
+
+.mobileWrapper.mobileOpen {
+  transform: translateX(0);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile overlay */
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to { 
+    opacity: 1; 
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 799px) {
+  .sidebarWrapper:not(.mobileWrapper) {
+    display: none;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1024px) {
+  .tabletWrapper {
+    width: 4rem;
+    position: relative;
+  }
+}
+
+@media (min-width: 1025px) {
+  .desktopWrapper {
+    width: 18rem;
+    position: relative;
+  }
+  
+  .desktopWrapper.collapsed {
+    width: 4rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .sidebarWrapper,
+  .mobileOverlay {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .sidebarWrapper {
+    border-right-width: 3px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .sidebarWrapper {
+    display: none;
+  }
+}

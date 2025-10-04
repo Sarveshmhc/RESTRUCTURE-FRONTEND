@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../components/contexts/AuthContext";
-import { MessageSquare, Search, Plus, User, Star, Paperclip, Reply, Forward, Trash2, Send } from "lucide-react";
+import { MessageSquare, Search, Plus, User, Star, Paperclip, Reply, Forward, Trash2, Send } from "../../components/icons";
 import Button from "../../components/buttons/Button";
 import styles from "./inbox.module.css";
 

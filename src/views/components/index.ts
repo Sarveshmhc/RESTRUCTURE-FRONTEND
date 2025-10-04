@@ -23,6 +23,7 @@ export { ExpandableCard } from "./expandablecard";
 export { FileUpload } from "./fileupload";
 export { FileViewer } from "./fileviewer";
 export { Filter } from "./filter";
+export { Icon } from "./icons";
 export { Loader } from "./loader";
 export { Modal } from "./modals";
 export { ProgressBar } from "./progressbar";

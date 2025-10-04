@@ -11,14 +11,8 @@ import { Button ,} from "../../components";
 
 
 import {
-  ChevronDown,
-  ChevronRight,
-  LogOut,
-  ChevronLeft,
-  ChevronUp,
-  User as UserIcon,
-  X
-} from "lucide-react";
+  ChevronDown, ChevronRight, LogOut, ChevronLeft, ChevronUp, User as UserIcon, X
+} from "../../components/icons";
 
 interface SideBarProps {
   isCollapsed: boolean;

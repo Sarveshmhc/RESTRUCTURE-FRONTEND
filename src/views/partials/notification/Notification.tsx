@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./notification.module.css";
-import { Bell } from "lucide-react";
+import { Icon } from "../../components/icons";
 
 const mockNotifications = [
   { id: "1", message: "to MH-HR!", read: false },
@@ -18,7 +18,7 @@ const Notification: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <button className={styles.iconBtn} onClick={() => setOpen(o => !o)}>
-        <Bell size={22} />
+        <Icon name="Bell" size={22} />
         {notifications.some(n => !n.read) && <span className={styles.dot} />}
       </button>
       {open && (

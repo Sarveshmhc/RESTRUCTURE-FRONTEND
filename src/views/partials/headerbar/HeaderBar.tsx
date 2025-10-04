@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./headerbar.module.css";
-import { Search, Bell, Menu } from "lucide-react";
+import { Search, Menu } from "lucide-react";
 import { useAuth } from "../../components/contexts/AuthContext";
 import ThemeToggle from "../../components/themetoggle/ThemeToggle";
+import { Icon } from '../../components/icons';
 
 interface HeaderBarProps {
   onSearch?: (query: string) => void;
@@ -78,19 +79,12 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
       </div>
 
       {/* Right section with actions */}
-      <div className={styles.rightSection}>
-        <ThemeToggle />
-        <button
-          type="button"
-          className={styles.iconBtn}
-          title="Notifications"
-          onClick={onNotificationsClick}
-        >
-          <Bell className={styles.actionIcon} />
+      <div className={styles.headerRight}>
+        <button className={styles.actionButton} aria-label="Notifications">
+          <Icon name="Bell" className={styles.actionIcon} />
+          <span className={styles.notificationBadge}></span>
         </button>
-        <div className={styles.avatar}>
-          <span>{initials}</span>
-        </div>
+        <ThemeToggle />
       </div>
     </header>
   );
