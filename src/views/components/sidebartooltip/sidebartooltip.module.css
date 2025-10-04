@@ -1,0 +1,50 @@
+.wrap {
+  position: relative;
+  display: block;
+}
+
+.tip {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%) translateX(6px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+
+  background: var(--tooltip-bg, #111827);
+  color: var(--tooltip-text, #ffffff);
+  border: 1px solid var(--sidebar-border, #334155);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  width: 0;
+  height: 0;
+  transform: translateY(-50%);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid var(--tooltip-bg, #111827);
+}
+
+.wrap:hover .tip,
+.wrap:focus-within .tip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* High contrast + reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tip { transition: none; }
+}

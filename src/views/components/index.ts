@@ -5,6 +5,7 @@
 
 export { default as Yesterdayattendancewidget } from "./YesterdayAttendanceWidget";
 export { Accordion } from "./accordion";
+export { AnimatedBackButton } from "./animatedbackbutton";
 export { Avatar } from "./avatar";
 export { Badge } from "./badge";
 export { BasicCalendar } from "./basiccalender";
@@ -29,6 +30,7 @@ export { Modal } from "./modals";
 export { ProgressBar } from "./progressbar";
 export { ResponsiveExample } from "./responsiveexample";
 export { SearchBar } from "./searchbar";
+export { SidebarTooltip } from "./sidebartooltip";
 export { Switch } from "./switch";
 export { Tabs } from "./tabs";
 export { TextBox } from "./textbox";

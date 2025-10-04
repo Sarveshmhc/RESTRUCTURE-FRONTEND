@@ -8,6 +8,7 @@ import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark t
 import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
 import styles from "./sidebar.module.css";
 import { Button ,} from "../../components";
+import SidebarTooltip from "../../components/sidebartooltip/SidebarTooltip";
 
 
 import {
@@ -43,34 +44,43 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     const hasSubItems = item.hasDropdown && item.subItems && item.subItems.length > 0;
     const isDropdownOpen = openDropdown === item.label;
 
+    const linkEl = (
+      <Link
+        to={item.path}
+        className={`${styles.sidebarLink} ${isItemActive ? styles.active : ''}`}
+        onClick={(e) => {
+          if (hasSubItems) {
+            e.preventDefault();
+            toggleDropdown(item.label);
+          }
+        }}
+        title={isCollapsed ? item.label : undefined}
+      >
+        <Icon className={styles.sidebarIcon} />
+        {!isCollapsed && (
+          <>
+            <span className={styles.sidebarLabel}>{item.label}</span>
+            {hasSubItems && (
+              <>
+                {isDropdownOpen ? (
+                  <ChevronDown className={styles.chevron} />
+                ) : (
+                  <ChevronRight className={styles.chevron} />
+                )}
+              </>
+            )}
+          </>
+        )}
+      </Link>
+    );
+
     return (
       <div key={item.label} className={styles.sidebarItem}>
-        <Link
-          to={item.path}
-          className={`${styles.sidebarLink} ${isItemActive ? styles.active : ''}`}
-          onClick={(e) => {
-            if (hasSubItems) {
-              e.preventDefault();
-              toggleDropdown(item.label);
-            }
-          }}
-        >
-          <Icon className={styles.sidebarIcon} />
-          {!isCollapsed && (
-            <>
-              <span className={styles.sidebarLabel}>{item.label}</span>
-              {hasSubItems && (
-                <>
-                  {isDropdownOpen ? (
-                    <ChevronDown className={styles.chevron} />
-                  ) : (
-                    <ChevronRight className={styles.chevron} />
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </Link>
+        {(isCollapsed && !isMobile) ? (
+          <SidebarTooltip text={item.label}>{linkEl}</SidebarTooltip>
+        ) : (
+          linkEl
+        )}
 
         {hasSubItems && isDropdownOpen && !isCollapsed && (
           <div className={styles.submenu}>
@@ -84,7 +94,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
                   className={`${styles.submenuLink} ${isSubItemActive ? styles.active : ''}`}
                 >
                   <SubIcon className={styles.submenuIcon} />
-                  <span className={styles.submenuLabel}>{subItem.label}</span>
+                  <span>{subItem.label}</span>
                 </Link>
               );
             })}
@@ -94,7 +104,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     );
   };
 
-  const SidebarProfileFooter: React.FC<{ user: User | null }> = ({ user }) => {
+  const SidebarProfileFooter = ({ user }: { user: User | null }) => {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
@@ -117,27 +127,39 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           : "U";
 
     return (
-      <div className={styles.footerRoot} ref={ref}>
-        <Button
-          className={styles.profileBtn}
-          onClick={() => setOpen((v) => !v)}
-          aria-haspopup="true"
-          aria-expanded={open}
-          variant="secondary"
-        >
-          <div className={styles.avatar}>
-            <span>{initials}</span>
-          </div>
-          <div className={styles.profileInfo}>
-            <div className={styles.profileName}>{user?.firstName || user?.role?.toUpperCase() || "User"}</div>
-            <div className={styles.profileRole}>Profile</div>
-          </div>
-          {open ? (
-            <ChevronUp className={styles.chevron} />
-          ) : (
-            <ChevronDown className={styles.chevron} />
-          )}
-        </Button>
+      <div className={styles.profileContainer} ref={ref}>
+        {(isCollapsed && !isMobile) ? (
+          <SidebarTooltip text={`${user?.firstName || 'User'} • Profile`}>
+            <button
+              className={styles.profileBtn}
+              onClick={() => setOpen((v) => !v)}
+              aria-haspopup="true"
+              aria-expanded={open}
+              title="Profile"
+            >
+              <div className={styles.avatar}><span>{initials}</span></div>
+            </button>
+          </SidebarTooltip>
+        ) : (
+          <button
+            className={styles.profileBtn}
+            onClick={() => setOpen((v) => !v)}
+            aria-haspopup="true"
+            aria-expanded={open}
+            title="Profile"
+          >
+            <div className={styles.avatar}><span>{initials}</span></div>
+            {!isCollapsed && (
+              <>
+                <div className={styles.profileInfo}>
+                  <div className={styles.profileName}>{user?.firstName || "User"}</div>
+                  <div className={styles.profileRole}>Profile</div>
+                </div>
+                {open ? <ChevronUp className={styles.chevron} /> : <ChevronDown className={styles.chevron} />}
+              </>
+            )}
+          </button>
+        )}
         {open && (
           <div className={styles.profileDropdown}>
             <Button
@@ -179,23 +201,34 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
             className={styles.logo}
           />
         </div>
-        {isMobile ? (
-          <Button
+        {!isMobile ? (
+          (isCollapsed ? (
+            <SidebarTooltip text="Expand sidebar">
+              <button
+                className={styles.toggleButton}
+                onClick={onToggle}
+                title="Expand sidebar"
+              >
+                <ChevronLeft className={`${styles.toggleIcon} ${isCollapsed ? styles.rotated : ''}`} />
+              </button>
+            </SidebarTooltip>
+          ) : (
+            <button
+              className={styles.toggleButton}
+              onClick={onToggle}
+              title="Collapse sidebar"
+            >
+              <ChevronLeft className={`${styles.toggleIcon} ${isCollapsed ? styles.rotated : ''}`} />
+            </button>
+          ))
+        ) : (
+          <button
             className={styles.mobileCloseButton}
             onClick={onToggle}
             title="Close Menu"
-            variant="secondary"
           >
             <X className={styles.closeIcon} />
-          </Button>
-        ) : (
-          <Button
-            className={styles.toggleButton}
-            onClick={onToggle}
-            variant="secondary"
-          >
-            <ChevronLeft className={`${styles.toggleIcon} ${isCollapsed ? styles.rotated : ''}`} />
-          </Button>
+          </button>
         )}
       </div>
 

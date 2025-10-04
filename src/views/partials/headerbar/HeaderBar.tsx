@@ -3,7 +3,7 @@ import styles from "./headerbar.module.css";
 import { Search, Menu } from "lucide-react";
 import { useAuth } from "../../components/contexts/AuthContext";
 import ThemeToggle from "../../components/themetoggle/ThemeToggle";
-import { Icon } from '../../components/icons';
+import { Icon}  from '@components';
 
 interface HeaderBarProps {
   onSearch?: (query: string) => void;
