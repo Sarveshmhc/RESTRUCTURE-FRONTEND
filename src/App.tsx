@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from './views/components/contexts/AuthContext';
-import { LoadingProvider } from './views/components/contexts/LoadingContext';
-import { ToastProvider } from './views/components/contexts/ToastContext';
-import { useThemeStore } from './views/components/contexts/ThemeStore';
+import { AuthProvider } from './views/contexts/AuthContext';
+import { LoadingProvider } from './views/contexts/LoadingContext';
+import { ToastProvider } from './views/contexts/ToastContext';
+import { useThemeStore } from './views/contexts/ThemeStore';
 import AppRoutes from './routes/AppRoutes';
 
 const App: React.FC = () => {

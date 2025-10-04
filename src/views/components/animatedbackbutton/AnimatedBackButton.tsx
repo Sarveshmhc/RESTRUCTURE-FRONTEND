@@ -129,6 +129,6 @@ const ButtonWrapper = styled.button`
   &[data-pressed="true"] .line2 {
     width: calc(42px * var(--scale));
   }
-`;
+`
 
 export default AnimatedBackButton;

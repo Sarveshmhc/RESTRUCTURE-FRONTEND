@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../../components/contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import styles from './hrhomepage.module.css';
 import { Avatar, ProgressBar } from "@components";
 

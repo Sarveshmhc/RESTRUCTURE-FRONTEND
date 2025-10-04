@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../components/contexts/AuthContext";
-import type { User } from "../../components/contexts/AuthContext";
-import { useThemeStore } from "../../components/contexts/ThemeStore";
+import { useAuth } from "../../contexts/AuthContext";
+import type { User } from "../../contexts/AuthContext";
+import { useThemeStore } from "../../contexts/ThemeStore";
 import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sidebarcontent";
 import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
 import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
@@ -131,10 +131,11 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
         {(isCollapsed && !isMobile) ? (
           <SidebarTooltip text={`${user?.firstName || 'User'} • Profile`}>
             <button
+              type="button"
               className={styles.profileBtn}
               onClick={() => setOpen((v) => !v)}
               aria-haspopup="true"
-              aria-expanded={open}
+              aria-expanded={open ? true : false}
               title="Profile"
             >
               <div className={styles.avatar}><span>{initials}</span></div>
@@ -142,6 +143,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           </SidebarTooltip>
         ) : (
           <button
+            type="button"
             className={styles.profileBtn}
             onClick={() => setOpen((v) => !v)}
             aria-haspopup="true"

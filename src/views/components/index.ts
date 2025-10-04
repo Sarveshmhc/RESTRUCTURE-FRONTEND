@@ -17,6 +17,7 @@ export { CautionBox } from "./cautionbox";
 export { Charts } from "./charts";
 export { Chatbot } from "./chatbot";
 export { CheckBox } from "./checkbox";
+export { DateSelector } from "./dateselector";
 export { DeviceInfo } from "./deviceinfo";
 export { DropDown } from "./dropdown";
 export { EmployeeCalendar } from "./employeecalendar";

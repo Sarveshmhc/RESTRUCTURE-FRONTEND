@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./themetoggle.module.css";
-import { useThemeStore } from "../contexts/ThemeStore";
+import { useThemeStore } from "../../contexts/ThemeStore";
 
 const ThemeToggle: React.FC = () => {
   const { isDark, toggleTheme } = useThemeStore();

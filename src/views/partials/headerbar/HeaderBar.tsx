@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./headerbar.module.css";
 import { Search, Menu } from "lucide-react";
-import { useAuth } from "../../components/contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import ThemeToggle from "../../components/themetoggle/ThemeToggle";
 import { Icon}  from '@components';
 

@@ -9,7 +9,7 @@ export interface SidebarTooltipProps {
 
 const SidebarTooltip: React.FC<SidebarTooltipProps> = ({ text, children, className }) => {
   return (
-    <span className={`${styles.wrap} ${className || ""}`}>
+    <span className={`${styles.wrap} ${className || ""}`} aria-label={text}>
       {children}
       <span className={styles.tip} role="tooltip">
         {text}
