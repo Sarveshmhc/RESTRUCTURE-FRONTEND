@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import type { User } from "../../contexts/AuthContext";
-import { useThemeStore } from "../../contexts/ThemeStore";
+import { useAuth } from "../../components/contexts/AuthContext";
+import type { User } from "../../components/contexts/AuthContext";
+import { useThemeStore } from "../../components/contexts/ThemeStore";
 import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sidebarcontent";
 import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
 import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
 import styles from "./sidebar.module.css";
+import { Button ,} from "../../components";
+
 
 import {
   ChevronDown,
@@ -122,11 +124,12 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
 
     return (
       <div className={styles.footerRoot} ref={ref}>
-        <button
+        <Button
           className={styles.profileBtn}
           onClick={() => setOpen((v) => !v)}
           aria-haspopup="true"
           aria-expanded={open}
+          variant="secondary"
         >
           <div className={styles.avatar}>
             <span>{initials}</span>
@@ -140,30 +143,32 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           ) : (
             <ChevronDown className={styles.chevron} />
           )}
-        </button>
+        </Button>
         {open && (
           <div className={styles.profileDropdown}>
-            <button
+            <Button
               className={styles.dropdownItem}
               onClick={() => {
                 setOpen(false);
                 navigate(user?.role === "hr" ? "/hr/profile" : "/employee/profile");
               }}
+              variant="secondary"
             >
               <UserIcon className={styles.dropdownIcon} />
               Profile
-            </button>
-            <button
+            </Button>
+            <Button
               className={styles.logoutDropdownItem}
               onClick={() => {
                 setOpen(false);
                 logout();
                 navigate("/login");
               }}
+              variant="danger"
             >
               <LogOut className={styles.dropdownIcon} />
               Logout
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -181,20 +186,22 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           />
         </div>
         {isMobile ? (
-          <button
+          <Button
             className={styles.mobileCloseButton}
             onClick={onToggle}
             title="Close Menu"
+            variant="secondary"
           >
             <X className={styles.closeIcon} />
-          </button>
+          </Button>
         ) : (
-          <button
+          <Button
             className={styles.toggleButton}
             onClick={onToggle}
+            variant="secondary"
           >
             <ChevronLeft className={`${styles.toggleIcon} ${isCollapsed ? styles.rotated : ''}`} />
-          </button>
+          </Button>
         )}
       </div>
 

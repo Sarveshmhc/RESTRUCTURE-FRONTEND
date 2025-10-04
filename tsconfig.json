@@ -8,11 +8,11 @@
     // ...existing options...
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@components": ["src/views/components"]
     },
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "ignoreDeprecations": "6.0"
+    "strict": true
   }
 }
 

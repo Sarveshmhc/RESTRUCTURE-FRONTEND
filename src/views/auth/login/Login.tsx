@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useToast } from "../../contexts/ToastContext";
-import { useAuth } from "../../contexts/AuthContext";
+import { useToast } from "../../components/contexts/ToastContext";
+import { useAuth } from "../../components/contexts/AuthContext";
 import styles from "./login.module.css";
 import { Eye, EyeOff } from "lucide-react";
 

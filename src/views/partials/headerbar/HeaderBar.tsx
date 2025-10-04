@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./headerbar.module.css";
 import { Search, Bell, Menu } from "lucide-react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../components/contexts/AuthContext";
 import ThemeToggle from "../../components/themetoggle/ThemeToggle";
 
 interface HeaderBarProps {
