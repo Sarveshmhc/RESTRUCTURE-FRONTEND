@@ -44,8 +44,8 @@
   border: 1px solid var(--st-border);
   border-radius: var(--st-radius);
   box-shadow: var(--st-shadow);
-  backdrop-filter: saturate(1.1) blur(6px);
   -webkit-backdrop-filter: saturate(1.1) blur(6px);
+  backdrop-filter: saturate(1.1) blur(6px);
 
   transition: opacity var(--st-anim), transform var(--st-anim);
 }

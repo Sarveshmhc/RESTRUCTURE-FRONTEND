@@ -108,15 +108,24 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
     useEffect(() => {
-      function handleClick(e: MouseEvent) {
-        if (ref.current && !ref.current.contains(e.target as Node)) {
-          setOpen(false);
-        }
+      function onDocClick(e: MouseEvent) {
+        if (!ref.current) return;
+        if (!ref.current.contains(e.target as Node)) setOpen(false);
       }
-      if (open) document.addEventListener("mousedown", handleClick);
-      return () => document.removeEventListener("mousedown", handleClick);
+      function onKey(e: KeyboardEvent) {
+        if (e.key === "Escape") setOpen(false);
+      }
+      if (open) {
+        document.addEventListener("mousedown", onDocClick);
+        document.addEventListener("keydown", onKey);
+      }
+      return () => {
+        document.removeEventListener("mousedown", onDocClick);
+        document.removeEventListener("keydown", onKey);
+      };
     }, [open]);
 
     const initials =
@@ -126,67 +135,61 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           ? "HR"
           : "U";
 
+    const gotoProfile = () => {
+      setOpen(false);
+      navigate(user?.role === "hr" ? "/hr/profile" : "/employee/profile");
+    };
+
+    const doLogout = async () => {
+      setOpen(false);
+      await logout();
+      navigate("/login");
+    };
+
+    const buttonEl = (
+      <button
+        type="button"
+        className={styles.profileBtn}
+        onClick={() => setOpen(v => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open ? true : false}
+        aria-controls="sidebar-profile-menu"
+        aria-label="Profile"
+      >
+        <div className={styles.avatar}><span>{initials}</span></div>
+        {!isCollapsed && (
+          <>
+            <div className={styles.profileInfo}>
+              <div className={styles.profileName}>{user?.firstName || "User"}</div>
+              <div className={styles.profileRole}>Profile</div>
+            </div>
+            {open ? <ChevronUp className={styles.chevron} /> : <ChevronDown className={styles.chevron} />}
+          </>
+        )}
+      </button>
+    );
+
     return (
       <div className={styles.profileContainer} ref={ref}>
-        {(isCollapsed && !isMobile) ? (
-          <SidebarTooltip text={`${user?.firstName || 'User'} • Profile`}>
-            <button
-              type="button"
-              className={styles.profileBtn}
-              onClick={() => setOpen((v) => !v)}
-              aria-haspopup="true"
-              aria-expanded={open ? true : false}
-              title="Profile"
-            >
-              <div className={styles.avatar}><span>{initials}</span></div>
-            </button>
-          </SidebarTooltip>
-        ) : (
-          <button
-            type="button"
-            className={styles.profileBtn}
-            onClick={() => setOpen((v) => !v)}
-            aria-haspopup="true"
-            aria-expanded={open}
-            title="Profile"
-          >
-            <div className={styles.avatar}><span>{initials}</span></div>
-            {!isCollapsed && (
-              <>
-                <div className={styles.profileInfo}>
-                  <div className={styles.profileName}>{user?.firstName || "User"}</div>
-                  <div className={styles.profileRole}>Profile</div>
-                </div>
-                {open ? <ChevronUp className={styles.chevron} /> : <ChevronDown className={styles.chevron} />}
-              </>
-            )}
-          </button>
-        )}
+        {(isCollapsed && !isMobile)
+          ? <SidebarTooltip text={`${user?.firstName || "User"} • Profile`}>{buttonEl}</SidebarTooltip>
+          : buttonEl}
+
         {open && (
-          <div className={styles.profileDropdown}>
-            <Button
-              className={styles.dropdownItem}
-              onClick={() => {
-                setOpen(false);
-                navigate(user?.role === "hr" ? "/hr/profile" : "/employee/profile");
-              }}
-              variant="secondary"
-            >
+          <div
+            id="sidebar-profile-menu"
+            role="menu"
+            className={`${styles.profileDropdown} ${isCollapsed ? styles.profileDropdownRight : styles.profileDropdownUp}`}
+          >
+            <button type="button" className={styles.dropdownItem} onClick={gotoProfile} role="menuitem">
               <UserIcon className={styles.dropdownIcon} />
-              Profile
-            </Button>
-            <Button
-              className={styles.logoutDropdownItem}
-              onClick={() => {
-                setOpen(false);
-                logout();
-                navigate("/login");
-              }}
-              variant="danger"
-            >
+              <span>Profile</span>
+            </button>
+            <div className={styles.dropdownDivider} />
+            <button type="button" className={styles.logoutDropdownItem} onClick={doLogout} role="menuitem">
               <LogOut className={styles.dropdownIcon} />
-              Logout
-            </Button>
+              <span>Logout</span>
+            </button>
           </div>
         )}
       </div>

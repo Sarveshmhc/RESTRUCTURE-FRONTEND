@@ -19,7 +19,6 @@
               opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   /* Hardware acceleration for smooth performance */
   will-change: width, transform;
-  transform: translateZ(0);
 }
 
 /* Ensure tooltips can overflow the collapsed rail */
@@ -230,10 +229,10 @@
 
 /* Sidebar footer */
 .sidebarFooter {
-  padding: 1rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  position: relative;
+  padding: 0.25rem 0.5rem 0.75rem;
+  overflow: visible;
+  z-index: 1010;
 }
 
 /* Theme and logout buttons */
@@ -461,12 +460,16 @@
   padding: 0.5rem 1rem;
   margin: 0;
   border-radius: 0.375rem;
-  /* Enhanced smooth submenu link transitions */
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  overflow: hidden;
+  /* visuals only; animation is defined once at the end */
   transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
               color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Staggered animation for submenu items */
-  animation: slideInSubmenu 0.25s cubic-bezier(0.4, 0, 0.2, 1) backwards;
 }
 
 /* Staggered animation for submenu items */
@@ -1213,4 +1216,152 @@
   .sidebarLink:hover {
     transform: none !important;
   }
+}
+
+/* Footer root ensures dropdown can float */
+.sidebarFooter {
+  position: relative;
+  padding: 0.25rem 0.5rem 0.75rem;
+  overflow: visible;
+  z-index: 1010;
+}
+
+/* Container for profile button + dropdown */
+.profileContainer {
+  position: relative;
+}
+
+/* Profile button (already exists) - keep your current styles */
+
+/* Dropdown base */
+.profileDropdown {
+  position: absolute;
+  z-index: 1500;
+  min-width: 200px;
+  border-radius: 10px;
+  border: 1px solid var(--sidebar-border, #334155);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)) padding-box,
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)) border-box;
+  box-shadow: 0 12px 28px rgba(0,0,0,.24), 0 2px 8px rgba(0,0,0,.18);
+  backdrop-filter: saturate(1.1) blur(6px);
+  -webkit-backdrop-filter: saturate(1.1) blur(6px);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(6px) scale(.98);
+  transform-origin: bottom center;
+  animation: dropdownIn 160ms cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Expanded state: drop UP above button */
+.profileDropdownUp {
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 8px);
+}
+
+/* Collapsed state: slide RIGHT of rail */
+.profileDropdownRight {
+  left: calc(100% + 8px);
+  bottom: 0;
+  transform: translateX(8px) scale(.98);
+  transform-origin: center left;
+  animation: dropdownInRight 160ms cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Items */
+.dropdownItem,
+.logoutDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--sidebar-text, #e2e8f0);
+  transition: background-color 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.dropdownItem:hover {
+  background: var(--sidebar-hover, #232e41);
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: var(--sidebar-border, #334155);
+  margin: 0.25rem 0;
+}
+
+.logoutDropdownItem {
+  color: #ffffff;
+  background: var(--color-danger, #dc2626);
+  border-radius: 0;
+}
+
+.logoutDropdownItem:hover {
+  background: #b91c1c;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.dropdownIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Animations */
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes dropdownInRight {
+  from { opacity: 0; transform: translateX(8px) scale(.98); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* Light theme polish */
+:root[data-theme="light"] .profileDropdown {
+  border-color: rgba(2,6,23,.10);
+  box-shadow: 0 10px 28px rgba(2,6,23,.12), 0 2px 6px rgba(2,6,23,.08);
+  color: #0f172a;
+}
+
+/* ============ Submenu item animation (consolidated) ============ */
+.submenu .submenuLink {
+  opacity: 0;
+  transform: translateX(-8px);
+  animation: submenuItemIn 260ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Stagger 1–16 */
+.submenu .submenuLink:nth-child(1)  { animation-delay: 40ms; }
+.submenu .submenuLink:nth-child(2)  { animation-delay: 80ms; }
+.submenu .submenuLink:nth-child(3)  { animation-delay: 120ms; }
+.submenu .submenuLink:nth-child(4)  { animation-delay: 160ms; }
+.submenu .submenuLink:nth-child(5)  { animation-delay: 200ms; }
+.submenu .submenuLink:nth-child(6)  { animation-delay: 240ms; }
+.submenu .submenuLink:nth-child(7)  { animation-delay: 280ms; }
+.submenu .submenuLink:nth-child(8)  { animation-delay: 320ms; }
+.submenu .submenuLink:nth-child(9)  { animation-delay: 360ms; }
+.submenu .submenuLink:nth-child(10) { animation-delay: 400ms; }
+.submenu .submenuLink:nth-child(11) { animation-delay: 440ms; }
+.submenu .submenuLink:nth-child(12) { animation-delay: 480ms; }
+.submenu .submenuLink:nth-child(13) { animation-delay: 520ms; }
+.submenu .submenuLink:nth-child(14) { animation-delay: 560ms; }
+.submenu .submenuLink:nth-child(15) { animation-delay: 600ms; }
+.submenu .submenuLink:nth-child(16) { animation-delay: 640ms; }
+
+@keyframes submenuItemIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .submenu .submenuLink { animation: none !important; opacity: 1; transform: none; }
 }
