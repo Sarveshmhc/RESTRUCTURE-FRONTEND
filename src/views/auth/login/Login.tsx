@@ -5,7 +5,7 @@ import { useToast } from "../../contexts/ToastContext";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./login.module.css";
 import { Eye, EyeOff } from "lucide-react";
-import leftImage from "../../../assets/hrm2.jpeg";
+import leftImage from "../../../assets/hrm.jpg";
 
 type LoginCredentials = {
   email: string;
