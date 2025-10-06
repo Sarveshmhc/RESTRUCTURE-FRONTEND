@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Bell } from "../../components/icons";
-import { SearchBar,ThemeToggle } from "@components";
+import { SearchBar, ThemeToggle } from "@components";
 import styles from "./headerbar.module.css";
 
 interface HeaderBarProps {
@@ -43,7 +43,11 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ isCollapsed, onToggle, isMobile }
 
       {/* Right section - Bell and ThemeToggle */}
       <div className={styles.headerRight}>
-        <button className={styles.actionButton} aria-label="Notifications">
+        <button
+          className={styles.actionButton}
+          aria-label="Notifications"
+          title="Notifications"
+        >
           <Bell className={styles.actionIcon} />
           <span className={styles.notificationBadge}></span>
         </button>

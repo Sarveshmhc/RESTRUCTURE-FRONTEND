@@ -49,11 +49,9 @@
   padding: 0;
 }
 
-/* Notification button */
+/* Notification button - Match theme toggle exactly */
 .actionButton {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem; /* Match theme toggle border-radius */
   border: none;
   background: transparent;
   color: var(--header-text, #1e293b);
@@ -61,38 +59,75 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
+  transition: background-color 0.15s ease;
   flex-shrink: 0;
+  position: relative;
+  outline: none;
+  /* Match theme toggle dimensions exactly */
   min-width: 44px;
   min-height: 44px;
-  width: 11px;  /* Force exact width */
-  height: 11px; /* Force exact height */
+  width: 44px;
+  height: 44px;
+  padding: 0.25rem; /* Match theme toggle padding */
 }
 
 .actionButton:hover {
-  background: var(--sidebar-hover, #f1f5f9);
+  background: var(--sidebar-hover, #f1f5f9) !important;
 }
 
+/* Increase the bell icon size to match theme toggle icon */
 .actionIcon {
-  width: 1.25rem; /* 20px */
-  height: 1.25rem; /* 20px */
+  width: 22px; /* Match theme toggle icon size */
+  height: 22px; /* Match theme toggle icon size */
+  flex-shrink: 0;
+}
+
+/* Notification badge positioning */
+.notificationBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 2px solid var(--header-bg, #ffffff);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Ensure theme toggle matches button styling exactly */
 .headerRight .iconToggle {
   color: var(--header-text, #1e293b);
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  margin: 0; /* Remove margin */
-  padding: 0; /* Remove padding */
+  border-radius: 0.375rem;
+  margin: 0;
+  padding: 0.25rem;
+  /* Match bell button dimensions */
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
 }
 
 .headerRight .iconToggle:hover {
   background: var(--sidebar-hover, #f1f5f9) !important;
 }
 
-/* Dark theme adjustments */
+/* Dark theme for theme toggle */
 [data-theme="dark"] .headerRight .iconToggle {
   color: var(--text-dark, #e2e8f0);
 }
@@ -101,66 +136,7 @@
   background: var(--sidebar-hover-dark, #374151) !important;
 }
 
-/* Collapsed state */
-.headerBar.collapsed {
-  padding-left: 1.5rem;
-}
-
-/* Mobile styles */
-.headerBar.mobile {
-  padding: 0 1rem;
-  height: 3.5rem;
-}
-
-.mobile .headerRight {
-  gap: 0.375rem; /* Even smaller gap on mobile */
-}
-
-.mobile .headerLeft {
-  width: 40px;
-}
-
-.mobile .searchWrapper {
-  min-width: 200px;
-  max-width: 300px;
-}
-
-.mobile .headerCenter {
-  margin: 0 0.5rem;
-}
-
-/* Mobile hamburger button (three lines) */
-.mobileHamburger {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  padding: 6px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-  align-items: center;
-  border-radius: 6px;
-  transition: background 0.12s ease;
-}
-
-.mobileHamburger:hover { background: var(--sidebar-hover, rgba(0,0,0,0.04)); }
-
-.hamburgerLine {
-  display: block;
-  width: 18px;
-  height: 2px;
-  background: var(--header-text, #1e293b);
-  border-radius: 2px;
-}
-
-[data-theme="dark"] .hamburgerLine {
-  background: var(--text-dark, #e2e8f0);
-}
-
-/* Dark theme */
+/* Dark theme adjustments */
 [data-theme="dark"] .headerBar {
   background: var(--bg-dark, #1a1a1a);
   border-bottom-color: var(--sidebar-border-dark, #374151);
@@ -171,7 +147,7 @@
 }
 
 [data-theme="dark"] .actionButton:hover {
-  background: var(--sidebar-hover-dark, #374151);
+  background: var(--sidebar-hover-dark, #374151) !important;
 }
 
 /* Responsive adjustments */
@@ -204,4 +180,34 @@
   .searchWrapper {
     max-width: 500px;
   }
+}
+
+/* Remove any conflicting button styles */
+.actionButton,
+.actionButton:hover,
+.actionButton:focus,
+.actionButton:active {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.headerRight .iconToggle,
+.headerRight .iconToggle:hover,
+.headerRight .iconToggle:focus,
+.headerRight .iconToggle:active {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+/* Focus states for accessibility */
+.actionButton:focus-visible {
+  outline: 2px solid var(--focus-color, #2563eb);
+  outline-offset: 2px;
+}
+
+.headerRight .iconToggle:focus-visible {
+  outline: 2px solid var(--focus-color, #2563eb);
+  outline-offset: 2px;
 }

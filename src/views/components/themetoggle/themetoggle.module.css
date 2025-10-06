@@ -92,6 +92,7 @@
 .iconToggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   margin: 0;
   padding: 0.25rem; /* Match the bell button padding exactly */
@@ -102,14 +103,23 @@
   position: relative;
   background: transparent;
   border: none;
-  /* Make it exactly the same size as the notification button */
+  /* Exact size matching */
   min-width: 44px;
   min-height: 44px;
-  width: 44px;  /* Force exact width */
-  height: 44px; /* Force exact height */
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
 }
 
-/* Remove all hover and focus backgrounds */
+/* Icon size to match bell */
+.icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Hover states */
 .iconToggle:hover,
 .iconToggle:focus,
 .iconToggle:active {
@@ -122,6 +132,24 @@
 [data-theme="dark"] .iconToggle:hover,
 [data-theme="dark"] .iconToggle:focus {
   background: var(--sidebar-hover-dark, #374151) !important;
+}
+
+/* Remove webkit tap highlights */
+.iconToggle {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Remove any global button styles that might be interfering */
+.iconToggle,
+.iconToggle:hover,
+.iconToggle:focus,
+.iconToggle:active {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 /* Theme toggle switch - make it much bigger */
