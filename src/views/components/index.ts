@@ -28,6 +28,7 @@ export { Filter } from "./filter";
 export { Icon } from "./icons";
 export { Loader } from "./loader";
 export { Modal } from "./modals";
+export { prakash } from "./prakash";
 export { ProgressBar } from "./progressbar";
 export { ResponsiveExample } from "./responsiveexample";
 export { SearchBar } from "./searchbar";
