@@ -357,4 +357,20 @@ button:focus-visible {
   outline: none !important;
 }
 
+/* Remove underlines from all sidebar links */
+.sidebar a,
+.sidebar a:hover,
+.sidebar a:focus,
+.sidebar a:active,
+.sidebar a:visited {
+  text-decoration: none !important;
+}
+
+/* Ensure no global link styles interfere with sidebar */
+*[class*="sidebar"] a,
+*[class*="sidebar"] a:hover,
+*[class*="sidebar"] a:focus {
+  text-decoration: none !important;
+}
+
 
