@@ -32,7 +32,8 @@
 }
 
 .sidebarWrapper {
-  width: 18rem;
+  --sidebar-width: 18rem;
+  width: var(--sidebar-width);
   height: 100vh;
   position: relative;
   z-index: 100;
@@ -43,12 +44,13 @@
   border: none;
   margin: 0;
   padding: 0;
-  background: var(--sidebar-bg);
+  background: transparent; /* let the inner aside paint background to avoid double layer */
   outline: none;
 }
 
 .sidebarWrapper.collapsed {
-  width: 4rem;
+  --sidebar-width: 4rem;
+  width: var(--sidebar-width);
 }
 
 /* Off-canvas behavior when layout marks sidebar as mobile (effective up to 1024px) */
@@ -57,10 +59,12 @@
   top: 0;
   left: 0;
   height: 100vh;
-  width: var(--mobile-sidebar-width, 280px);
+  --sidebar-width: var(--mobile-sidebar-width, 280px);
+  width: var(--sidebar-width);
   transform: translateX(-100%);
   z-index: 1000;
   box-shadow: none;
+  overflow: hidden; /* hide inner while sliding to avoid dual-layer look */
   transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
@@ -74,7 +78,8 @@
 
 /* Avoid showing a static 4rem rail while in mobile mode */
 .sidebarWrapper.mobile.collapsed {
-  width: var(--mobile-sidebar-width, 280px);
+  --sidebar-width: var(--mobile-sidebar-width, 280px);
+  width: var(--sidebar-width);
 }
 
 .mainArea {

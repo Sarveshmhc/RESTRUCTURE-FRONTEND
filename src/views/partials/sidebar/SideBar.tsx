@@ -280,7 +280,10 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
 
   return (
     <aside
-      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded} ${isMobile ? styles.mobile : ''}`}
+      className={
+        `${styles.sidebar} ` +
+        (isMobile ? `${styles.mobile}` : (isCollapsed ? styles.collapsed : styles.expanded))
+      }
       data-mobile={isMobile ? 'true' : 'false'}
     >
       <div className={styles.sidebarHeader}>

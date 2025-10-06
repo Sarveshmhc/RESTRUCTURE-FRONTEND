@@ -7,7 +7,8 @@
   background: var(--sidebar-bg);
   color: var(--sidebar-text);
   height: 100vh;
-  width: 18rem; /* 288px expanded */
+  width: var(--sidebar-width, 18rem); /* Use shared variable for consistency */
+  max-width: 100%; /* prevent exceeding wrapper and creating a second layer */
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -37,9 +38,15 @@
 
 /* Expanded state */
 .expanded {
-  width: 18rem; /* 288px */
-  min-width: 18rem;
-  max-width: 18rem;
+  width: var(--sidebar-width, 18rem);
+  min-width: var(--sidebar-width, 18rem);
+  max-width: var(--sidebar-width, 18rem);
+}
+
+/* Mobile fill - inner aside fills wrapper dimension */
+.mobile {
+  width: var(--sidebar-width, 18rem);
+  max-width: 100%;
 }
 
 /* ===== SIDEBAR HEADER ===== */
