@@ -8,7 +8,7 @@ import mhCover from "../../../assets/MH Cognizant LOGO_White.png";
 import mhLogo from "../../../assets/MH Cognition LOGO.png";
 import styles from "./sidebar.module.css";
 import { SidebarTooltip } from "@components";
-import {  
+import {
   ChevronDown, ChevronRight, LogOut, ChevronLeft, ChevronUp, User as UserIcon, X
 } from "../../components/icons";
 
@@ -57,7 +57,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     const linkEl = (
       <Link
         to={item.path}
-        className={`${styles.sidebarLink} ${isItemActive ? styles.active : ''} ${isDropdownOpen ? styles.expanded : ''}`}
+        className={`${styles.sidebarLink} ${isItemActive ? styles.active : ''}`}
         onClick={(e) => {
           if (hasSubItems) {
             e.preventDefault();
@@ -75,8 +75,8 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
               {item.label}
             </span>
             {hasSubItems && (
-              <ChevronRight 
-                className={`${styles.chevron} ${isDropdownOpen ? styles.rotated : ''}`} 
+              <ChevronRight
+                className={`${styles.chevron} ${isDropdownOpen ? styles.rotated : ''}`}
               />
             )}
           </>
@@ -97,10 +97,9 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
 
         {/* Render submenu items with smooth animations */}
         {hasSubItems && !isCollapsed && (
-          <div 
-            className={`${styles.submenu} ${
-              isDropdownOpen ? styles.open : ''
-            } ${isDropdownClosing ? styles.closing : ''}`}
+          <div
+            className={`${styles.submenu} ${isDropdownOpen ? styles.open : ''
+              } ${isDropdownClosing ? styles.closing : ''}`}
           >
             {item.subItems?.map((subItem, index) => {
               const SubIcon = subItem.icon;
@@ -110,7 +109,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
                   key={subItem.path}
                   to={subItem.path}
                   className={`${styles.submenuLink} ${isSubItemActive ? styles.active : ""}`}
-                  style={{ 
+                  style={{
                     textDecoration: "none",
                     animationDelay: isDropdownOpen ? `${0.1 + (index * 0.05)}s` : '0s'
                   }}
@@ -174,7 +173,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
       if (open && dropdownRef.current && ref.current) {
         const profileRect = ref.current.getBoundingClientRect();
         const dropdown = dropdownRef.current;
-        
+
         if (isCollapsed) {
           // Position to the right of collapsed sidebar
           dropdown.style.left = `${64 + 12}px`;
@@ -251,24 +250,23 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
             ref={dropdownRef}
             id="sidebar-profile-menu"
             role="menu"
-            className={`${styles.profileDropdown} ${
-              isCollapsed ? styles.profileDropdownRight : styles.profileDropdownUp
-            } ${closing ? styles.closing : styles.opening}`}
+            className={`${styles.profileDropdown} ${isCollapsed ? styles.profileDropdownRight : styles.profileDropdownUp
+              } ${closing ? styles.closing : styles.opening}`}
           >
-            <button 
-              type="button" 
-              className={`${styles.dropdownItem} ${styles.profileDropdownItem}`} 
-              onClick={gotoProfile} 
+            <button
+              type="button"
+              className={`${styles.dropdownItem} ${styles.profileDropdownItem}`}
+              onClick={gotoProfile}
               role="menuitem"
             >
               <UserIcon className={styles.dropdownIcon} />
               <span>Profile</span>
             </button>
             <div className={styles.dropdownDivider} />
-            <button 
-              type="button" 
-              className={`${styles.logoutDropdownItem} ${styles.logoutDropdownItemSecond}`} 
-              onClick={doLogout} 
+            <button
+              type="button"
+              className={`${styles.logoutDropdownItem} ${styles.logoutDropdownItemSecond}`}
+              onClick={doLogout}
               role="menuitem"
             >
               <LogOut className={styles.dropdownIcon} />

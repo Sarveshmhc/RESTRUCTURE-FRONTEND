@@ -49,7 +49,7 @@ const StyledWrapper = styled.div`
     outline: none;
     color: var(--search-text, #1e293b);
     font-size: 0.875rem;
-    transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     cursor: text;
     z-index: 0;
   }
