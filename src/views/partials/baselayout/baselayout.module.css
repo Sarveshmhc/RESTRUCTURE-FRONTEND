@@ -51,6 +51,32 @@
   width: 4rem;
 }
 
+/* Off-canvas behavior when layout marks sidebar as mobile (effective up to 1024px) */
+.sidebarWrapper.mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--mobile-sidebar-width, 280px);
+  transform: translateX(-100%);
+  z-index: 1000;
+  box-shadow: none;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.sidebarWrapper.mobile.mobileOpen {
+  transform: translateX(0);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+}
+
+/* Avoid showing a static 4rem rail while in mobile mode */
+.sidebarWrapper.mobile.collapsed {
+  width: var(--mobile-sidebar-width, 280px);
+}
+
 .mainArea {
   flex: 1;
   display: flex;
@@ -119,7 +145,7 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: 300px;
+    width: var(--mobile-sidebar-width, 280px);
     transform: translateX(-100%);
     z-index: 1000;
     box-shadow: none;
@@ -131,13 +157,23 @@
     backface-visibility: hidden;
   }
 
+  /* When collapsed on mobile or when using desktop-collapse while in mobile viewport,
+     keep a narrow icons-only rail visible instead of hiding completely. */
+  .sidebarWrapper.collapsed {
+    transform: translateX(0);
+    width: 4rem; /* icons-only rail width */
+  }
+
+  /* If mobileOpen is active, fully show the menu */
+  .sidebarWrapper.mobileOpen {
+    transform: translateX(0);
+    width: var(--mobile-sidebar-width, 280px);
+    box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  }
+
   .sidebarWrapper.mobile {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 300px;
-    z-index: 1000;
+    position: fixed; /* kept for backward compatibility */
+    z-index: 1000; /* ensured above content */
   }
 
   .sidebarWrapper.mobileOpen {
@@ -154,7 +190,6 @@
     background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
     z-index: 999;
     animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-backdrop-filter: blur(1px); /* Safari support */
     backdrop-filter: blur(1px); /* Subtle blur for modern feel */
   }
 
@@ -181,11 +216,31 @@
   .contentArea {
     flex: 1;
     padding: 1.5rem 1.25rem;
-    background: var(--mobile-content-background, #ffffff);
+    background: var(--bg); /* use theme background */
     border-radius: 0;
     box-shadow: none;
     overflow-y: auto;
   }
+}
+
+/* Mobile overlay (global so it works up to 1024px as well) */
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Use a theme-aware overlay color so dark theme doesn't reveal white content */
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(1px);
+}
+
+/* When mobile menu is open, lock body scroll to prevent background movement */
+body.mobile-open {
+  overflow: hidden;
+  position: relative;
 }
 
 /* Tablet responsive styles - Clean and balanced */
@@ -200,7 +255,7 @@
 
   .contentArea {
     padding: 1.75rem 2rem;
-    background: var(--tablet-content-background, #ffffff);
+    background: var(--tablet-content-background, var(--bg));
     border-radius: 0;
   }
 }

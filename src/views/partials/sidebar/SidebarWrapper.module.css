@@ -55,7 +55,7 @@ Base Sidebar Wrapper
   top: 0;
   left: 0;
   height: 100vh;
-  width: 20rem; /* 320px - mobile sidebar width */
+  width: var(--mobile-sidebar-width, 320px);
   z-index: 1000;
   transform: translateX(-100%);
   box-shadow: none;
@@ -67,6 +67,14 @@ Base Sidebar Wrapper
 .mobileWrapper.mobileOpen {
   transform: translateX(0);
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* When mobile wrapper is collapsed (icons-only rail), show narrow width */
+.mobileWrapper.collapsed {
+  transform: translateX(0);
+  width: 4rem;
+  min-width: 4rem;
+  max-width: 4rem;
 }
 
 /* Mobile overlay */

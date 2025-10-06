@@ -18,9 +18,11 @@ const SidebarWrapper: React.FC<SidebarWrapperProps> = ({ children }) => {
     closeMobileMenu
   } = useMobileView();
 
+  // Scroll lock handled by BaseLayout to keep it centralized
+
   const getWrapperClasses = () => {
     let classes = `${styles.sidebarWrapper}`;
-    
+
     if (isMobile) {
       classes += ` ${styles.mobileWrapper}`;
       if (mobileMenuOpen) {
@@ -34,7 +36,7 @@ const SidebarWrapper: React.FC<SidebarWrapperProps> = ({ children }) => {
         classes += ` ${styles.collapsed}`;
       }
     }
-    
+
     return classes;
   };
 
@@ -48,7 +50,7 @@ const SidebarWrapper: React.FC<SidebarWrapperProps> = ({ children }) => {
           aria-hidden="true"
         />
       )}
-      
+
       <div className={getWrapperClasses()}>
         <SideBar
           isCollapsed={isMobile ? false : (isTablet || sidebarCollapsed)}

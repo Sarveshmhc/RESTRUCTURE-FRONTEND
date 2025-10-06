@@ -604,9 +604,9 @@
   }
 
   .mobileCloseButton {
-    background: transparent;
+    background: var(--mobile-close-bg, rgba(2,6,23,0.04));
     border: none;
-    padding: 0.75rem;
+    padding: 8px;
     cursor: pointer;
     color: var(--sidebar-text);
     border-radius: 8px;

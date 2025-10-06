@@ -92,7 +92,8 @@ export function useMobileView() {
   }, [isMobile])
 
   const toggleMobileMenu = React.useCallback(() => {
-    if (isMobile) {
+    const isNarrow = isMobile || window.innerWidth <= TABLET_BREAKPOINT
+    if (isNarrow) {
       setMobileMenuOpen(prev => !prev)
     } else {
       setSidebarCollapsed(prev => !prev)
@@ -100,7 +101,8 @@ export function useMobileView() {
   }, [isMobile])
 
   const closeMobileMenu = React.useCallback(() => {
-    if (isMobile) {
+    const isNarrow = isMobile || window.innerWidth <= TABLET_BREAKPOINT
+    if (isNarrow) {
       setMobileMenuOpen(false)
     }
   }, [isMobile])

@@ -155,19 +155,17 @@ html, body {
 
 #root {
   margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  border: none;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   display: flex;
-  flex-direction: column;
-}
-
-/* Remove any default styling that might cause gaps */
-div, header, aside, main, nav {
-  border: none;
-  outline: none;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 /* ===== INSTANT THEME SWITCHING ===== */

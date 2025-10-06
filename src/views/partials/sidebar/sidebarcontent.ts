@@ -4,7 +4,7 @@ import {
   User, Calendar, FileText, DollarSign, Users, BookOpen, Inbox as InboxIcon, HelpCircle, Bell,
   Briefcase, Shield, ClipboardList, BarChart3, UserPlus, Search, Upload, Edit,
   CreditCard, Calculator, Building2, Headphones, MessageSquare, Settings, Palette, Plus, Clock,
-} from "../../components/icons";
+} from '../../components/icons';
 
 export interface SidebarItem {
     label: string;
@@ -70,6 +70,12 @@ export const hrSidebarItems: SidebarItem[] = [
             { label: "Holiday Calendar", icon: Calendar, path: "/attendance/holidays", roles: ['hr'] },
             { label: "Attendance Metrics Dashboard", icon: BarChart3, path: "/attendance/metrics", roles: ['hr'] },
         ]
+    },
+    {
+        label: 'Leave',
+        path: '/hr/leave',
+        roles: ['hr'],
+        icon: FileText
     },
     {
         label: 'Payroll',

@@ -47,6 +47,12 @@ export const routeConfig: RouteConfig[] = [
     roles: ['hr'],
   },
   {
+    path: '/hr/leave-management',
+    component: PlaceholderComponent,
+    title: 'Leave management',
+    roles: ['hr'],
+  },
+  {
     path: '/hr/leave',
     component: PlaceholderComponent,
     title: 'Leave',

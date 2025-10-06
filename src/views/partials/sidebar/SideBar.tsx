@@ -281,7 +281,10 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
   };
 
   return (
-    <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded} ${isMobile ? styles.mobile : ''}`}>
+    <aside
+      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded} ${isMobile ? styles.mobile : ''}`}
+      data-mobile={isMobile ? 'true' : 'false'}
+    >
       <div className={styles.sidebarHeader}>
         <div className={styles.logoContainer}>
           <img

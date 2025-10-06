@@ -20,8 +20,6 @@
 .headerLeft {
   flex: 0 0 auto;
   width: 60px;
-  margin: 0;
-  padding: 0;
 }
 
 /* Center section */
@@ -39,7 +37,6 @@
   width: 100%;
   max-width: 500px;
   min-width: 300px;
-  margin: 0;
 }
 
 /* Right section */
@@ -64,9 +61,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.15s ease;
-  margin: 0; /* Remove margin */
-  padding: 0; /* Remove padding, use width/height instead */
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  width: 11px;  /* Force exact width */
+  height: 11px; /* Force exact height */
 }
 
 .actionButton:hover {
@@ -127,6 +127,37 @@
 
 .mobile .headerCenter {
   margin: 0 0.5rem;
+}
+
+/* Mobile hamburger button (three lines) */
+.mobileHamburger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  border-radius: 6px;
+  transition: background 0.12s ease;
+}
+
+.mobileHamburger:hover { background: var(--sidebar-hover, rgba(0,0,0,0.04)); }
+
+.hamburgerLine {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--header-text, #1e293b);
+  border-radius: 2px;
+}
+
+[data-theme="dark"] .hamburgerLine {
+  background: var(--text-dark, #e2e8f0);
 }
 
 /* Dark theme */

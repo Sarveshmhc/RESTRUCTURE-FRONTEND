@@ -14,10 +14,24 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     closeMobileMenu
   } = useMobileView();
 
+  // Treat up to and including 1024px as "mobile-like" for the sidebar behavior
+  const effectiveIsMobile = isMobile || window.innerWidth <= 1024;
+
+  React.useEffect(() => {
+    // centralize body scroll lock for mobile overlay here
+    if (isMobile) {
+      if (mobileMenuOpen) document.body.classList.add('mobile-open');
+      else document.body.classList.remove('mobile-open');
+    } else {
+      document.body.classList.remove('mobile-open');
+    }
+    return () => document.body.classList.remove('mobile-open');
+  }, [effectiveIsMobile, mobileMenuOpen]);
+
   return (
     <div className={styles.layoutWrapper}>
       {/* Mobile overlay */}
-      {isMobile && mobileMenuOpen && (
+      {effectiveIsMobile && mobileMenuOpen && (
         <div
           className={styles.mobileOverlay}
           onClick={closeMobileMenu}
@@ -25,18 +39,18 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       )}
 
       <div className={styles.contentRow}>
-        <div className={`${styles.sidebarWrapper} ${sidebarCollapsed && !isMobile ? styles.collapsed : ''} ${isMobile ? styles.mobile : ''} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
+        <div className={`${styles.sidebarWrapper} ${sidebarCollapsed && !effectiveIsMobile ? styles.collapsed : ''} ${effectiveIsMobile ? styles.mobile : ''} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
           <SideBar
-            isCollapsed={isMobile ? false : sidebarCollapsed}
+            isCollapsed={effectiveIsMobile ? !mobileMenuOpen : sidebarCollapsed}
             onToggle={toggleMobileMenu}
-            isMobile={isMobile}
+            isMobile={effectiveIsMobile}
           />
         </div>
-        <div className={`${styles.mainArea} ${sidebarCollapsed && !isMobile ? styles.collapsed : ''}`}>
+        <div className={`${styles.mainArea} ${sidebarCollapsed && !effectiveIsMobile ? styles.collapsed : ''}`}>
           <HeaderBar
             isCollapsed={sidebarCollapsed}
             onToggle={toggleMobileMenu}
-            isMobile={isMobile}
+            isMobile={effectiveIsMobile}
           />
           <div className={styles.contentArea}>
             {children}
