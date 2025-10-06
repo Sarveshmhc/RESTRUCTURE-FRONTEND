@@ -7,7 +7,6 @@ import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sideba
 import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
 import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
 import styles from "./sidebar.module.css";
-import { Button ,} from "../../components";
 import SidebarTooltip from "../../components/sidebartooltip/SidebarTooltip";
 
 
@@ -152,7 +151,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
         className={styles.profileBtn}
         onClick={() => setOpen(v => !v)}
         aria-haspopup="menu"
-        aria-expanded={open ? true : false}
+        aria-expanded={open}
         aria-controls="sidebar-profile-menu"
         aria-label="Profile"
       >

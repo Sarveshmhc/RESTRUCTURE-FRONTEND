@@ -28,13 +28,17 @@
   padding: 0;
   margin: 0 0.5rem;
   outline: none;
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  transition: background 0.2s;
 }
 .track {
   position: relative;
   width: 44px;
   height: 24px;
-  background: #e6edfe;
-  border-radius: 999px;
+  border-radius: 12px;
   transition: background 0.2s;
   display: flex;
   align-items: center;
@@ -89,11 +93,116 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  margin-right: 0.5rem; /* Space between toggle and bell */
-  border-radius: 50%;
+  margin: 0;
+  padding: 0.25rem; /* Match the bell button padding exactly */
+  border-radius: 0.375rem; /* Match the bell button border-radius */
   transition: background 0.15s;
   outline: none;
+  flex-shrink: 0;
+  position: relative;
+  background: transparent;
+  border: none;
+  /* Make it exactly the same size as the notification button */
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;  /* Force exact width */
+  height: 44px; /* Force exact height */
 }
-.iconToggle:hover, .iconToggle:focus {
-  background: #f3f4f6;
+
+/* Remove all hover and focus backgrounds */
+.iconToggle:hover,
+.iconToggle:focus,
+.iconToggle:active {
+  background: var(--sidebar-hover, #f1f5f9) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Dark theme hover */
+[data-theme="dark"] .iconToggle:hover,
+[data-theme="dark"] .iconToggle:focus {
+  background: var(--sidebar-hover-dark, #374151) !important;
+}
+
+/* Theme toggle switch - make it much bigger */
+.toggleSwitch {
+  position: relative;
+  width: 70px; /* Increased from 48px */
+  height: 40px; /* Increased from 26px */
+  border-radius: 14px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.track {
+  position: relative;
+  width: 70px; /* Match toggleSwitch */
+  height: 40px; /* Match toggleSwitch */
+  border-radius: 14px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.light .track {
+  background: #e6edfe;
+}
+
+.dark .track {
+  background: #223a8c;
+}
+
+.thumb {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 70px; /* Increased from 20px */
+  height: 40px; /* Increased from 20px */
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(30,41,59,0.10);
+  transition: left 0.25s cubic-bezier(.4,0,.2,1), background 0.2s;
+  z-index: 2;
+}
+
+.light .thumb {
+  left: 3px;
+  background: #fff;
+}
+
+.dark .thumb {
+  left: 40px; /* Adjusted for new width (52px - 22px - 3px) */
+  background: #2563eb;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22.0px; /* Increased from 14px */
+  height: 22.0px; /* Increased from 14px */
+  color: #fff;
+  z-index: 3;
+  transition: opacity 0.2s;
+}
+
+/* Remove webkit tap highlights */
+.iconToggle {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Remove any global button styles that might be interfering */
+.iconToggle,
+.iconToggle:hover,
+.iconToggle:focus,
+.iconToggle:active {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }

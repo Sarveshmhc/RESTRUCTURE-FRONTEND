@@ -1244,8 +1244,9 @@
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)) padding-box,
     linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)) border-box;
   box-shadow: 0 12px 28px rgba(0,0,0,.24), 0 2px 8px rgba(0,0,0,.18);
-  backdrop-filter: saturate(1.1) blur(6px);
   -webkit-backdrop-filter: saturate(1.1) blur(6px);
+  -webkit-backdrop-filter: saturate(1.1) blur(6px);
+  backdrop-filter: saturate(1.1) blur(6px);
   overflow: hidden;
   opacity: 0;
   transform: translateY(6px) scale(.98);

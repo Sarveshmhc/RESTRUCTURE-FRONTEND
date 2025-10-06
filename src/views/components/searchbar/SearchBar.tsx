@@ -34,50 +34,76 @@ const StyledWrapper = styled.div`
     line-height: 28px;
     align-items: center;
     position: relative;
-    max-width: 900px;
     width: 100%;
   }
 
   .input {
-    font-family: "Montserrat", sans-serif;
+    font-family: var(--font-primary, "Inter", sans-serif);
     width: 100%;
     height: 45px;
     padding-left: 2.5rem;
-    box-shadow: 0 0 0 1.5px #2b2c37, 0 0 25px -17px #000;
-    border: 0;
+    padding-right: 1rem;
+    border: 1px solid var(--search-border, #e2e8f0);
     border-radius: 12px;
-    background-color: #16171d;
+    background-color: var(--search-bg, #f8fafc);
     outline: none;
-    color: #bdbecb;
+    color: var(--search-text, #1e293b);
+    font-size: 0.875rem;
     transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
     cursor: text;
     z-index: 0;
   }
 
   .input::placeholder {
-    color: #bdbecb;
+    color: var(--search-placeholder, #94a3b8);
   }
 
   .input:hover {
-    box-shadow: 0 0 0 2.5px #2f303d, 0px 0px 25px -15px #000;
-  }
-
-  .input:active {
-    transform: scale(0.95);
+    border-color: var(--search-border-hover, #cbd5e1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   .input:focus {
-    box-shadow: 0 0 0 2.5px #2f303d;
+    border-color: var(--search-border-focus, #3b82f6);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
 
   .search-icon {
     position: absolute;
-    left: 1rem;
-    fill: #bdbecb;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: var(--search-placeholder, #94a3b8);
     width: 1rem;
     height: 1rem;
     pointer-events: none;
     z-index: 1;
+  }
+
+  /* Dark theme styles */
+  [data-theme="dark"] & {
+    .input {
+      background-color: var(--search-bg, #334155);
+      border-color: var(--search-border, #475569);
+      color: var(--search-text, #f1f5f9);
+    }
+
+    .input::placeholder {
+      color: var(--search-placeholder, #94a3b8);
+    }
+
+    .input:hover {
+      border-color: var(--search-border-hover, #64748b);
+    }
+
+    .input:focus {
+      border-color: var(--search-border-focus, #3b82f6);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .search-icon {
+      fill: var(--search-placeholder, #94a3b8);
+    }
   }
 `;
 
