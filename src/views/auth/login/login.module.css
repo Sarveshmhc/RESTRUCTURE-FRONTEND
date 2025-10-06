@@ -1,19 +1,75 @@
-.loginBg {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1rem;
+.loginContainer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Match the right background so any gaps before the curve blend seamlessly */
+  background: linear-gradient(135deg, #eef2ff 0%, #ffffff 60%);
+}
+
+.loginLeft {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Slight overlay for readability */
+  position: relative;
+  z-index: 0;
+}
+
+.loginLeft::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.1));
+}
+
+.loginRight {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #ffffff 60%);
+  position: relative;
+  z-index: 1;
+}
+
+/* Curved divider between panels */
+.loginRight::before {
+  content: "";
+  position: absolute;
+  left: -160px; /* push curve further into the left panel */
+  top: -15%;
+  width: 320px; /* widen curve to avoid any seam */
+  height: 130%;
+  background: inherit; /* same gradient as .loginRight */
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+  z-index: 0; /* under the form, above the left image */
+  box-shadow: 8px 0 24px rgba(2, 6, 23, 0.08);
+  pointer-events: none;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 440px;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.15);
+  position: relative;
+  z-index: 1; /* keep above the curved divider */
+}
+
+.brandTitle {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-primary); /* use brand color variable */
 }
 
 .loginForm {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
 }
 
 .loginTitle {
@@ -189,8 +245,18 @@
 }
 
 @media (max-width: 480px) {
-  .loginForm {
+  .loginContainer {
+    grid-template-columns: 1fr;
+  }
+  .loginLeft {
+    display: none; /* hide image on very small screens */
+  }
+  .formWrapper {
+    max-width: 92vw;
     padding: 1.5rem;
+  }
+  .loginRight::before {
+    display: none; /* no curve needed when single column */
   }
   
   .loginTitle {
