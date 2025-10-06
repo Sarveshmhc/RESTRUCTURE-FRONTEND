@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Bell } from "../../components/icons";
-import { SearchBar } from "../../components/searchbar";
-import ThemeToggle from "../../components/themetoggle/ThemeToggle";
+import { SearchBar,ThemeToggle } from "@components";
 import styles from "./headerbar.module.css";
 
 interface HeaderBarProps {

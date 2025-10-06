@@ -4,13 +4,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import type { User } from "../../contexts/AuthContext";
 import { useThemeStore } from "../../contexts/ThemeStore";
 import { hrSidebarItems, employeeSidebarItems, type SidebarItem } from "./sidebarcontent";
-import mhCover from "../../../assets/MH Cognizant LOGO_White.png"; // for dark theme
-import mhLogo from "../../../assets/MH Cognition LOGO.png";        // for light theme
+import mhCover from "../../../assets/MH Cognizant LOGO_White.png";
+import mhLogo from "../../../assets/MH Cognition LOGO.png";
 import styles from "./sidebar.module.css";
-import SidebarTooltip from "../../components/sidebartooltip/SidebarTooltip";
-
-
-import {
+import { SidebarTooltip } from "@components";
+import {  
   ChevronDown, ChevronRight, LogOut, ChevronLeft, ChevronUp, User as UserIcon, X
 } from "../../components/icons";
 
@@ -22,15 +20,27 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = false }) => {
   const { user, logout } = useAuth();
-  const { isDark, } = useThemeStore();
+  const { isDark } = useThemeStore();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [closingDropdown, setClosingDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Get sidebar items based on user role
   const sidebarItems = user?.role === "hr" ? hrSidebarItems : employeeSidebarItems;
 
   const toggleDropdown = (label: string) => {
-    setOpenDropdown(prev => prev === label ? null : label);
+    if (openDropdown === label) {
+      // Close the dropdown with animation
+      setClosingDropdown(label);
+      setTimeout(() => {
+        setOpenDropdown(null);
+        setClosingDropdown(null);
+      }, 400); // Match the CSS transition duration
+    } else {
+      setOpenDropdown(label);
+      setClosingDropdown(null);
+    }
   };
 
   const isActive = (path: string) => {
@@ -42,31 +52,32 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     const isItemActive = isActive(item.path);
     const hasSubItems = item.hasDropdown && item.subItems && item.subItems.length > 0;
     const isDropdownOpen = openDropdown === item.label;
+    const isDropdownClosing = closingDropdown === item.label;
 
     const linkEl = (
       <Link
         to={item.path}
-        className={`${styles.sidebarLink} ${isItemActive ? styles.active : ''}`}
+        className={`${styles.sidebarLink} ${isItemActive ? styles.active : ''} ${isDropdownOpen ? styles.expanded : ''}`}
         onClick={(e) => {
           if (hasSubItems) {
             e.preventDefault();
             toggleDropdown(item.label);
           }
         }}
-        title={isCollapsed ? item.label : undefined}
+        style={{ textDecoration: "none" }}
+        aria-label={item.label}
+        aria-expanded={isDropdownOpen}
       >
         <Icon className={styles.sidebarIcon} />
         {!isCollapsed && (
           <>
-            <span className={styles.sidebarLabel}>{item.label}</span>
+            <span className={styles.sidebarLabel}>
+              {item.label}
+            </span>
             {hasSubItems && (
-              <>
-                {isDropdownOpen ? (
-                  <ChevronDown className={styles.chevron} />
-                ) : (
-                  <ChevronRight className={styles.chevron} />
-                )}
-              </>
+              <ChevronRight 
+                className={`${styles.chevron} ${isDropdownOpen ? styles.rotated : ''}`} 
+              />
             )}
           </>
         )}
@@ -75,22 +86,35 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
 
     return (
       <div key={item.label} className={styles.sidebarItem}>
+        {/* Use SidebarTooltip when collapsed and not mobile */}
         {(isCollapsed && !isMobile) ? (
-          <SidebarTooltip text={item.label}>{linkEl}</SidebarTooltip>
+          <SidebarTooltip text={item.label}>
+            {linkEl}
+          </SidebarTooltip>
         ) : (
           linkEl
         )}
 
-        {hasSubItems && isDropdownOpen && !isCollapsed && (
-          <div className={styles.submenu}>
-            {item.subItems?.map((subItem) => {
+        {/* Render submenu items with smooth animations */}
+        {hasSubItems && !isCollapsed && (
+          <div 
+            className={`${styles.submenu} ${
+              isDropdownOpen ? styles.open : ''
+            } ${isDropdownClosing ? styles.closing : ''}`}
+          >
+            {item.subItems?.map((subItem, index) => {
               const SubIcon = subItem.icon;
               const isSubItemActive = isActive(subItem.path);
               return (
                 <Link
                   key={subItem.path}
                   to={subItem.path}
-                  className={`${styles.submenuLink} ${isSubItemActive ? styles.active : ''}`}
+                  className={`${styles.submenuLink} ${isSubItemActive ? styles.active : ""}`}
+                  style={{ 
+                    textDecoration: "none",
+                    animationDelay: isDropdownOpen ? `${0.1 + (index * 0.05)}s` : '0s'
+                  }}
+                  aria-label={subItem.label}
                 >
                   <SubIcon className={styles.submenuIcon} />
                   <span>{subItem.label}</span>
@@ -103,19 +127,24 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     );
   };
 
+  // Profile Footer Component with enhanced animations
   const SidebarProfileFooter = ({ user }: { user: User | null }) => {
     const [open, setOpen] = useState(false);
+    const [closing, setClosing] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
-    const navigate = useNavigate();
-    const { logout } = useAuth();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       function onDocClick(e: MouseEvent) {
         if (!ref.current) return;
-        if (!ref.current.contains(e.target as Node)) setOpen(false);
+        if (!ref.current.contains(e.target as Node)) {
+          handleClose();
+        }
       }
       function onKey(e: KeyboardEvent) {
-        if (e.key === "Escape") setOpen(false);
+        if (e.key === "Escape") {
+          handleClose();
+        }
       }
       if (open) {
         document.addEventListener("mousedown", onDocClick);
@@ -127,6 +156,43 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
       };
     }, [open]);
 
+    const handleClose = () => {
+      setClosing(true);
+      setTimeout(() => {
+        setOpen(false);
+        setClosing(false);
+      }, 300); // Match animation duration
+    };
+
+    const handleOpen = () => {
+      setOpen(true);
+      setClosing(false);
+    };
+
+    // Position dropdown for both collapsed and expanded states
+    useEffect(() => {
+      if (open && dropdownRef.current && ref.current) {
+        const profileRect = ref.current.getBoundingClientRect();
+        const dropdown = dropdownRef.current;
+        
+        if (isCollapsed) {
+          // Position to the right of collapsed sidebar
+          dropdown.style.left = `${64 + 12}px`;
+          dropdown.style.bottom = `${window.innerHeight - profileRect.bottom + 10}px`;
+          dropdown.style.top = 'auto';
+          dropdown.style.right = 'auto';
+          dropdown.style.width = '160px';
+        } else {
+          // Position above the profile button for expanded sidebar
+          dropdown.style.left = `${profileRect.left}px`;
+          dropdown.style.right = 'auto';
+          dropdown.style.bottom = `${window.innerHeight - profileRect.top + 8}px`;
+          dropdown.style.top = 'auto';
+          dropdown.style.width = `${Math.max(profileRect.width, 160)}px`;
+        }
+      }
+    }, [open, isCollapsed]);
+
     const initials =
       user?.firstName && user?.lastName
         ? user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
@@ -135,12 +201,12 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           : "U";
 
     const gotoProfile = () => {
-      setOpen(false);
+      handleClose();
       navigate(user?.role === "hr" ? "/hr/profile" : "/employee/profile");
     };
 
     const doLogout = async () => {
-      setOpen(false);
+      handleClose();
       await logout();
       navigate("/login");
     };
@@ -148,10 +214,10 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
     const buttonEl = (
       <button
         type="button"
-        className={styles.profileBtn}
-        onClick={() => setOpen(v => !v)}
+        className={`${styles.profileBtn} ${open ? styles.profileBtnOpen : ''}`}
+        onClick={() => open ? handleClose() : handleOpen()}
         aria-haspopup="menu"
-        aria-expanded={open}
+        aria-expanded={open === true}
         aria-controls="sidebar-profile-menu"
         aria-label="Profile"
       >
@@ -162,7 +228,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
               <div className={styles.profileName}>{user?.firstName || "User"}</div>
               <div className={styles.profileRole}>Profile</div>
             </div>
-            {open ? <ChevronUp className={styles.chevron} /> : <ChevronDown className={styles.chevron} />}
+            <ChevronUp className={`${styles.chevron} ${open ? styles.rotated : ''}`} />
           </>
         )}
       </button>
@@ -170,22 +236,41 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
 
     return (
       <div className={styles.profileContainer} ref={ref}>
-        {(isCollapsed && !isMobile)
-          ? <SidebarTooltip text={`${user?.firstName || "User"} • Profile`}>{buttonEl}</SidebarTooltip>
-          : buttonEl}
+        {/* Use SidebarTooltip for profile when collapsed */}
+        {(isCollapsed && !isMobile) ? (
+          <SidebarTooltip text={`${user?.firstName || "User"} • Profile`}>
+            {buttonEl}
+          </SidebarTooltip>
+        ) : (
+          buttonEl
+        )}
 
+        {/* Render dropdown with smooth animations */}
         {open && (
           <div
+            ref={dropdownRef}
             id="sidebar-profile-menu"
             role="menu"
-            className={`${styles.profileDropdown} ${isCollapsed ? styles.profileDropdownRight : styles.profileDropdownUp}`}
+            className={`${styles.profileDropdown} ${
+              isCollapsed ? styles.profileDropdownRight : styles.profileDropdownUp
+            } ${closing ? styles.closing : styles.opening}`}
           >
-            <button type="button" className={styles.dropdownItem} onClick={gotoProfile} role="menuitem">
+            <button 
+              type="button" 
+              className={`${styles.dropdownItem} ${styles.profileDropdownItem}`} 
+              onClick={gotoProfile} 
+              role="menuitem"
+            >
               <UserIcon className={styles.dropdownIcon} />
               <span>Profile</span>
             </button>
             <div className={styles.dropdownDivider} />
-            <button type="button" className={styles.logoutDropdownItem} onClick={doLogout} role="menuitem">
+            <button 
+              type="button" 
+              className={`${styles.logoutDropdownItem} ${styles.logoutDropdownItemSecond}`} 
+              onClick={doLogout} 
+              role="menuitem"
+            >
               <LogOut className={styles.dropdownIcon} />
               <span>Logout</span>
             </button>

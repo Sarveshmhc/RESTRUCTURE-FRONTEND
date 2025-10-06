@@ -4,20 +4,24 @@ Base Sidebar Wrapper
   flex-shrink: 0;
   height: 100vh;
   background: var(--sidebar-bg);
-  border-right: 2px solid var(--sidebar-border);
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: var(--z-sidebar, 100);
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
+  /* Remove border to prevent conflicts */
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 
 /* Desktop Wrapper */
 .desktopWrapper {
   width: 18rem; /* 288px - default desktop width */
   position: relative;
-  border-right: 2px solid var(--sidebar-border);
-  box-shadow: 2px 0 8px var(--shadow, rgba(0, 0, 0, 0.05));
+  /* Remove border and shadow to let sidebar handle it */
+  border: none;
+  box-shadow: none;
 }
 
 /* Update the collapsed desktop wrapper */
@@ -25,7 +29,8 @@ Base Sidebar Wrapper
   width: 4rem !important; /* Force 4rem width */
   min-width: 4rem;
   max-width: 4rem;
-  border-right: 1px solid var(--sidebar-border);
+  /* Remove border conflicts */
+  border: none;
   background: var(--sidebar-bg);
   overflow: visible; /* Allow toggle button to show outside */
 }
@@ -74,20 +79,19 @@ Base Sidebar Wrapper
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
   animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
 @keyframes fadeIn {
   from { 
-    opacity: 0; 
-    backdrop-filter: blur(0px);
+    /* Removed opacity and backdrop-filter for better performance */
     -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
   }
   to { 
-    opacity: 1; 
-    backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
   }
 }
 

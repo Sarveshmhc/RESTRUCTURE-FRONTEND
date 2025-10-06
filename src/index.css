@@ -123,6 +123,16 @@
   --color-gray-400: #9ca3af;
   --color-gray-500: #d1d5db;
   --color-gray-900: #f3f4f6;
+  
+  /* Update the border color variables to ensure consistency */
+  --sidebar-border: #374151;
+  --header-border: #374151;
+  --border-color: #374151;
+  
+  /* Ensure backgrounds align */
+  --sidebar-bg: #1e293b;
+  --sidebar-header-bg: #1e293b;
+  --header-bg: #1e293b;
 }
 
 /* ===== GLOBAL RESETS ===== */
@@ -134,24 +144,30 @@
   padding: 0;
 }
 
-html {
-  line-height: 1.15;
-  /*-webkit-text-size-adjust: 100%; */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border: none;
 }
 
-body {
+#root {
   margin: 0;
-  font-family: var(--font-primary);
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  border: none;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Remove any default styling that might cause gaps */
+div, header, aside, main, nav {
+  border: none;
+  outline: none;
 }
 
 /* ===== INSTANT THEME SWITCHING ===== */
@@ -199,15 +215,6 @@ body.theme-switching * {
 
 .layout-transition-only {
   transition-property: transform, opacity, width, height, padding, margin, left, right, top, bottom !important;
-}
-
-/* ===== ROOT CONTAINER ===== */
-#root {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  text-align: initial;
 }
 
 /* ===== LINK STYLES ===== */
@@ -371,6 +378,41 @@ button:focus-visible {
 *[class*="sidebar"] a:hover,
 *[class*="sidebar"] a:focus {
   text-decoration: none !important;
+}
+
+/* Ensure sidebar and header use exact same background */
+:root {
+  --sidebar-bg: #1e293b;
+  --header-bg: #1e293b;
+  --sidebar-header-bg: #1e293b;
+  
+  /* Ensure consistent border colors */
+  --sidebar-border: #334155;
+  --header-border: #334155;
+  --border-color: #334155;
+  
+  /* Ensure no gaps in layout */
+  --layout-gap: 0px;
+}
+
+/* Dark theme consistency */
+.dark {
+  --sidebar-bg: #1e293b;
+  --header-bg: #1e293b;
+  --sidebar-header-bg: #1e293b;
+  --sidebar-border: #334155;
+  --header-border: #334155;
+  --border-color: #334155;
+}
+
+/* Light theme consistency */
+.light {
+  --sidebar-bg: #ffffff;
+  --header-bg: #ffffff;
+  --sidebar-header-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --header-border: #e2e8f0;
+  --border-color: #e2e8f0;
 }
 
 

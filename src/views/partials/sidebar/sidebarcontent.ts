@@ -4,7 +4,7 @@ import {
   User, Calendar, FileText, DollarSign, Users, BookOpen, Inbox as InboxIcon, HelpCircle, Bell,
   Briefcase, Shield, ClipboardList, BarChart3, UserPlus, Search, Upload, Edit,
   CreditCard, Calculator, Building2, Headphones, MessageSquare, Settings, Palette, Plus, Clock,
-} from '../../components/icons';
+} from "../../components/icons";
 
 export interface SidebarItem {
     label: string;

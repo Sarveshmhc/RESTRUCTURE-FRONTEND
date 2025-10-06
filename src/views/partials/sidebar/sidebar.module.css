@@ -1,220 +1,255 @@
-/* Sidebar container */
+/* ================================================================= 
+   CLEAN SIDEBAR CSS - OPTIMIZED AND CONSISTENT
+================================================================= */
+
+/* ===== BASE SIDEBAR CONTAINER WITH ENHANCED TRANSITIONS ===== */
 .sidebar {
   background: var(--sidebar-bg);
   color: var(--sidebar-text);
   height: 100vh;
-  width: 100%; /* Fill the wrapper completely */
+  width: 18rem; /* 288px expanded */
   display: flex;
   flex-direction: column;
   min-width: 0;
   z-index: var(--z-sidebar, 100);
-  border-right: 2px solid var(--sidebar-border, #e2e8f0);
-  box-shadow: 2px 0 8px var(--shadow, rgba(0, 0, 0, 0.05));
-  overflow: hidden;
+  border-right: 1px solid var(--sidebar-border, #e2e8f0);
+  box-shadow: none;
+  overflow: visible;
   position: relative;
-  /* Enhanced smooth transitions for opening/closing */
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Enhanced smooth transitions - coordinated timing */
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              min-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              max-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   /* Hardware acceleration for smooth performance */
-  will-change: width, transform;
+  will-change: width, min-width, max-width;
+  transform: translateZ(0);
+  margin: 0;
+  padding: 0;
 }
 
-/* Ensure tooltips can overflow the collapsed rail */
-.sidebar {
-  overflow-x: visible; /* allow tooltip to render to the right */
-  position: relative;  /* anchoring for stacking */
-  z-index: 10;
-}
-
+/* Collapsed state with exact sizing */
 .collapsed {
-  overflow-x: visible; /* keep visible when collapsed */
+  width: 4rem !important; /* 64px collapsed */
+  min-width: 4rem !important;
+  max-width: 4rem !important;
+  overflow: visible; /* Allow tooltips */
 }
 
-.sidebarNav {
-  position: relative; /* local stacking context for tooltips */
-  flex: 1;
-  overflow-y: auto;
-  padding: 0.5rem 1rem;
-  /* Enhanced smooth navigation transitions */
-  transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+/* Expanded state */
+.expanded {
+  width: 18rem; /* 288px */
+  min-width: 18rem;
+  max-width: 18rem;
 }
 
-.sidebarNav::-webkit-scrollbar {
-  width: 4px;
-  background: #1e293b;
-}
-
-.sidebarNav::-webkit-scrollbar-thumb {
-  background: #64748b;
-  border-radius: 2px;
-}
-
-/* Collapsed navigation - optimized spacing */
-.collapsed .sidebarNav {
-  padding: 0.5rem 0.25rem;
-}
-
-/* Sidebar header */
+/* ===== SIDEBAR HEADER ===== */
 .sidebarHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md, 1rem) var(--spacing-lg, 1.5rem);
+  padding: 1rem 1.5rem;
   height: 4rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--sidebar-border, #e2e8f0);
   background: var(--sidebar-header-bg, var(--sidebar-bg));
   flex-shrink: 0;
-  /* Enhanced smooth header transitions */
-  transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              justify-content 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  /* Coordinated transitions */
+  transition: padding 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              justify-content 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 
-/* When collapsed, center the toggle button */
 .collapsed .sidebarHeader {
   justify-content: center;
-  padding: 1rem 0.5rem; /* Reduce padding when collapsed */
+  padding: 1rem 0.5rem;
 }
 
-/* Sidebar title */
-.sidebarTitle {
-  font-size: 1.25rem;
-  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
-  font-weight: 700;
-  white-space: nowrap;
-  /* Enhanced smooth title transitions */
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Enhanced logo container transitions */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  /* Staggered fade transitions for smooth effect */
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s,
+              width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+  will-change: opacity, width, transform;
 }
 
-.collapsed .sidebarTitle {
+.collapsed .logoContainer {
   opacity: 0;
   width: 0;
+  overflow: hidden;
   pointer-events: none;
+  transform: scale(0.8);
+  /* Faster fade out, slower fade in */
+  transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Sidebar item */
+.logo {
+  height: 28px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Toggle button */
+.toggleButton {
+  background: none;
+  border: none;
+  color: var(--sidebar-text);
+  cursor: pointer;
+  padding: 0.375rem;
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  min-width: 2rem;
+  min-height: 2rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity, background-color;
+}
+
+.toggleButton:hover {
+  opacity: 1;
+  background: var(--sidebar-hover);
+  transform: scale(1.05);
+}
+
+/* Enhanced icon transitions */
+.sidebarIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, color;
+}
+
+.sidebarLink:hover .sidebarIcon {
+  transform: scale(1.05);
+}
+
+.collapsed .sidebarLink .sidebarIcon {
+  transform: scale(1.1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+}
+
+.toggleIcon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.toggleIcon.rotated {
+  transform: rotate(180deg);
+}
+
+/* ===== SIDEBAR NAVIGATION ===== */
+.sidebarNav {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible; /* Allow tooltips */
+  padding: 0.5rem 1rem;
+  transition: padding 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.collapsed .sidebarNav {
+  padding: 0.5rem 0.25rem;
+}
+
+/* Scrollbar styling */
+.sidebarNav::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+
+.sidebarNav::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #64748b);
+  border-radius: 2px;
+}
+
+/* ===== SIDEBAR ITEMS ===== */
 .sidebarItem {
   margin-bottom: 0.25rem;
-  position: relative; /* tooltip anchor safety */
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible; /* Allow tooltips */
 }
 
-/* Sidebar link */
 .sidebarLink {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
+  gap: 0.75rem;
   padding: 0.75rem 1rem;
-  margin: 0;
-  border-radius: var(--radius-md, 0.5rem);
+  margin: 0.125rem 0;
+  border-radius: 0.5rem;
+  color: var(--sidebar-text);
   text-decoration: none;
-  color: var(--sidebar-text);
-  font-family: var(--font-primary, 'Inter', 'Roboto', 'Segoe UI', sans-serif);
-  font-weight: 500;
-  white-space: nowrap;
   font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
+  position: relative;
   overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  /* Enhanced smooth navigation link transitions */
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              gap 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, background-color;
 }
 
-.sidebarLink:hover {
-  background: var(--sidebar-hover);
-  color: var(--sidebar-text);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-/* Active state for sidebar links */
-.sidebarLink.active {
-  background: var(--sidebar-active) !important;
-  color: var(--sidebar-active-text) !important;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-}
-
-/* Maintain active state on hover */
-.sidebarLink.active:hover {
-  background: var(--sidebar-active) !important;
-  color: var(--sidebar-active-text) !important;
-  transform: translateX(0);
-}
-
-.collapsed .sidebarLink span {
-  opacity: 0;
-  width: 0;
-  overflow: hidden;
-  pointer-events: none;
-  /* Enhanced smooth text fade transition */
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Text spans in sidebar links */
-.sidebarLink span {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Collapsed sidebar - neat and clean icon arrangement */
 .collapsed .sidebarLink {
   justify-content: center;
   padding: 0.875rem;
   margin: 0.25rem 0.5rem;
   border-radius: 0.75rem;
   gap: 0;
+  width: calc(100% - 1rem);
+}
+
+.sidebarLink:hover {
+  background: var(--sidebar-hover);
+  transform: translateX(4px);
 }
 
 .collapsed .sidebarLink:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
 }
 
-.collapsed .sidebarLink.active {
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
-}
-
-/* Hide chevron icons when collapsed */
-.collapsed .chevron {
-  display: none;
+.sidebarLink.active {
+  background: var(--sidebar-active);
+  color: var(--sidebar-active-text);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 /* Sidebar icons */
 .sidebarIcon {
-  min-width: 1.25rem;
-  min-height: 1.25rem;
   width: 1.25rem;
   height: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, color;
 }
 
-/* Chevron icons for dropdowns */
-.chevron {
-  margin-left: auto;
-  min-width: 1.25rem;
-  min-height: 1.25rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #64748b;
-  flex-shrink: 0;
-  /* Perfect smooth chevron rotation */
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              color 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform-origin: center;
+.sidebarLink:hover .sidebarIcon {
+  transform: scale(1.05);
+}
+
+.collapsed .sidebarLink .sidebarIcon {
+  transform: scale(1.1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
 }
 
 /* Sidebar labels */
@@ -225,192 +260,39 @@
   text-overflow: ellipsis;
   flex: 1;
   min-width: 0;
+  transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s,
+              width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Sidebar footer */
-.sidebarFooter {
-  position: relative;
-  padding: 0.25rem 0.5rem 0.75rem;
-  overflow: visible;
-  z-index: 1010;
-}
-
-/* Theme and logout buttons */
-.themeToggle,
-.themeBtn,
-.logoutBtn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: none;
-  border: none;
-  color: var(--sidebar-text);
-  cursor: pointer;
-  padding: 0.625rem 1rem;
-  border-radius: var(--radius-md, 0.5rem);
-  font-size: 0.875rem;
-  font-family: var(--font-primary, 'Inter', 'Roboto', 'Segoe UI', sans-serif);
-  font-weight: 500;
-  text-align: left;
-  width: 100%;
-  overflow: hidden;
-  min-width: 0;
-  /* ONLY layout transitions */
-  transition: transform var(--transition-normal, 0.2s ease), 
-              padding var(--transition-normal, 0.2s ease),
-              gap var(--transition-normal, 0.2s ease);
-}
-
-.themeToggle:hover,
-.themeBtn:hover,
-.logoutBtn:hover {
-  background: var(--sidebar-hover);
-  transform: translateX(2px);
-}
-
-.footerIcon {
-  min-width: 1.5rem;
-  min-height: 1.5rem;
-}
-
-.footerBtnText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
-}
-
-.collapsed .footerBtnText {
-  display: none;
-
-}
-
-/* Align footer icons straight with sidebar icons when collapsed */
-.collapsed .themeToggle,
-.collapsed .themeBtn,
-.collapsed .logoutBtn {
-  justify-content: center;
-  padding: 0.875rem;
-  margin: 0.25rem 0.5rem;
-  border-radius: 0.75rem;
-  gap: 0;
-  width: auto;
-}
-
-.collapsed .sidebarFooter {
-  padding: 1rem 0.25rem;
-}
-
-/* Logo container */
-.logoContainer {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 1;
-  /* Enhanced smooth logo container transitions */
-  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Hide logo when collapsed */
-.collapsed .logoContainer {
+.collapsed .sidebarLabel {
   opacity: 0;
   width: 0;
-  overflow: hidden;
   pointer-events: none;
+  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Logo image */
-.logo {
-  height: 28px;
-  width: auto;
-  max-width: 120px;
-  object-fit: contain;
-  /* ONLY layout transitions */
-  transition: transform var(--transition-slow, 0.3s ease),
-              opacity var(--transition-slow, 0.3s ease);
-}
-
-/* Company name */
-.companyName {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--sidebar-text);
-  white-space: nowrap;
-  transition: opacity 0.3s ease;
-}
-
-.collapsed .companyName {
-  opacity: 0;
-  width: 0;
-}
-
-/* Toggle button */
-.toggleButton {
-  background: none;
-  border: none;
-  color: var(--sidebar-text);
-  cursor: pointer;
-  padding: 0.375rem;
-  border-radius: var(--radius-sm, 0.375rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.7;
-  min-width: 2rem;
-  min-height: 2rem;
-  /* Enhanced smooth toggle button transitions */
-  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.toggleButton:hover {
-  opacity: 1;
-  background: var(--sidebar-hover);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* Make toggle button more prominent when collapsed */
-.collapsed .toggleButton {
-  opacity: 1;
-  background: var(--sidebar-hover);
-  border: 1px solid var(--border-color);
-}
-
-.collapsed .toggleButton:hover {
-  background: var(--sidebar-hover);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-}
-
-/* Toggle icon */
-.toggleIcon {
+/* Chevron icons */
+.chevron {
   width: 1rem;
   height: 1rem;
-  transition: transform 0.3s ease;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
 }
 
-/* Enhanced chevron rotation with smooth transition */
-.rotated {
-  transform: rotate(180deg);
+.chevron.rotated {
+  transform: rotate(90deg);
 }
 
-/* Add smooth rotation for when button is clicked */
-.sidebarLink[aria-expanded="true"] .chevron {
-  transform: rotate(180deg);
-  color: var(--sidebar-active-text, #2563eb);
+.collapsed .chevron {
+  opacity: 0;
+  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Enhanced dropdown button state */
-.sidebarLink[aria-expanded="true"] {
-  background: var(--sidebar-hover);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* Submenu/Dropdown styles */
+/* ===== SUBMENU ANIMATIONS ===== */
 .submenu {
   margin-left: 0.5rem;
   margin-top: 0.125rem;
@@ -419,15 +301,24 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  /* Perfect smooth dropdown transitions */
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: top;
-  will-change: height, opacity, transform;
+  will-change: max-height, opacity, transform;
 }
 
-/* Submenu closed state */
-.submenu.closed {
+.submenu.open {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.submenu.closing {
   max-height: 0;
   opacity: 0;
   transform: translateY(-10px);
@@ -435,30 +326,12 @@
   margin-bottom: 0;
 }
 
-/* Add closing animation for submenu */
-.submenu.closing {
-  animation: slideOutSubmenu 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes slideOutSubmenu {
-  from {
-    max-height: 1000px;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-}
-
 .submenuLink {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 1rem;
-  margin: 0;
+  margin: 0.125rem 0;
   border-radius: 0.375rem;
   color: var(--sidebar-text);
   text-decoration: none;
@@ -466,17 +339,24 @@
   font-weight: 400;
   cursor: pointer;
   overflow: hidden;
-  /* visuals only; animation is defined once at the end */
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateX(-15px);
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Staggered animation for submenu items */
+.submenu.open .submenuLink {
+  animation: slideInSubmenu 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.submenu.open .submenuLink:nth-child(1) { animation-delay: 0.05s; }
+.submenu.open .submenuLink:nth-child(2) { animation-delay: 0.1s; }
+.submenu.open .submenuLink:nth-child(3) { animation-delay: 0.15s; }
+.submenu.open .submenuLink:nth-child(4) { animation-delay: 0.2s; }
+
 @keyframes slideInSubmenu {
   from {
     opacity: 0;
-    transform: translateX(-8px);
+    transform: translateX(-15px);
   }
   to {
     opacity: 1;
@@ -484,70 +364,40 @@
   }
 }
 
-/* Add delay for staggered submenu effect */
-.submenuLink:nth-child(1) { animation-delay: 0.1s; }
-.submenuLink:nth-child(2) { animation-delay: 0.15s; }
-.submenuLink:nth-child(3) { animation-delay: 0.2s; }
-.submenuLink:nth-child(4) { animation-delay: 0.25s; }
-
-.submenuLink {
-  color: var(--sidebar-text);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 400;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-/* Text spans in submenu links */
-.submenuLink span {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .submenuLink:hover {
   background: var(--sidebar-hover);
-  color: var(--sidebar-text);
+  transform: translateX(4px);
 }
 
 .submenuLink.active {
   background: var(--sidebar-active);
   color: var(--sidebar-active-text);
-  font-weight: 500;
 }
 
 .submenuIcon {
   width: 1rem;
   height: 1rem;
-  min-width: 1rem;
-  opacity: 0.8;
+  flex-shrink: 0;
 }
 
-.submenuLink:hover .submenuIcon {
-  opacity: 1;
+/* ===== SIDEBAR FOOTER ===== */
+.sidebarFooter {
+  position: relative;
+  padding: 0.5rem 0.75rem 0.75rem;
+  overflow: visible; /* Allow dropdown to escape */
+  z-index: 1010;
+  transition: padding 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.submenuLabel {
-  white-space: nowrap;
-  font-size: 0.875rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
+.collapsed .sidebarFooter {
+  padding: 0.5rem 0.25rem 0.75rem;
 }
 
-/* Profile button and dropdown in footer */
-.footerRoot {
+/* Profile container */
+.profileContainer {
+  overflow: visible; /* Allow dropdown to escape */
   position: relative;
   width: 100%;
-  padding: 0.5rem 0 0 0;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
 }
 
 .profileBtn {
@@ -558,31 +408,50 @@
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-lg, 0.75rem);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
   gap: 0.75rem;
-  /* Enhanced smooth profile button transitions */
-  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.collapsed .profileBtn {
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.25rem;
+  margin: 0.25rem auto;
+  gap: 0;
 }
 
 .profileBtn:hover,
-.profileBtn[aria-expanded="true"] {
+.profileBtn.profileBtnOpen {
   background: var(--sidebar-hover);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.collapsed .profileBtn:hover {
+  transform: scale(1.05);
 }
 
 .avatar {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   background: #e6edfe;
   color: #2563eb;
   border-radius: 50%;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.collapsed .avatar {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.75rem;
 }
 
 .profileInfo {
@@ -591,137 +460,107 @@
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
+  transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s,
+              width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.collapsed .profileInfo {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .profileName {
   font-size: 1rem;
   font-weight: 600;
-  color: #223a8c;
+  color: var(--sidebar-text);
   line-height: 1.1;
 }
 
 .profileRole {
-  font-size: 0.85rem;
-  color: #6b7280;
+  font-size: 0.75rem;
+  color: var(--text-muted);
   margin-top: 0.1rem;
 }
 
-.dropdown {
-  position: absolute;
-  left: 0;
-  bottom: 3.5rem;
-  width: 100%;
-  background: var(--dropdown-bg, #fff);
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.15);
-  padding: 0.75rem 0;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--dropdown-border, rgba(226, 232, 240, 0.8));
-  /* Enhanced smooth dropdown animation */
-  animation: slideUpFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ===== PROFILE DROPDOWN ===== */
+.profileDropdown {
+  position: fixed !important;
+  z-index: 99999 !important;
+  min-width: 160px;
+  border-radius: 8px;
+  border: 1px solid var(--sidebar-border);
+  background: var(--sidebar-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.95);
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: bottom center;
 }
 
-/* Enhanced smooth dropdown animations */
-@keyframes slideUpFadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(12px) scale(0.95);
-    filter: blur(1px);
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0) scale(1);
-    filter: blur(0px);
-  }
+.profileDropdown.opening {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
 }
 
-/* Ultra-smooth profile dropdown animation - FORCED */
-@keyframes profileDropdownSlideUp {
-  0% { 
-    opacity: 0 !important; 
-    transform: translateY(20px) scale(0.9) !important;
-  }
-  25% {
-    opacity: 0.3 !important;
-    transform: translateY(12px) scale(0.95) !important;
-  }
-  50% {
-    opacity: 0.7 !important;
-    transform: translateY(6px) scale(0.98) !important;
-  }
-  75% {
-    opacity: 0.9 !important;
-    transform: translateY(2px) scale(1.01) !important;
-  }
-  100% { 
-    opacity: 1 !important; 
-    transform: translateY(0) scale(1) !important;
-  }
+.profileDropdown.closing {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(10px) scale(0.95) !important;
 }
 
-/* Legacy animation for backwards compatibility */
-@keyframes fadeInUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(8px);
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0);
-  }
+/* Positioning classes - make sure they don't override the JS positioning */
+.profileDropdownRight {
+  /* Let JavaScript handle positioning for collapsed state */
+  transform-origin: left bottom !important;
 }
 
-.dropdownItem {
-  display: flex;
+.profileDropdownUp {
+  /* Let JavaScript handle positioning for expanded state */
+  transform-origin: center bottom !important;
+}
+
+/* Ensure dropdown items work properly */
+.dropdownItem,
+.logoutDropdownItem {
+  display: flex !important;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   width: 100%;
   background: none;
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 0.75rem 1.25rem;
+  padding: 0.75rem 1rem;
   font-size: 0.875rem;
   color: var(--sidebar-text);
-  border-radius: 0.5rem;
-  /* Ultra-smooth dropdown item transitions */
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   text-align: left;
-  transform-origin: left center;
-  /* First item animation - forced */
-  animation: dropdownItemSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards !important;
-  animation-delay: 0.1s !important;
-  /* Hardware acceleration */
-  will-change: transform, opacity, background-color;
-  /* Ensure item is visible by default, animation enhances */
-  opacity: 1 !important;
-  transform: translateY(0) scale(1) !important;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
 }
 
-/* Smooth dropdown item animation - optimized for 2 items - FORCED */
+.profileDropdownItem {
+  animation: dropdownItemSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s forwards;
+}
+
+.logoutDropdownItemSecond {
+  animation: dropdownItemSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s forwards;
+}
+
 @keyframes dropdownItemSlideIn {
-  0% {
-    opacity: 0 !important;
-    transform: translateY(8px) scale(0.95) !important;
-  }
-  60% {
-    opacity: 0.8 !important;
-    transform: translateY(2px) scale(0.99) !important;
-  }
-  100% {
-    opacity: 1 !important;
-    transform: translateY(0) scale(1) !important;
-  }
-}
-
-/* Staggered animation for dropdown items */
-@keyframes fadeInStagger {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -729,583 +568,10 @@
   }
 }
 
-.dropdownItem:hover {
+.dropdownItem:hover,
+.logoutDropdownItem:hover {
   background: var(--sidebar-hover);
-  color: var(--sidebar-text);
-  transform: translateX(6px) scale(1.03);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  border-left: 3px solid var(--accent-color, #3b82f6);
-  padding-left: 1.5rem;
-}
-
-.dropdownIcon {
-  width: 1.1rem;
-  height: 1.1rem;
-  color: var(--sidebar-text);
-  opacity: 0.8;
-  /* Ultra-smooth icon transitions */
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform-origin: center;
-  /* Hardware acceleration */
-  will-change: transform, opacity;
-}
-
-.dropdownItem:hover .dropdownIcon {
-  opacity: 1;
-  transform: scale(1.15) rotate(5deg);
-  color: var(--accent-color, #3b82f6);
-}
-
-/* Logout dropdown icon gets red color on hover */
-.logoutDropdownItem:hover .dropdownIcon {
-  opacity: 1;
-  transform: scale(1.15) rotate(-5deg);
-  color: #ffffff;
-  filter: brightness(1.2);
-}
-
-/* DEBUGGING: Test animation to verify CSS is working */
-@keyframes testPulse {
-  0% { background-color: red; }
-  50% { background-color: blue; }
-  100% { background-color: transparent; }
-}
-
-/* Debugging test - remove after confirming animations work */
-.profileDropdown {
-  position: absolute;
-  bottom: 100%; /* Position above the profile button */
-  left: 0;
-  right: 0;
-  margin-bottom: 0.5rem; /* Space between dropdown and button */
-  background: var(--sidebar-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 0.75rem;
-  box-shadow: 0 -4px 24px rgba(30,41,59,0.15); /* Shadow going upward */
-  padding: 0.5rem 0;
-  z-index: 1002;
-  display: flex;
-  flex-direction: column;
-  animation: profileDropdownSlideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
-  min-width: 200px;
-  /* Hardware acceleration for smooth transitions */
-  will-change: transform, opacity;
-  transform-origin: bottom center;
-  /* Ensure dropdown is visible by default, animation enhances */
-  opacity: 1 !important;
-  transform: translateY(0) scale(1) !important;
-}
-
-.logoutDropdownItem {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  background: var(--color-danger);
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.875rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
-  /* Ultra-smooth logout button transitions */
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-  margin-top: 0.25rem;
-  text-align: left;
-  /* Second item animation - staggered after profile - forced */
-  animation: dropdownItemSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards !important;
-  animation-delay: 0.2s !important;
-  /* Hardware acceleration */
-  will-change: transform, opacity, background-color;
-  /* Ensure item is visible by default, animation enhances */
-  opacity: 1 !important;
-  transform: translateY(0) scale(1) !important;
-}
-
-.logoutDropdownItem:hover {
-  background: #b91c1c;
-  color: #ffffff;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);
-}
-
-/* Profile dropdown positioning for collapsed sidebar */
-.collapsed .profileDropdown {
-  left: -0.5rem; /* Position for icon-only dropdown */
-  min-width: 50px; /* Minimal width for logout icon only */
-  padding: 0.25rem; /* Reduced padding for compact look */
-  background: transparent; /* Remove dropdown background */
-  box-shadow: none; /* Remove shadow for clean icon look */
-  border: none; /* Remove any borders */
-}
-
-/* Hide profile/settings dropdown item when collapsed - only show logout */
-.collapsed .dropdownItem {
-  display: none; /* Hide the profile/settings option completely */
-}
-
-/* Show only logout icon in collapsed state - no button styling */
-.collapsed .logoutDropdownItem {
-  display: flex;
-  justify-content: center; /* Center the logout icon */
-  align-items: center;
-  padding: 0.5rem; /* Minimal padding */
-  margin: 0; /* Remove margins */
-  background: transparent; /* Remove button background */
-  border: none; /* Remove button border */
-  border-radius: 0; /* Remove border radius */
-  min-width: auto; /* Auto width */
-  gap: 0; /* No gap since no text */
-  box-shadow: none; /* Remove any shadow */
-}
-
-.collapsed .logoutDropdownItem:hover {
-  background: transparent; /* Keep transparent on hover */
-  transform: none; /* Remove transform effects */
-}
-
-/* Hide logout text, keep only icon when collapsed */
-.collapsed .logoutDropdownItem span:not(.dropdownIcon) {
-  display: none; /* Hide "Logout" text */
-}
-
-/* Clean logout icon styling when collapsed */
-.collapsed .logoutDropdownItem .dropdownIcon {
-  width: 1.5rem; /* Slightly larger clean icon */
-  height: 1.5rem;
-  color: #dc2626; /* Red color for logout icon */
-  cursor: pointer; /* Show it's clickable */
-  transition: all 0.2s ease; /* Smooth transitions */
-}
-
-.collapsed .logoutDropdownItem .dropdownIcon:hover {
-  color: #b91c1c; /* Darker red on hover */
-  transform: scale(1.1); /* Slight scale on hover */
-}
-
-/* Collapsed profile footer - only show avatar/profile pic */
-.collapsed .profileInfo {
-  display: none; /* Hide name and role text */
-}
-
-.collapsed .profileBtn .chevron {
-  display: none; /* Hide chevron when collapsed */
-}
-
-.collapsed .profileBtn {
-  justify-content: center; /* Center the avatar */
-  padding: 0.75rem; /* Clean, balanced padding */
-  margin: 0.25rem 0.5rem; /* Match other collapsed button margins */
-  gap: 0; /* Remove gap since only avatar is visible */
-  border-radius: 0.75rem; /* Consistent border radius */
-  transition: all 0.2s ease; /* Smooth transitions */
-}
-
-.collapsed .profileBtn:hover {
-  background: var(--sidebar-hover, #f3f4f6); /* Clean hover state */
-  transform: translateY(-1px); /* Subtle lift effect */
-}
-
-.collapsed .avatar {
-  margin: 0; /* Remove any margins when centered */
-  width: 2.25rem; /* Slightly smaller for cleaner look */
-  height: 2.25rem; /* Maintain aspect ratio */
-  border-radius: 50%; /* Perfect circle */
-  flex-shrink: 0; /* Prevent shrinking */
-  background: linear-gradient(135deg, #e6edfe 0%, #dbeafe 100%); /* Subtle gradient */
-  color: #2563eb; /* Clean text color */
-  font-weight: 600; /* Clean font weight */
-  font-size: 1rem; /* Balanced font size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15); /* Clean shadow with brand color */
-  border: 2px solid rgba(37, 99, 235, 0.1); /* Subtle border for definition */
-  transition: all 0.2s ease; /* Smooth transitions */
-}
-
-.collapsed .avatar:hover {
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); /* Enhanced shadow on hover */
-}
-
-/* Mobile responsive styles - Ultra clean and modern */
-@media (max-width: 799px) {
-  .sidebar {
-    width: 300px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: var(--mobile-sidebar-background, #ffffff);
-    border-right: 1px solid var(--mobile-sidebar-border, #e2e8f0);
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1); /* Clean elevation */
-  }
-
-  .sidebarHeader {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--mobile-sidebar-header-border, #f1f5f9);
-    background: var(--mobile-sidebar-header-background, #fafbfc);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 4rem; /* Match header height */
-  }
-
-  .toggleButton {
-    display: none; /* Clean mobile design */
-  }
-
-  .mobileCloseButton {
-    background: transparent;
-    border: none;
-    padding: 0.75rem;
-    cursor: pointer;
-    color: var(--mobile-close-icon, #64748b);
-    border-radius: 12px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 44px;
-    min-height: 44px;
-    outline: none;
-  }
-
-  .mobileCloseButton:hover {
-    background: var(--mobile-close-hover, #f1f5f9);
-    color: var(--mobile-close-hover-color, #334155);
-    transform: scale(1.05);
-  }
-
-  .mobileCloseButton:active {
-    transform: scale(0.95);
-    background: var(--mobile-close-active, #e2e8f0);
-  }
-
-  .closeIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-    stroke-width: 2;
-  }
-
-  .sidebarNav {
-    padding: 1.5rem; /* Clean spacing */
-    height: calc(100vh - 160px); /* Account for header and footer */
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .sidebarNav::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .sidebarNav::-webkit-scrollbar-thumb {
-    background: var(--mobile-scrollbar-thumb, #cbd5e0);
-    border-radius: 2px;
-  }
-
-  .sidebarNav::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .sidebarLink {
-    padding: 1.25rem 1rem; /* Optimal touch targets */
-    font-size: 1rem;
-    border-radius: 12px; /* Modern rounded corners */
-    min-height: 56px; /* Generous touch target */
-    margin-bottom: 0.25rem; /* Clean separation */
-    background: transparent;
-    color: var(--mobile-sidebar-text, #475569);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .sidebarLink:hover {
-    background: var(--mobile-sidebar-hover, #f8fafc);
-    color: var(--mobile-sidebar-hover-text, #334155);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .sidebarLink.active {
-    background: var(--mobile-sidebar-active, #3b82f6);
-    color: var(--mobile-sidebar-active-text, #ffffff);
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-  }
-
-  .sidebarIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-    flex-shrink: 0;
-    margin-right: 1rem; /* Clean icon spacing */
-  }
-
-  .submenu {
-    margin-left: 0; /* Clean alignment */
-    padding-left: 0;
-    margin-top: 0.5rem;
-    border-left: 2px solid var(--mobile-submenu-border, #e2e8f0);
-    margin-left: 1rem;
-    padding-left: 1rem;
-  }
-
-  .submenuLink {
-    padding: 1rem 0.75rem; /* Clean submenu spacing */
-    min-height: 48px;
-    font-size: 0.95rem;
-    color: var(--mobile-submenu-text, #64748b);
-    border-radius: 10px;
-    margin-bottom: 0.25rem;
-    transition: all 0.2s ease;
-  }
-
-  .submenuLink:hover {
-    background: var(--mobile-submenu-hover, #f1f5f9);
-    color: var(--mobile-submenu-hover-text, #475569);
-    transform: translateX(1px);
-  }
-
-  .submenuLink.active {
-    background: var(--mobile-submenu-active, #dbeafe);
-    color: var(--mobile-submenu-active-text, #1d4ed8);
-  }
-
-  .sidebarFooter {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem;
-    background: var(--mobile-sidebar-footer, #fafbfc);
-    border-top: 1px solid var(--mobile-sidebar-footer-border, #f1f5f9);
-    -webkit-backdrop-filter: blur(8px); /* Safari/iOS support */
-    backdrop-filter: blur(8px); /* Modern glass effect */
-  }
-
-  .profileDropdown {
-    bottom: 100%;
-    left: 0;
-    right: 0;
-    margin-bottom: 0.5rem;
-    min-width: 240px;
-  }
-
-  /* Mobile specific collapsed styles are not used */
-  .collapsed .sidebarNav {
-    padding: 1rem;
-  }
-
-  .collapsed .sidebarLink {
-    justify-content: flex-start;
-    padding: 1rem;
-  }
-
-  .collapsed .sidebarLink span {
-    display: block;
-  }
-
-  .collapsed .chevron {
-    display: block;
-  }
-}
-
-/* Tablet responsive styles - Clean and balanced */
-@media (min-width: 800px) and (max-width: 1024px) {
-  .sidebar {
-    width: 16rem; /* Balanced width for tablets */
-    background: var(--tablet-sidebar-background, #ffffff);
-    border-right: 1px solid var(--tablet-sidebar-border, #e2e8f0);
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
-  }
-
-  .sidebarHeader {
-    padding: 1.25rem;
-    border-bottom: 1px solid var(--tablet-sidebar-header-border, #f1f5f9);
-  }
-
-  .sidebarNav {
-    padding: 1.25rem;
-  }
-
-  .sidebarItem {
-    padding: 0.875rem 1rem;
-  }
-
-  .sidebarLink {
-    padding: 1rem;
-    border-radius: 10px;
-    min-height: 48px;
-  }
-
-  .profileSection {
-    padding: 1rem;
-  }
-
-  .profileInfo h3 {
-    font-size: 0.9rem;
-  }
-
-  .profileInfo p {
-    font-size: 0.8rem;
-  }
-}
-
-/* Mobile responsive transitions for sidebar opening/closing */
-@media (max-width: 800px) {
-  .sidebar {
-    /* Enhanced mobile transitions with transform-based animations */
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.35s;
-  }
-
-  .sidebar.collapsed {
-    transform: translateX(-100%);
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  .sidebar:not(.collapsed) {
-    transform: translateX(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  /* Mobile backdrop animation for overlay effect */
-  .sidebar::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-  }
-
-  .sidebar:not(.collapsed)::before {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-/* Enhanced accessibility - Respect user motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .sidebar,
-  .sidebarHeader,
-  .logoContainer,
-  .sidebarTitle,
-  .toggleButton,
-  .sidebarLink,
-  .logo,
-  .companyName {
-    transition: none !important;
-    animation: none !important;
-  }
-  
-  .toggleButton:hover,
-  .collapsed .toggleButton:hover {
-    transform: none !important;
-  }
-  
-  .sidebarLink:hover {
-    transform: none !important;
-  }
-}
-
-/* Footer root ensures dropdown can float */
-.sidebarFooter {
-  position: relative;
-  padding: 0.25rem 0.5rem 0.75rem;
-  overflow: visible;
-  z-index: 1010;
-}
-
-/* Container for profile button + dropdown */
-.profileContainer {
-  position: relative;
-}
-
-/* Profile button (already exists) - keep your current styles */
-
-/* Dropdown base */
-.profileDropdown {
-  position: absolute;
-  z-index: 1500;
-  min-width: 200px;
-  border-radius: 10px;
-  border: 1px solid var(--sidebar-border, #334155);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)) padding-box,
-    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)) border-box;
-  box-shadow: 0 12px 28px rgba(0,0,0,.24), 0 2px 8px rgba(0,0,0,.18);
-  -webkit-backdrop-filter: saturate(1.1) blur(6px);
-  -webkit-backdrop-filter: saturate(1.1) blur(6px);
-  backdrop-filter: saturate(1.1) blur(6px);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(6px) scale(.98);
-  transform-origin: bottom center;
-  animation: dropdownIn 160ms cubic-bezier(.22,1,.36,1) forwards;
-}
-
-/* Expanded state: drop UP above button */
-.profileDropdownUp {
-  left: 0;
-  right: 0;
-  bottom: calc(100% + 8px);
-}
-
-/* Collapsed state: slide RIGHT of rail */
-.profileDropdownRight {
-  left: calc(100% + 8px);
-  bottom: 0;
-  transform: translateX(8px) scale(.98);
-  transform-origin: center left;
-  animation: dropdownInRight 160ms cubic-bezier(.22,1,.36,1) forwards;
-}
-
-/* Items */
-.dropdownItem,
-.logoutDropdownItem {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  width: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 0.7rem 0.9rem;
-  font-size: 0.9rem;
-  color: var(--sidebar-text, #e2e8f0);
-  transition: background-color 140ms ease, color 140ms ease, transform 140ms ease;
-}
-
-.dropdownItem:hover {
-  background: var(--sidebar-hover, #232e41);
-}
-
-.dropdownDivider {
-  height: 1px;
-  background: var(--sidebar-border, #334155);
-  margin: 0.25rem 0;
-}
-
-.logoutDropdownItem {
-  color: #ffffff;
-  background: var(--color-danger, #dc2626);
-  border-radius: 0;
-}
-
-.logoutDropdownItem:hover {
-  background: #b91c1c;
-  transform: translateY(-2px) scale(1.02);
+  transform: translateX(4px);
 }
 
 .dropdownIcon {
@@ -1314,55 +580,112 @@
   flex-shrink: 0;
 }
 
-/* Animations */
-@keyframes dropdownIn {
-  from { opacity: 0; transform: translateY(8px) scale(.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+.dropdownDivider {
+  height: 1px;
+  background: var(--border-color, rgba(0, 0, 0, 0.1));
+  margin: 0.25rem 0;
 }
 
-@keyframes dropdownInRight {
-  from { opacity: 0; transform: translateX(8px) scale(.98); }
-  to   { opacity: 1; transform: translateX(0) scale(1); }
+/* ===== MOBILE STYLES ===== */
+@media (max-width: 799px) {
+  .sidebar {
+    width: 320px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebarHeader {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .mobileCloseButton {
+    background: transparent;
+    border: none;
+    padding: 0.75rem;
+    cursor: pointer;
+    color: var(--sidebar-text);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .mobileCloseButton:hover {
+    background: var(--sidebar-hover);
+    transform: scale(1.05);
+  }
+
+  .closeIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .sidebarNav {
+    padding: 1.5rem;
+    height: calc(100vh - 160px);
+  }
+
+  .sidebarLink {
+    padding: 1.25rem 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    min-height: 56px;
+  }
+
+  .sidebarIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
 
-/* Light theme polish */
-:root[data-theme="light"] .profileDropdown {
-  border-color: rgba(2,6,23,.10);
-  box-shadow: 0 10px 28px rgba(2,6,23,.12), 0 2px 6px rgba(2,6,23,.08);
-  color: #0f172a;
+/* ===== DARK THEME OVERRIDES ===== */
+[data-theme="dark"] .avatar {
+  background: #1e3a8a;
+  color: #bfdbfe;
 }
 
-/* ============ Submenu item animation (consolidated) ============ */
-.submenu .submenuLink {
-  opacity: 0;
-  transform: translateX(-8px);
-  animation: submenuItemIn 260ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  will-change: transform, opacity;
-}
-
-/* Stagger 1–16 */
-.submenu .submenuLink:nth-child(1)  { animation-delay: 40ms; }
-.submenu .submenuLink:nth-child(2)  { animation-delay: 80ms; }
-.submenu .submenuLink:nth-child(3)  { animation-delay: 120ms; }
-.submenu .submenuLink:nth-child(4)  { animation-delay: 160ms; }
-.submenu .submenuLink:nth-child(5)  { animation-delay: 200ms; }
-.submenu .submenuLink:nth-child(6)  { animation-delay: 240ms; }
-.submenu .submenuLink:nth-child(7)  { animation-delay: 280ms; }
-.submenu .submenuLink:nth-child(8)  { animation-delay: 320ms; }
-.submenu .submenuLink:nth-child(9)  { animation-delay: 360ms; }
-.submenu .submenuLink:nth-child(10) { animation-delay: 400ms; }
-.submenu .submenuLink:nth-child(11) { animation-delay: 440ms; }
-.submenu .submenuLink:nth-child(12) { animation-delay: 480ms; }
-.submenu .submenuLink:nth-child(13) { animation-delay: 520ms; }
-.submenu .submenuLink:nth-child(14) { animation-delay: 560ms; }
-.submenu .submenuLink:nth-child(15) { animation-delay: 600ms; }
-.submenu .submenuLink:nth-child(16) { animation-delay: 640ms; }
-
-@keyframes submenuItemIn {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
+/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
-  .submenu .submenuLink { animation: none !important; opacity: 1; transform: none; }
+  .sidebar,
+  .sidebarHeader,
+  .logoContainer,
+  .sidebarLink,
+  .sidebarLabel,
+  .chevron,
+  .submenu,
+  .submenuLink,
+  .profileBtn,
+  .profileInfo,
+  .profileDropdown,
+  .toggleButton,
+  .toggleIcon {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .collapsed .logoContainer,
+  .collapsed .sidebarLabel,
+  .collapsed .profileInfo {
+    display: none;
+  }
+}
+
+/* ===== HARDWARE ACCELERATION ===== */
+.sidebar,
+.sidebarHeader,
+.logoContainer,
+.sidebarLink,
+.submenu,
+.profileDropdown {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
