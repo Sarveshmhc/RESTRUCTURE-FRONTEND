@@ -1,106 +1,162 @@
-.backButton {
-  /* Sizing via CSS vars so you can override from the component style prop if needed */
-  --btn-size: 44px;         /* square button size */
-  --scale: 0.76;            /* inner drawing scale (based on original 58px artboard height) */
+/* === GLOBAL COLOR VARIABLES === */
+:root {
+  /* Base brand colors (Violet theme core) */
+  --primary: #1D2671; /* Deep indigo-violet */
+  --secondary: #C33764; /* Warm magenta tone (for gradients/accent) */
 
-  appearance: none;
-  width: var(--btn-size);
-  height: var(--btn-size);
-  border-radius: 12px;
-  border: 1px solid var(--sidebar-border, #e2e8f0);
-  background: rgba(120,130,150,0.08);
-  color: var(--sidebar-text, #1e293b);
+  /* Supporting neutral tones */
+  --color-cream-100: #FAF6F0;
+  --color-cream-200: #F4DFC8;
+  --color-cream-300: #F4EAE0;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  outline: none;
+  /* Brand accent */
+  --color-voilet: #7C3AED; /* Violet accent */
+  --color-voilent: var(--color-voilet);
 
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.12s ease-out;
+  /* Backgrounds */
+  --bg: #ffffff;
+  --bg-secondary: #F9FAFB;
+  --color-main: #ffffff;
+
+  /* Text */
+  --text: #111827; /* Neutral dark text */
+
+  /* Header - always same background as main content */
+  --header-bg: var(--color-main);
+  --header-text: var(--text);
+  --header-border: var(--color-cream-300);
+  --header-hover: var(--color-cream-100);
+
+  /* Sidebar - LIGHT MODE */
+  --sidebar-bg: linear-gradient(180deg, #ffffff 0%, #F9FAFB 100%);
+  --sidebar-text: #111827;
+  --sidebar-hover: #F3F4F6;
+  --sidebar-hover-text: #111827;
+  --sidebar-active: #E0E7FF;           /* Soft violet tint */
+  --sidebar-active-text: #1D2671;
+  --sidebar-border: #E5E7EB;
+  --sidebar-active-outline: #C7D2FE;
+  --sidebar-header-bg: #ffffff;
+
+  /* Accents */
+  --color-primary: var(--color-voilet);
+  --color-primary-dark: #5B21B6;
+
+  /* Shadows & transitions */
+  --shadow: rgba(0, 0, 0, 0.1);
+  --radius-md: 0.5rem;
+  --radius-button: var(--radius-md);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Font */
+  --font-primary: "Inter", "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
 }
 
-.backButton:hover {
-  background: var(--sidebar-hover, #f1f5f9);
-  border-color: var(--color-primary, #3b82f6);
+/* === DARK MODE (Matching Violet UI Design) === */
+.dark {
+  --color-main: #0F0C29; /* Deep indigo-black base */
+  --bg: #0F0C29;
+  --text: #EDE9FE; /* Light lavender text */
+
+  /* Header - always same background as main content */
+  --header-bg: var(--color-main);
+  --header-text: var(--text);
+  --header-hover: #2A1F58;
+  --header-border: #322867;
+
+  /* Sidebar */
+  --sidebar-bg: linear-gradient(180deg, #1D2671 0%, #C33764 100%); /* Signature gradient */
+  --sidebar-text: #EDE9FE;
+  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-hover-text: #FFFFFF;
+  --sidebar-active: #7C3AED;     /* Violet active button */
+  --sidebar-active-text: #FFFFFF;
+  --sidebar-border: transparent;
+  --sidebar-header-bg: transparent;
+
+  /* Accents */
+  --color-voilet: #A78BFA;
+  --color-hover: rgba(255, 255, 255, 0.1);
+  --color-primary: #C4B5FD;
+  --color-primary-dark: #7C3AED;
+
+  /* Shadows */
+  --shadow: rgba(0, 0, 0, 0.4);
 }
 
-.backButton:active {
-  transform: scale(0.98);
+/* === GLOBAL RESETS & STYLES (unchanged) === */
+body.theme-switching * {
+  transition: none !important;
 }
 
-.backButton:focus-visible {
-  box-shadow: 0 0 0 3px var(--color-primary-light, rgba(59,130,246,0.25));
+*:not(.no-transition) {
+  transition-property: transform, opacity, width, height, padding, margin, left, right, top, bottom;
+  transition-duration: var(--transition-normal);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Inner drawing board using your original dimensions scaled down */
-.lines {
-  position: relative;
-  width: calc(70px * var(--scale));
-  height: calc(58px * var(--scale));
-  pointer-events: none; /* keep events on button */
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-dark); }
+
+/* Focus ring */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
-/* The three lines from your original snippet */
-.line {
-  position: absolute;
-  left: 0;
-  width: calc(70px * var(--scale));
-  height: calc(6px * var(--scale));
-  border-radius: 6px;
-  background-color: currentColor;
-  transition: transform 0.3s ease, width 0.3s ease, border-radius 0.3s ease, opacity 0.2s ease;
-  will-change: transform, width;
+/* Typography, body, and layout */
+html, body, #root {
+  font-family: var(--font-primary);
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
 }
 
-/* Original vertical spacing (scaled) */
-.line1 { top: 0; }
-.line2 { top: calc(18px * var(--scale)); }
-.line3 { top: calc(36px * var(--scale)); }
+html, body { height: 100%; }
+#root { min-height: 100vh; }
+body { overflow-x: hidden; }
 
-/* Always render in "back" chevron state (pointing left) */
-.line1 {
-  /* rotate up-left arm */
-  transform-origin: left center;
-  transform: rotate(-35deg) scaleX(0.55) translate(calc(-39px * var(--scale)), calc(-4.5px * var(--scale)));
-  border-radius: 50px 0 0 50px;
+/* Buttons */
+button {
+  border-radius: var(--radius-button, var(--radius-md));
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  background-color: var(--bg-secondary);
+  color: var(--text);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
-
-.line3 {
-  /* rotate down-left arm */
-  transform-origin: left center;
-  transform: rotate(35deg) scaleX(0.55) translate(calc(-39px * var(--scale)), calc(4.5px * var(--scale)));
-  border-radius: 50px 0 0 50px;
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px var(--shadow);
 }
-
-.line2 {
-  /* shorten middle line to match arrow spine */
-  width: calc(45px * var(--scale));
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
-/* Optional pressed state (apply data-pressed="true" or .pressed class on button) */
-.backButton[data-pressed="true"] .line1,
-.pressed .line1 {
-  transform: rotate(-40deg) scaleX(0.5) translate(calc(-41px * var(--scale)), calc(-5px * var(--scale)));
+/* Sidebar link reset */
+.sidebar a,
+.sidebar a:hover,
+.sidebar a:focus,
+.sidebar a:active,
+.sidebar a:visited {
+  text-decoration: none !important;
 }
-.backButton[data-pressed="true"] .line3,
-.pressed .line3 {
-  transform: rotate(40deg) scaleX(0.5) translate(calc(-41px * var(--scale)), calc(5px * var(--scale)));
-}
-.backButton[data-pressed="true"] .line2,
-.pressed .line2 {
-  width: calc(42px * var(--scale));
+[class="sidebar"] a,
+[class="sidebar"] a:hover,
+[class="sidebar"] a:focus {
+  text-decoration: none !important;
 }
 
-/* Dark mode polish (uses your data-theme) */
-[data-theme="dark"] .backButton {
-  border-color: var(--sidebar-border, #334155);
-  background: rgba(255,255,255,0.06);
-  color: var(--sidebar-text, #e2e8f0);
-}
-[data-theme="dark"] .backButton:hover {
-  background: #232e41;
+/* Scope: main content area. Ensure all buttons inside use 16px rounding */
+.main-content {
+  --radius-button: 16px;
 }

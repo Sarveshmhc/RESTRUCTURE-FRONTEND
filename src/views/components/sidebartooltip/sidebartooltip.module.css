@@ -45,6 +45,13 @@
   overflow-wrap: break-word;
 }
 
+/* Default tooltip background */
+.tip {
+  background: #222; /* or your default */
+  color: #fff;
+  /* ...other styles... */
+}
+
 /* Visible state */
 .tip.visible {
   opacity: 1;
@@ -56,7 +63,7 @@
   color: var(--st-text-dark);
   display: block;
   margin: 0;
-  font-size: 0.875rem; /* Increased from inherited to explicit larger size */
+  font-size: 0.92rem; /* Increased from inherited to explicit larger size */
 }
 
 /* Arrow styling - Slightly larger */
@@ -133,6 +140,20 @@
 [data-theme="dark"] .arrow {
   background: var(--st-bg-dark);
   border-color: var(--st-border-dark);
+}
+
+/* Dark mode: gray background */
+[data-theme="dark"] .tip,
+[data-theme="dark"] .tip.visible {
+  background: #2d2f36 !important; /* or any gray you prefer */
+  color: #fff !important;
+  border: 1px solid #444;
+}
+
+/* Optional: arrow color for dark mode */
+[data-theme="dark"] .arrow {
+  background: #2d2f36 !important;
+  border-color: #444 !important;
 }
 
 /* Responsive - hide on mobile */

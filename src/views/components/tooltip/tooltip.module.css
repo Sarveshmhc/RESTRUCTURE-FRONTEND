@@ -9,20 +9,25 @@
   display: inline-block;
 }
 
-/* Simple tooltip styles */
+/* Base tooltip styling - Blue like SidebarTooltip */
 .tooltip {
   position: absolute;
-  background: var(--tooltip-bg, #222);
-  color: var(--tooltip-text, #fff);
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 12px;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  padding: var(--tooltip-padding);
+  border-radius: var(--tooltip-radius);
+  font-size: var(--tooltip-font-size);
+  font-weight: 500;
   white-space: nowrap;
   z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+  border: none;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.18s cubic-bezier(.4,0,.2,1);
   pointer-events: none;
+  min-width: 0;
+  max-width: 220px;
 }
 
 .tooltip.show {
@@ -30,78 +35,65 @@
   visibility: visible;
 }
 
-/* Positioning for simple tooltips */
-.tooltip.top {
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-}
-
-.tooltip.top.show {
-  transform: translateX(-50%) translateY(0);
-}
-
-.tooltip.bottom {
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-4px);
-}
-
-.tooltip.bottom.show {
-  transform: translateX(-50%) translateY(0);
-}
-
-.tooltip.left {
-  right: calc(100% + 8px);
-  top: 50%;
-  transform: translateY(-50%) translateX(4px);
-}
-
-.tooltip.left.show {
-  transform: translateY(-50%) translateX(0);
-}
-
-.tooltip.right {
-  left: calc(100% + 8px);
-  top: 50%;
-  transform: translateY(-50%) translateX(-4px);
-}
-
-.tooltip.right.show {
-  transform: translateY(-50%) translateX(0);
-}
-
-/* Simple tooltip arrows */
-.arrow {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--tooltip-bg, #222);
-  transform: rotate(45deg);
-}
-
-.tooltip.top .arrow {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-}
-
-.tooltip.bottom .arrow {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-}
-
-.tooltip.left .arrow {
-  right: -3px;
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
-}
-
+/* Arrow (diamond) for right placement - vertically centered, closer to the tooltip */
 .tooltip.right .arrow {
-  left: -3px;
+  position: absolute;
+  left: -6px; /* closer to tooltip */
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
+  width: var(--tooltip-arrow-size);
+  height: var(--tooltip-arrow-size);
+  background: var(--tooltip-arrow-blue);
+  border: none;
+  z-index: 10000;
+}
+
+/* Arrow for left placement */
+.tooltip.left .arrow {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: var(--tooltip-arrow-size);
+  height: var(--tooltip-arrow-size);
+  background: var(--tooltip-arrow-blue);
+  border: none;
+  z-index: 10000;
+}
+
+/* Arrow for top placement */
+.tooltip.top .arrow {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%) rotate(45deg);
+  width: var(--tooltip-arrow-size);
+  height: var(--tooltip-arrow-size);
+  background: var(--tooltip-arrow-blue);
+  border: none;
+  z-index: 10000;
+}
+
+/* Arrow for bottom placement */
+.tooltip.bottom .arrow {
+  position: absolute;
+  left: 50%;
+  top: -5px; /* adjust as needed for overlap */
+  transform: translateX(-50%) rotate(45deg);
+  margin: 0;
+  width: var(--tooltip-arrow-size);
+  height: var(--tooltip-arrow-size);
+  background: var(--tooltip-arrow-blue);
+  border: none;
+  z-index: 10000;
+}
+
+/* For tooltips with placement="bottom" (below the icon) */
+.tooltip.bottom {
+  left: 50% !important;
+  top: calc(100% + 8px) !important; /* 8px below the icon/button */
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
 }
 
 /* Enhanced tooltip styles */
@@ -366,4 +358,14 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+}
+
+:root {
+  --tooltip-bg: #232325;
+  --tooltip-text: #fff;
+  --tooltip-radius: 8px;
+  --tooltip-arrow-blue: #2563eb;
+  --tooltip-arrow-size: 10px;   /* reduced from 14px */
+  --tooltip-padding: 5px 10px;  /* reduced padding */
+  --tooltip-font-size: 0.92rem; /* slightly smaller font */
 }

@@ -5,22 +5,37 @@
    - Grouped by area: Background, Text, Sidebar, Header, Search, Borders, Brand, Status, Utility
    ================================ */
 :root {
-  /* Font Family */
-  --font-primary: 'Inter', 'Roboto', 'Segoe UI', system-ui, sans-serif;
+  /* Primary gradient */
+  --primary-1: #023E8A;
+  --primary-2: #00B4D8;
+  --primary-gradient: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
+
+  /* Glass tokens */
+  --glass-bg: rgba(255,255,255,0.56);
+  --glass-bg-strong: rgba(255,255,255,0.68);
+  --glass-border: rgba(255,255,255,0.28);
+  --glass-shadow: 0 10px 30px rgba(2,6,23,0.08);
+
+  /* Accent */
+  --accent: #9D4EDD;
+  --accent-soft: rgba(157,78,221,0.08);
+
+  /* Typography */
+  --font-primary: 'Inter', 'Poppins', 'Helvetica Neue', sans-serif;
   
   /* --- Background Colors (Light) --- */
-  --bg:#253D2C;
-  --bg-secondary:#68BA7F;
+  --bg: #fff;
+  --bg-secondary:#f1f1f1;
   --bg-tertiary: #f1f5f9;
   
   /* --- Text Colors (Light) --- */
-  --text: #1e293b;
+  --text: #222;
   --text-secondary: #475569;
   --text-muted: #64748b;
   
   /* --- Sidebar Colors (Light) --- */
-  --sidebar-bg:#253D2C;
-  --sidebar-text: #1e293b;
+  --sidebar-bg: rgba(255,255,255,0.85);
+  --sidebar-text: #222;
   --sidebar-hover: #f1f5f9;
   --sidebar-active: #3b82f6;
   --sidebar-active-text: #ffffff;
@@ -29,8 +44,8 @@
   --sidebar-footer-bg: #ffffff;
   
   /* --- Header Colors (Light) --- */
-  --header-bg: #ffffff;
-  --header-text: #1e293b;
+  --header-bg: rgba(255,255,255,0.85);
+  --header-text: #222;
   --header-border: #e2e8f0;
   
   /* --- Search Colors (Light) --- */
@@ -77,6 +92,8 @@
   --shadow-lg: rgba(0, 0, 0, 0.15);
   --overlay: rgba(0, 0, 0, 0.5);
   --glass: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(18px);
+  --glass-border: 1.5px solid rgba(255,255,255,0.25);
   
   /* Spacing System */
   --spacing-xs: 0.25rem;
@@ -122,7 +139,7 @@
 .dark {
   color-scheme: dark;
   /* --- Background & Text (Dark) --- */
-  --bg: #0f172a;
+  --bg: #f5f5f5;
   --bg-secondary: #1e293b;
   --bg-tertiary: #334155;
   --text: #f1f5f9;
@@ -166,6 +183,83 @@
   --shadow: rgba(0, 0, 0, 0.3);
   --shadow-lg: rgba(0, 0, 0, 0.4);
   --overlay: rgba(0, 0, 0, 0.7);
+}
+
+/* Drapora POS tokens (Aqua glassmorphism) */
+:root {
+  --drapora-primary-1: #DDF5F2;
+  --drapora-primary-2: #0C736B;
+  --drapora-primary-gradient: linear-gradient(135deg, var(--drapora-primary-1) 0%, var(--drapora-primary-2) 100%);
+  --drapora-accent: #009688;
+  --drapora-text: #0A2E2B;
+  --drapora-bg: #F7FAFA;
+  --drapora-hover: rgba(12,115,107,0.1);
+
+  --glass-bg: rgba(255,255,255,0.5);
+  --glass-border: rgba(255,255,255,0.4);
+  --glass-blur: 12px;
+
+  --br: 1rem;
+  --shadow-soft: 0 4px 30px rgba(0,0,0,0.05);
+  --transition-md: all 0.3s ease;
+  --z-sidebar: 200;
+  --z-header: 180;
+
+  --font-system: "Inter", "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Segoe UI Emoji";
+}
+
+/* base */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+html, body {
+  font-family: var(--font-system);
+  background: linear-gradient(180deg, rgba(221,245,242,0.6), var(--drapora-bg));
+  color: var(--drapora-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  height: 100%;
+  transition: var(--transition-md);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reusable glass utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--br);
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-md);
+}
+
+.glass-card {
+  padding: 1rem;
+  border-radius: calc(var(--br) - 0.25rem);
+  background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.6));
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.08);
+}
+
+/* accent helpers */
+.btn-accent {
+  background: var(--drapora-accent);
+  color: #fff;
+  border-radius: 12px;
+  padding: .5rem .9rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.btn-accent:hover { background: color-mix(in srgb, var(--drapora-accent) 85%, white); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+
+:root {
+  --focus-color: var(--drapora-accent);
 }
 
 /* ===== GLOBAL RESETS ===== */
@@ -292,6 +386,67 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+/* --- Glassmorphism & Theme Tokens --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Primary gradient */
+  --primary-1: #023E8A;
+  --primary-2: #00B4D8;
+  --primary-gradient: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
+
+  /* Glass tokens */
+  --glass-bg: rgba(255,255,255,0.56);
+  --glass-bg-strong: rgba(255,255,255,0.68);
+  --glass-border: rgba(255,255,255,0.28);
+  --glass-shadow: 0 10px 30px rgba(2,6,23,0.08);
+
+  /* Accent */
+  --accent: #9D4EDD;
+  --accent-soft: rgba(157,78,221,0.08);
+
+  /* Typography */
+  --font-primary: 'Inter', system-ui, sans-serif;
+  --font-secondary: 'Poppins', system-ui, sans-serif;}
+
+/* Apply modern font globally */
+html, body {
+  font-family: var(--font-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reusable glass utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-card {
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.45));
+  border: 1px solid rgba(255,255,255,0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.22s cubic-bezier(0.2,0.9,0.2,1), box-shadow 0.22s;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.05);
+}
+.glass-card:hover { transform: translateY(-6px); box-shadow: 0 14px 40px rgba(2,6,23,0.10); }
+
+/* Accent helpers */
+.btn-gradient {
+  background: var(--primary-gradient);
+  color: #fff;
+  border-radius: 12px;
+  padding: .5rem .9rem;
+  border: none;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+}
+
 /* (No additional .dark blocks; consolidated above) */
 
 /* ===== ANIMATION KEYFRAMES ===== */
@@ -406,6 +561,22 @@ button:focus-visible {
 *[class*="sidebar"] a:hover,
 *[class*="sidebar"] a:focus {
   text-decoration: none !important;
+}
+
+/* Ensure header bar uses the exact same background token as the sidebar */
+.headerBar {
+  background: var(--sidebar-bg) !important;
+  border-bottom: 1px solid var(--sidebar-border);
+  color: var(--header-text);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Optional stronger override for header elements (icons / buttons) */
+.headerBar .iconToggle,
+.headerBar .headerRight .iconToggle {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
 

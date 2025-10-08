@@ -16,7 +16,7 @@
   color: #2563eb;
 }
 .toggle.dark {
-  background: #18181b;
+  background: #0808d1;
   color: #f3f4f6;
 }
 .toggleSwitch {
@@ -87,7 +87,7 @@
   left: 26px;
 }
 .toggleSwitch:focus .track {
-  box-shadow: 0 0 0 2px #2563eb33;
+  box-shadow: 0 0 0 2px #044be433;
 }
 .iconToggle {
   display: inline-flex;
@@ -217,20 +217,144 @@
   transition: opacity 0.2s;
 }
 
-/* Remove webkit tap highlights */
-.iconToggle {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
+/* Animated icon wrapper */
+.icons {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  display: inline-block;
+  overflow: visible;
 }
 
-/* Remove any global button styles that might be interfering */
-.iconToggle,
-.iconToggle:hover,
-.iconToggle:focus,
-.iconToggle:active {
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
+/* Base SVG positioning and transition */
+.icons svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%) translateY(0) scale(1);
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 280ms ease;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* Sun / Moon initial states */
+.sun { opacity: 1; }
+.moon { opacity: 0; transform: translate(-50%, -50%) translateY(10px) scale(0.85); }
+
+/* Light mode: sun visible, moon hidden / slightly lower */
+.light .sun { transform: translate(-50%, -50%) translateY(0) scale(1); opacity: 1; }
+.light .moon { transform: translate(-50%, -50%) translateY(10px) scale(0.85); opacity: 0; }
+
+/* Dark mode: moon visible, sun moves up (or down) and fades */
+.dark .sun { transform: translate(-50%, -50%) translateY(-10px) scale(0.85); opacity: 0; }
+.dark .moon { transform: translate(-50%, -50%) translateY(0) scale(1); opacity: 1; }
+
+/* Optional subtle rotate for more motion */
+.light .sun, .dark .moon { transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 320ms ease; }
+
+/* Ensure iconToggle remains keyboard-focusable / accessible */
+.iconToggle:focus { outline: 2px solid rgba(37,99,235,0.18); outline-offset: 3px; }
+/* Animated sink/rise theme toggle */
+
+/* wrapper */
+.iconToggle {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconToggle:focus { outline: 2px solid rgba(37,99,235,0.18); outline-offset: 3px; }
+
+/* container that clips vertical motion so icons move like sun/moon against horizon */
+.icons {
+  position: relative;
+  width: 48px;
+  height: 32px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* base svg positioning */
+.icons svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 50%;
+  transform: translate(-50%,-50%) scale(1) rotate(0deg);
+  transition: opacity 220ms ease;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* initial offscreen positions: sun centered, moon below horizon */
+.sun { opacity: 1; z-index: 2; }
+.moon { opacity: 0; z-index: 1; }
+
+/* KEYFRAMES: arc motion - move along an arc (translate + slight x), rotate+scale for realism */
+@keyframes sun-set {
+  0%   { transform: translate(-50%,-50%) translateX(0px) translateY(0px) scale(1) rotate(0deg); opacity: 1; }
+  60%  { transform: translate(-50%,-10%) translateX(-6px) translateY(6px) scale(0.92) rotate(-6deg); opacity: 0.9; }
+  100% { transform: translate(-50%,220%) translateX(-18px) translateY(60px) scale(0.7) rotate(-18deg); opacity: 0; }
+}
+@keyframes sun-rise {
+  0%   { transform: translate(-50%,220%) translateX(-18px) translateY(60px) scale(0.7) rotate(-18deg); opacity: 0; }
+  40%  { transform: translate(-50%,-10%) translateX(-6px) translateY(6px) scale(0.92) rotate(-6deg); opacity: 0.9; }
+  100% { transform: translate(-50%,-50%) translateX(0px) translateY(0px) scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes moon-rise {
+  0%   { transform: translate(-50%,220%) translateX(18px) translateY(60px) scale(0.7) rotate(12deg); opacity: 0; }
+  60%  { transform: translate(-50%,10%) translateX(6px) translateY(-6px) scale(0.92) rotate(6deg); opacity: 0.9; }
+  100% { transform: translate(-50%,-50%) translateX(0px) translateY(0px) scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes moon-set {
+  0%   { transform: translate(-50%,-50%) translateX(0px) translateY(0px) scale(1) rotate(0deg); opacity: 1; }
+  60%  { transform: translate(-50%,10%) translateX(6px) translateY(-6px) scale(0.95) rotate(6deg); opacity: 0.9; }
+  100% { transform: translate(-50%,220%) translateX(18px) translateY(60px) scale(0.7) rotate(12deg); opacity: 0; }
+}
+
+/* apply animations on state change */
+/* Toggle to dark: sun sets, moon rises */
+.dark .sun {
+  animation: sun-set 200ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+.dark .moon {
+  animation: moon-rise 200ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+/* Toggle to light: moon sets, sun rises */
+.light .sun {
+  animation: sun-rise 200ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+.light .moon {
+  animation: moon-set 200ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+/* micro shadow under sun while visible for realism */
+.sun::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 8px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.12), rgba(0,0,0,0));
+  border-radius: 999px;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 420ms ease, transform 820ms cubic-bezier(.2,.9,.2,1);
+}
+.dark .sun::after { opacity: 0; transform: translateX(-50%) scale(0.6); }
+.light .sun::after { opacity: 1; transform: translateX(-50%) scale(1); }
+
+/* subtle press feedback */
+.iconToggle:active .sun, .iconToggle:active .moon {
+  transform: translate(-50%,-50%) scale(0.94);
+  transition-duration: 120ms;
 }

@@ -27,7 +27,28 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export const Icon: React.FC<IconProps> = ({ name, size = 20, strokeWidth = 2, ...rest }) => {
-  const Cmp = ICONS[name] as LucideIcon;
+  const Cmp = (ICONS as any)[name] as LucideIcon | undefined;
+
+  if (!Cmp) {
+    // safe fallback: warn and render a neutral square placeholder
+    // This prevents the "Element type is invalid" crash while you find incorrect names.
+    // Also helpful when SamplePanel is auto-rendering unknown exports.
+    // eslint-disable-next-line no-console
+    console.warn(`Icon: unknown name "${name}" — available: ${Object.keys(ICONS).join(', ')}`);
+    return (
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden
+        {...rest}
+      >
+        <rect x="2" y="2" width="20" height="20" rx="3" fill="rgba(6,18,16,0.06)" />
+      </svg>
+    );
+  }
+
   return <Cmp size={size} strokeWidth={strokeWidth} {...rest} />;
 };
 

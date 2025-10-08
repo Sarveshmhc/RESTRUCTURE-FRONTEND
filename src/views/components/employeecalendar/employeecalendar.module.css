@@ -1,2 +1,214 @@
-.calendar { list-style: none; padding: 0; }
-.date { font-weight: bold; margin-right: 8px; }
+.container {
+  width: 100%;
+  max-width: 760px;
+  background: var(--card-bg,#fff);
+  border: 1px solid rgba(0,0,0,0.06);
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.title {
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+.nav {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.controls { display:flex; justify-content:flex-end; margin-top:8px; margin-bottom:6px; }
+.today {
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.weekNames {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+.weekName {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted,#6b7280);
+  padding: 6px 4px;
+}
+
+.grid { display:flex; flex-direction:column; gap:6px; }
+
+/* each week row */
+.week { display:grid; grid-template-columns: repeat(7,1fr); gap:6px; }
+
+.day {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px;
+  min-height: 120px;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  display:flex;
+  flex-direction:column;
+}
+.day:hover { background: rgba(0,0,0,0.02); }
+.otherMonth { opacity: 0.45; }
+.today { box-shadow: inset 0 0 0 1px rgba(37,99,235,0.08); }
+.selected { background: rgba(37,99,235,0.06); outline: 2px solid rgba(37,99,235,0.12); }
+
+.dayHeader { display:flex; justify-content:space-between; align-items:center; }
+.dayNumber { font-size:13px; font-weight:700; color:var(--text,#111827); }
+.eventCount { font-size:12px; color:var(--muted,#6b7280); background:rgba(0,0,0,0.03); padding:2px 6px; border-radius:999px; }
+
+.eventList { margin-top:6px; display:flex; flex-direction:column; gap:6px; overflow:hidden; }
+
+/* event item */
+.eventItem {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  border-left:4px solid #2563eb;
+  background: rgba(0,0,0,0.01);
+  padding:6px 8px;
+  border-radius:6px;
+  text-align:left;
+  border:none;
+  cursor:pointer;
+}
+.eventItem:hover { background: rgba(0,0,0,0.03); }
+
+.avatarWrap { width:32px; height:32px; flex:0 0 32px; display:flex; align-items:center; justify-content:center; }
+.avatar {
+  width:28px; height:28px; border-radius:999px; object-fit:cover;
+}
+.initials {
+  width:28px; height:28px; border-radius:999px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size:12px; color:#111827; font-weight:600;
+}
+
+.eventMeta { flex:1; min-width:0; }
+.eventTitle { font-size:12px; font-weight:600; color:var(--text,#111827); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.eventSub { font-size:11px; color:var(--muted,#6b7280); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.status { width:10px; height:10px; border-radius:2px; margin-left:6px; }
+.confirmed { background:#10b981; }
+.tentative { background:#f59e0b; }
+.cancelled { background:#ef4444; }
+
+.moreLine { font-size:12px; color:var(--muted,#6b7280); padding-left:6px; }
+  border-radius: 10px;
+  padding: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.title {
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+.nav {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.controls { display:flex; justify-content:flex-end; margin-top:8px; margin-bottom:6px; }
+.today {
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.weekNames {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+.weekName {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted,#6b7280);
+  padding: 6px 4px;
+}
+
+.grid { display:flex; flex-direction:column; gap:6px; }
+
+/* each week row */
+.week { display:grid; grid-template-columns: repeat(7,1fr); gap:6px; }
+
+.day {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px;
+  min-height: 120px;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  display:flex;
+  flex-direction:column;
+}
+.day:hover { background: rgba(0,0,0,0.02); }
+.otherMonth { opacity: 0.45; }
+.today { box-shadow: inset 0 0 0 1px rgba(37,99,235,0.08); }
+.selected { background: rgba(37,99,235,0.06); outline: 2px solid rgba(37,99,235,0.12); }
+
+.dayHeader { display:flex; justify-content:space-between; align-items:center; }
+.dayNumber { font-size:13px; font-weight:700; color:var(--text,#111827); }
+.eventCount { font-size:12px; color:var(--muted,#6b7280); background:rgba(0,0,0,0.03); padding:2px 6px; border-radius:999px; }
+
+.eventList { margin-top:6px; display:flex; flex-direction:column; gap:6px; overflow:hidden; }
+
+/* event item */
+.eventItem {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  border-left:4px solid #2563eb;
+  background: rgba(0,0,0,0.01);
+  padding:6px 8px;
+  border-radius:6px;
+  text-align:left;
+  border:none;
+  cursor:pointer;
+}
+.eventItem:hover { background: rgba(0,0,0,0.03); }
+
+.avatarWrap { width:32px; height:32px; flex:0 0 32px; display:flex; align-items:center; justify-content:center; }
+.avatar {
+  width:28px; height:28px; border-radius:999px; object-fit:cover;
+}
+.initials {
+  width:28px; height:28px; border-radius:999px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size:12px; color:#111827; font-weight:600;
+}
+
+.eventMeta { flex:1; min-width:0; }
+.eventTitle { font-size:12px; font-weight:600; color:var(--text,#111827); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.eventSub { font-size:11px; color:var(--muted,#6b7280); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.status { width:10px; height:10px; border-radius:2px; margin-left:6px; }
+.confirmed { background:#10b981; }
+.tentative { background:#f59e0b; }
+.cancelled { background:#ef4444; }
+
+.moreLine { font-size:12px; color:var(--muted,#6b7280); padding-left:6px; }

@@ -1,41 +1,108 @@
-.wrapper {
+:root {
+  --loader-color: #2563eb;
+  --loader-bg: rgba(0,0,0,0.04);
+}
+
+/* common fullscreen overlay */
+.fullscreen {
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(255,255,255,0.7);
+  z-index: 9999;
 }
 
-.svg {
-  width: 3.25em;
-  transform-origin: center;
-  animation: rotate4 2s linear infinite;
+/* SPINNER */
+.spinnerWrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--loader-color);
 }
 
-.circle {
-  fill: none;
-  stroke: hsl(214, 97%, 59%);
-  stroke-width: 2;
-  stroke-dasharray: 1, 200;
-  stroke-dashoffset: 0;
+.spinner {
+  width: 48px;
+  height: 48px;
+  animation: rotate 1s linear infinite;
+}
+.path {
+  stroke: var(--loader-color);
   stroke-linecap: round;
-  animation: dash4 1.5s ease-in-out infinite;
+  stroke-dasharray: 90;
+  stroke-dashoffset: 0;
+  transform-origin: 50% 50%;
+  animation: dash 1.2s ease-in-out infinite;
 }
 
-@keyframes rotate4 {
-  100% {
-    transform: rotate(360deg);
-  }
+/* sizes */
+.xs .spinner { width: 16px; height: 16px; }
+.sm .spinner { width: 24px; height: 24px; }
+.md .spinner { width: 48px; height: 48px; }
+.lg .spinner { width: 72px; height: 72px; }
+
+.label {
+  font-size: 13px;
+  color: inherit;
+  opacity: 0.9;
 }
 
-@keyframes dash4 {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 200;
-    stroke-dashoffset: -35px;
-  }
-  100% {
-    stroke-dashoffset: -125px;
-  }
+/* SKELETON */
+.skeletonWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.skeletonLine {
+  height: 12px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.04) 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.2s linear infinite;
+}
+
+/* size variants for skeleton height */
+.xs .skeletonLine { height: 8px; border-radius: 4px; }
+.sm .skeletonLine { height: 10px; border-radius: 6px; }
+.md .skeletonLine { height: 12px; border-radius: 6px; }
+.lg .skeletonLine { height: 16px; border-radius: 8px; }
+
+/* BAR */
+.barWrap {
+  width: 100%;
+  padding: 6px 8px;
+}
+.bar {
+  height: 6px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.06) 25%, var(--loader-color) 50%, rgba(0,0,0,0.06) 75%);
+  background-size: 200% 100%;
+  border-radius: 999px;
+  animation: progress 1.6s linear infinite;
+}
+
+/* Animations */
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+@keyframes dash {
+  0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90, 200; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 200; stroke-dashoffset: -124; }
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes progress {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .label { font-size: 12px; }
+  .md .spinner { width: 40px; height: 40px; }
 }

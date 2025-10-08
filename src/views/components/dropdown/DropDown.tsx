@@ -3,24 +3,24 @@ import { ChevronDown } from 'lucide-react';
 import styles from './dropdown.module.css';
 
 export interface DropDownProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> {
-  options: { value: string; label: string }[];
+  options?: { value: string; label: string }[]; // made optional
   onChange?: (value: string) => void;
   placeholder?: string;
   variant?: 'select' | 'custom';
-  customTrigger?: React.ReactNode; // Add support for custom trigger
+  customTrigger?: React.ReactNode;
 }
 
-const DropDown: React.FC<DropDownProps> = ({ 
-  options, 
-  onChange, 
+const DropDown: React.FC<DropDownProps> = ({
+  options = [], // default to empty array
+  onChange,
   placeholder = "Select an option...",
   variant = 'select',
   value,
   customTrigger,
-  ...props 
+  ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(value || '');
+  const [selectedValue, setSelectedValue] = useState<string>(value ?? '');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,15 +29,13 @@ const DropDown: React.FC<DropDownProps> = ({
         setIsOpen(false);
       }
     }
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    if (isOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
+
+  useEffect(() => {
+    setSelectedValue(value ?? '');
+  }, [value]);
 
   const handleSelect = (optionValue: string) => {
     setSelectedValue(optionValue);
@@ -47,8 +45,8 @@ const DropDown: React.FC<DropDownProps> = ({
 
   if (variant === 'select') {
     return (
-      <select 
-        className={styles.dropdown} 
+      <select
+        className={styles.dropdown}
         value={selectedValue}
         onChange={(e) => {
           setSelectedValue(e.target.value);
@@ -98,7 +96,7 @@ const DropDown: React.FC<DropDownProps> = ({
               className={`${styles.dropdownOption} ${option.value === selectedValue ? styles.selected : ''}`}
               onClick={() => handleSelect(option.value)}
               role="option"
-              aria-selected={option.value === selectedValue ? true : false}
+              aria-selected={option.value === selectedValue}
             >
               {option.label}
             </button>

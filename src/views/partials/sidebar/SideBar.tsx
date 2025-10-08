@@ -23,6 +23,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
   const { isDark } = useThemeStore();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [closingDropdown, setClosingDropdown] = useState<string | null>(null);
+  const [showSample, setShowSample] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -327,6 +328,19 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
 
       <nav className={styles.sidebarNav}>
         {sidebarItems.map(renderSidebarItem)}
+
+        {/* Replace any Link / <a> for Sample with this button */}
+        <div
+          role="button"
+          className={`${styles.navItem} ${showSample ? "active" : ""}`}
+          onClick={() => setShowSample(s => !s)}
+          data-tooltip="Sample — UI preview"
+        >
+          <span className={styles.navIcon} aria-hidden>
+            {/* svg icon */}
+          </span>
+          <span className={styles.navLabel}>Sample</span>
+        </div>
       </nav>
 
       <div className={styles.sidebarFooter}>

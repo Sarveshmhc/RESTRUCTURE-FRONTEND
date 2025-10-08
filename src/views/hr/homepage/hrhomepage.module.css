@@ -1,7 +1,7 @@
 /* HR Homepage Styles - Matching Screenshot */
 .homepage {
   padding: 0;
-  background: var(--bg);
+  background: var(--color-main);
   min-height: 100vh;
   color: var(--text);
 }
@@ -138,4 +138,3 @@
     padding: 1.5rem;
   }
 }
-

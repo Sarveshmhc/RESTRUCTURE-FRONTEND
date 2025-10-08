@@ -5,7 +5,7 @@ export interface SidebarTooltipProps {
   text: string;
   children: React.ReactNode;
   className?: string;
-  placement?: 'right' | 'top';
+  placement?: 'right' | 'top' | 'left' | 'bottom';
 }
 
 const SidebarTooltip: React.FC<SidebarTooltipProps> = ({ 
@@ -17,6 +17,7 @@ const SidebarTooltip: React.FC<SidebarTooltipProps> = ({
   const wrapRef = useRef<HTMLSpanElement>(null);
   const tipRef = useRef<HTMLSpanElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const delayRef = useRef<number>();
 
   const updatePosition = () => {
     if (wrapRef.current && tipRef.current) {
@@ -53,10 +54,12 @@ const SidebarTooltip: React.FC<SidebarTooltipProps> = ({
 
   const handleMouseEnter = () => {
     updatePosition();
-    setIsVisible(true);
+    // Add 1s delay before showing
+    delayRef.current = window.setTimeout(() => setIsVisible(true), 1000);
   };
 
   const handleMouseLeave = () => {
+    clearTimeout(delayRef.current);
     setIsVisible(false);
   };
 
@@ -76,6 +79,8 @@ const SidebarTooltip: React.FC<SidebarTooltipProps> = ({
       };
     }
   }, [placement]);
+
+  useEffect(() => () => clearTimeout(delayRef.current), []);
 
   return (
     <span 

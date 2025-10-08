@@ -129,6 +129,12 @@ export const hrSidebarItems: SidebarItem[] = [
         icon: InboxIcon
     },
     {
+        label: 'Sample',
+        path: '/hr/samples',
+        roles: ['hr'],
+        icon: InboxIcon
+    },
+    {
         label: 'Settings',
         path: '/hr/settings',
         roles: ['hr'],

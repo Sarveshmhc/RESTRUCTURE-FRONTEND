@@ -1,12 +1,14 @@
 .button {
   cursor: pointer;
   transition: all 0.2s;
-  background: #2563eb;
+  /* Light-black default with white text */
+  background: #374151; /* slate-700 */
   color: #fff;
   padding: 0.75em 1.5em;
-  border-radius: 0.5em;
+  border-radius: var(--radius-button, 0.5em);
   border: none;
-  border-bottom: 4px solid #1e40af;
+  /* Subtle bottom edge using darker shade for depth */
+  border-bottom: 4px solid #1f2937; /* slate-800 */
   font-size: 1rem;
   font-weight: 500;
   outline: none;
@@ -14,13 +16,17 @@
 }
 
 .button:hover {
-  filter: brightness(1.1);
+  /* Slightly darker on hover */
+  background: #1f2937; /* slate-800 */
   transform: translateY(-1px);
   border-bottom-width: 6px;
+  border-bottom-color: #111827; /* slate-900 */
 }
 
 .button:active {
-  filter: brightness(0.9);
+  /* Darkest on active (pressed) */
+  background: #111827; /* slate-900 */
   transform: translateY(2px);
   border-bottom-width: 2px;
+  border-bottom-color: #0b1220; /* deeper edge */
 }

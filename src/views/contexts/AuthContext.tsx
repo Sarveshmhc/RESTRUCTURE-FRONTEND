@@ -16,6 +16,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   error: string | null;
+  isAuthReady: boolean; // storage rehydration complete
   login: (credentials: { email: string; password: string }) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -41,18 +42,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   // Check for existing user session on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error('Error parsing stored user:', error);
-        localStorage.removeItem('user');
+        if (parsedUser && parsedUser.id) {
+          setUser(parsedUser);
+        }
       }
+    } catch (error) {
+      console.error('Error parsing stored user:', error);
+      localStorage.removeItem('user');
+    } finally {
+      // Mark hydration finished to avoid false redirects on reload
+      setIsAuthReady(true);
     }
   }, []);
 
@@ -110,9 +117,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     isLoading,
     error,
+    isAuthReady,
     login,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
   };
 
   return (

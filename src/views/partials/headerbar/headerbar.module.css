@@ -1,19 +1,20 @@
 .headerBar {
   height: 4rem;
-  background: var(--header-bg, var(--sidebar-bg));
-  border-bottom: 1px solid var(--sidebar-border, #334155);
+  background: var(--header-bg, linear-gradient(90deg, rgba(255,255,255,0.56), rgba(248,249,250,0.42)));
+  border-bottom: 1px solid var(--header-border, rgba(0,0,0,0.06));
+  color: var(--header-text, #1e293b);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
-  position: relative;
-  z-index: 50;
-  margin: 0;
-  /* Ensure no conflicting borders */
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  box-sizing: border-box;
+  padding: 0 1rem;
+  position: sticky;
+  top: 14px;
+  margin: 0 1rem;
+  z-index: 60;
 }
 
 /* Left section - ensure no gaps */
@@ -109,6 +110,8 @@
   width: 22px; /* Match theme toggle icon size */
   height: 22px; /* Match theme toggle icon size */
   flex-shrink: 0;
+  fill: currentColor;
+  stroke: currentColor;
 }
 
 /* Notification badge positioning */
@@ -158,25 +161,46 @@
 
 /* Dark theme for theme toggle */
 [data-theme="dark"] .headerRight .iconToggle {
-  color: var(--text-dark, #e2e8f0);
+  color: #f1f5f9;
+  background: #23263a;
 }
 
 [data-theme="dark"] .headerRight .iconToggle:hover {
-  background: var(--sidebar-hover-dark, #374151) !important;
+  background: #374151 !important;
 }
 
-/* Dark theme adjustments */
+/* Light theme (default) */
+.headerBar {
+  height: 4rem;
+  background: var(--header-bg, linear-gradient(90deg, rgba(255,255,255,0.56), rgba(248,249,250,0.42)));
+  border-bottom: 1px solid var(--header-border, rgba(0,0,0,0.06));
+  color: var(--header-text, #1e293b);
+}
+
+/* Dark theme override */
 [data-theme="dark"] .headerBar {
-  background: var(--bg-dark, #1a1a1a);
-  border-bottom-color: var(--sidebar-border-dark, #374151);
+  background: var(--header-bg, #1e293b); /* fallback to dark blue if no variable */
+  color: var(--header-text, #f1f5f9);
+  border-bottom: 1px solid var(--header-border, #374151);
 }
 
+/* Notification button: highlight in dark mode */
 [data-theme="dark"] .actionButton {
-  color: var(--text-dark, #e2e8f0);
+  background: #fff !important;
+  color: #18181b !important;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
 
 [data-theme="dark"] .actionButton:hover {
-  background: var(--sidebar-hover-dark, #374151) !important;
+  background: #f3f4f6 !important;
+  color: #18181b !important;
+  border-color: #cbd5e1;
+}
+
+/* Notification badge border matches header bg */
+.notificationBadge {
+  border: 2px solid var(--header-bg, #1e293b);
 }
 
 /* Responsive adjustments */

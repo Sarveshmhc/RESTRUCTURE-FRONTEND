@@ -1,3 +1,182 @@
-.accordion { border: 1px solid #ddd; border-radius: 6px; margin-bottom: 8px; }
-.header { background: #f7f7f7; padding: 10px; width: 100%; text-align: left; border: none; cursor: pointer; font-weight: bold; }
-.content { padding: 10px; background: #fff; }
+.container {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  background: var(--card-bg, #fff);
+  border: 1px solid rgba(0,0,0,0.06);
+  overflow: hidden;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.item + .item {
+  border-top: 1px solid rgba(0,0,0,0.04);
+}
+
+.heading {
+  margin: 0;
+}
+
+.trigger {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text, #111827);
+  transition: background 0.12s;
+}
+.trigger:hover {
+  background: rgba(0,0,0,0.03);
+}
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.title {
+  display: inline-block;
+  min-width: 0;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.icon {
+  transform: rotate(0deg);
+  transition: transform 0.18s ease;
+  color: var(--muted, #6b7280);
+}
+.expanded .icon {
+  transform: rotate(180deg);
+  color: var(--accent, #2563eb);
+}
+
+/* Panel with collapsing animation */
+.panel {
+  overflow: hidden;
+  transition: max-height 0.22s ease, padding 0.18s ease;
+  max-height: 0;
+  padding: 0 16px;
+  background: transparent;
+}
+.panelOpen {
+  padding: 12px 16px;
+}
+
+/* content area */
+.panelInner {
+  padding-bottom: 6px;
+  color: var(--muted-text, #374151);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .trigger {
+    padding: 12px 12px;
+    font-size: 14px;
+  }
+  .panelInner {
+    font-size: 13px;
+  }
+}
+.container {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  background: var(--card-bg, #fff);
+  border: 1px solid rgba(0,0,0,0.06);
+  overflow: hidden;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.item + .item {
+  border-top: 1px solid rgba(0,0,0,0.04);
+}
+
+.heading {
+  margin: 0;
+}
+
+.trigger {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text, #111827);
+  transition: background 0.12s;
+}
+.trigger:hover {
+  background: rgba(0,0,0,0.03);
+}
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.title {
+  display: inline-block;
+  min-width: 0;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.icon {
+  transform: rotate(0deg);
+  transition: transform 0.18s ease;
+  color: var(--muted, #6b7280);
+}
+.expanded .icon {
+  transform: rotate(180deg);
+  color: var(--accent, #2563eb);
+}
+
+/* Panel with collapsing animation */
+.panel {
+  overflow: hidden;
+  transition: max-height 0.22s ease, padding 0.18s ease;
+  max-height: 0;
+  padding: 0 16px;
+  background: transparent;
+}
+.panelOpen {
+  padding: 12px 16px;
+}
+
+/* content area */
+.panelInner {
+  padding-bottom: 6px;
+  color: var(--muted-text, #374151);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .trigger {
+    padding: 12px 12px;
+    font-size: 14px;
+  }
+  .panelInner {
+    font-size: 13px;
+  }
+}

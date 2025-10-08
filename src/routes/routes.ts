@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 
 // Existing components
 const HRHomepage = lazy(() => import('../views/hr/homepage/HRHomepage'));
+const SamplePanel = lazy(() => import('../views/partials/sidebar/SamplePanel'));
 
 // Placeholder component for routes that don't exist yet
 const PlaceholderComponent = lazy(() => import('../views/components/placeholder/PlaceholderComponent'));
@@ -92,6 +93,12 @@ export const routeConfig: RouteConfig[] = [
     path: '/hr/settings',
     component: PlaceholderComponent,
     title: 'Settings',
+    roles: ['hr'],
+  },
+  {
+    path: '/hr/samples',
+    component: SamplePanel,
+    title: 'Component Samples',
     roles: ['hr'],
   },
 

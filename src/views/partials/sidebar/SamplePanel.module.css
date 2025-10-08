@@ -1,0 +1,163 @@
+/* ...existing code... */
+
+/* Layout improvements to avoid overlap and make a neat responsive grid */
+:root {
+  --sample-gap: 1rem;
+  --card-min-width: 280px;
+  --card-max-height: 420px;
+  --panel-padding: 1rem;
+  --card-padding: 0.75rem;
+}
+
+/* Ensure the panel uses full available space and pads content */
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--panel-padding);
+  box-sizing: border-box;
+  gap: 0.5rem;
+  background: transparent;
+}
+
+/* Header stays fixed height and doesn't collapse the grid */
+.header {
+  margin-bottom: 0.5rem;
+}
+.header h2 { margin:0; font-size:1.15rem; }
+.subtitle { margin:0; font-size:0.9rem; color:rgba(10,46,43,0.6); }
+
+/* Responsive grid: use auto-fit so cards fill rows without overlapping */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width), 1fr));
+  gap: var(--sample-gap);
+  align-items: start;
+  /* allow grid to use remaining vertical space */
+  overflow: auto;
+  padding-bottom: 0.75rem;
+}
+
+/* Card: fixed visual container with internal scrolling for overflow content */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
+  border-radius: 12px;
+  padding: var(--card-padding);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.03);
+  border: 1px solid rgba(6,18,16,0.03);
+  min-height: 120px;
+  max-height: var(--card-max-height);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* keep content inside card */
+}
+
+/* Header area inside card */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+}
+.cardHeader strong { font-size: 0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.muted { font-size: 0.75rem; opacity: 0.6; margin-left: 0.5rem; }
+
+/* Body becomes a scrollable region so long previews don't overflow the card */
+.cardBody {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  padding-top: 0.25rem;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: wrap;
+}
+
+/* Make individual preview content wrap and not overflow parent */
+.cardBody > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Small helper previews layout (buttons, badges etc) */
+.buttonVariants {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.formPreview {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.textarea {
+  min-height: 48px;
+  max-width: 260px;
+  width: 100%;
+  resize: vertical;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(6,18,16,0.06);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+/* Contain calendars, charts, long components */
+.calendarPreview, .chartPreview, .listPreview {
+  width:100%;
+  max-width:100%;
+  overflow:auto;
+}
+
+/* Prevent huge images or iframes from breaking layout */
+.cardBody img, .cardBody svg, .cardBody iframe {
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+
+/* Prevent overflowing long text */
+.cardBody code, .cardBody pre, .cardBody p {
+  white-space:normal;
+  word-break:break-word;
+  overflow-wrap:break-word;
+}
+
+/* Fallback visuals */
+.unrenderable { color: rgba(10,46,43,0.45); font-size: 0.9rem; }
+.valuePreview { font-size: 0.9rem; color: rgba(10,46,43,0.8); }
+
+/* small badges inside cards */
+.badgeWrap{ display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+
+/* Scrollbar styling (optional) */
+.cardBody::-webkit-scrollbar { height:10px; width:8px; }
+.cardBody::-webkit-scrollbar-thumb { background: rgba(6,18,16,0.06); border-radius:8px; }
+
+/* Responsive tweaks */
+@media (max-width: 980px) {
+  :root { --card-min-width: 240px; --card-max-height: 520px; }
+  .grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  :root { --card-min-width: 180px; }
+  .grid { grid-template-columns: 1fr; }
+  .card { max-height: none; }
+}
+
+/* Optional: ensure the sample drawer itself doesn't overlap main content */
+.sampleDrawer {
+  max-height: 92vh;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+/* ...existing code... */

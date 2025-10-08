@@ -19,8 +19,8 @@ export interface ToolTipProps {
 const Tooltip: React.FC<ToolTipProps> = ({
   text,
   children,
-  placement = 'top',
-  delay = 100,
+  placement = 'bottom',
+  delay = 500, // default
   disabled = false,
   className,
   title,
