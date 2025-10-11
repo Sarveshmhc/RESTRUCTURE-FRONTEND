@@ -1,0 +1,289 @@
+:root {
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --accent: #4f7cf3;
+  --success: #10b981;
+  --danger: #ef4444;
+  --surface: #f8fafc;
+  --radius: 12px;
+}
+
+.card {
+  background: linear-gradient(180deg,var(--card-bg),#fbfdff);
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: var(--radius);
+  padding: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.04);
+  color: #0f1724;
+  font-family: inherit;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+.dateWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15,23,42,0.03);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dateIcon { width: 14px; height: 14px; color: var(--muted); }
+.dateText { font-weight: 600; }
+
+/* body grid */
+.body { display:flex; flex-direction:column; gap:12px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.block {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgba(15,23,42,0.03);
+}
+
+.label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.value { font-weight: 700; font-size: 1rem; color: #0f1724; }
+
+/* status & note */
+.statusRow {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content: space-between;
+}
+
+.statusBadge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight:700;
+  font-size: 13px;
+}
+
+/* badge variants */
+.badgePresent { background: rgba(16,185,129,0.10); color: #065f46; }
+.badgeLate { background: rgba(245,158,11,0.10); color: #92400e; }
+.badgeAbsent { background: rgba(239,68,68,0.10); color: #7f1d1d; }
+.badgeNeutral { background: rgba(15,23,42,0.04); color: #374151; }
+
+.note { font-size: 13px; color: var(--muted); flex: 1; }
+
+/* actions */
+.actions { display:flex; gap:10px; justify-content:flex-end; }
+
+.primaryBtn {
+  background: linear-gradient(90deg,var(--accent),#3b63d9);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(79,124,243,0.12);
+}
+.primaryBtn:hover { transform: translateY(-2px); }
+
+.ghostBtn {
+  background: transparent;
+  border: 1px solid rgba(15,23,42,0.06);
+  color: var(--muted);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.ghostBtn:hover { background: rgba(15,23,42,0.02); }
+
+/* dark mode */
+:root.dark .card {
+  background: linear-gradient(180deg,#071021,#06101b);
+  border-color: rgba(255,255,255,0.04);
+  color: #e6eef8;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+:root.dark .value { color: #e6eef8; }
+:root.dark .label, :root.dark .dateText, :root.dark .note { color: #9aa3b2; }
+:root.dark .block { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.03); }
+:root.dark .dateWrap { background: rgba(255,255,255,0.02); color: #9aa3b2; }
+:root.dark .primaryBtn { box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+
+/* responsive */
+@media (max-width: 480px) {
+  .card { padding: 12px; max-width: 100%; }
+  .grid { grid-template-columns: 1fr 1fr; }
+  .actions { justify-content: flex-start; }
+}
+
+:root {
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --accent: #4f7cf3;
+  --success: #10b981;
+  --danger: #ef4444;
+  --surface: #f8fafc;
+  --radius: 12px;
+}
+
+.card {
+  background: linear-gradient(180deg,var(--card-bg),#fbfdff);
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: var(--radius);
+  padding: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.04);
+  color: #0f1724;
+  font-family: inherit;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+.dateWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15,23,42,0.03);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dateIcon { width: 14px; height: 14px; color: var(--muted); }
+.dateText { font-weight: 600; }
+
+/* body grid */
+.body { display:flex; flex-direction:column; gap:12px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.block {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgba(15,23,42,0.03);
+}
+
+.label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.value { font-weight: 700; font-size: 1rem; color: #0f1724; }
+
+/* status & note */
+.statusRow {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content: space-between;
+}
+
+.statusBadge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight:700;
+  font-size: 13px;
+}
+
+/* badge variants */
+.badgePresent { background: rgba(16,185,129,0.10); color: #065f46; }
+.badgeLate { background: rgba(245,158,11,0.10); color: #92400e; }
+.badgeAbsent { background: rgba(239,68,68,0.10); color: #7f1d1d; }
+.badgeNeutral { background: rgba(15,23,42,0.04); color: #374151; }
+
+.note { font-size: 13px; color: var(--muted); flex: 1; }
+
+/* actions */
+.actions { display:flex; gap:10px; justify-content:flex-end; }
+
+.primaryBtn {
+  background: linear-gradient(90deg,var(--accent),#3b63d9);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(79,124,243,0.12);
+}
+.primaryBtn:hover { transform: translateY(-2px); }
+
+.ghostBtn {
+  background: transparent;
+  border: 1px solid rgba(15,23,42,0.06);
+  color: var(--muted);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.ghostBtn:hover { background: rgba(15,23,42,0.02); }
+
+/* dark mode */
+:root.dark .card {
+  background: linear-gradient(180deg,#071021,#06101b);
+  border-color: rgba(255,255,255,0.04);
+  color: #e6eef8;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+:root.dark .value { color: #e6eef8; }
+:root.dark .label, :root.dark .dateText, :root.dark .note { color: #9aa3b2; }
+:root.dark .block { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.03); }
+:root.dark .dateWrap { background: rgba(255,255,255,0.02); color: #9aa3b2; }
+:root.dark .primaryBtn { box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+
+/* responsive */
+@media (max-width: 480px) {
+  .card { padding: 12px; max-width: 100%; }
+  .grid { grid-template-columns: 1fr 1fr; }
+  .actions { justify-content: flex-start; }
+}

@@ -23,8 +23,9 @@
     rgba(229, 247, 245, 0.85) 100%
   );
 
-  backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.05),
               0 4px 16px rgba(12, 115, 107, 0.1);
   border-top-right-radius: 28px;
@@ -71,6 +72,7 @@
   min-width: 4rem;
   max-width: 4rem;
   background: rgba(229, 247, 245, 0.8);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(22px) saturate(180%);
   overflow: visible;
 }
@@ -118,6 +120,7 @@
   transform: translateX(-100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   background: rgba(216, 243, 240, 0.9);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   border-right: 1px solid rgba(12, 115, 107, 0.1);
 }
@@ -131,17 +134,27 @@
 .mobileOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   z-index: 999;
   animation: fadeIn 0.35s ease;
 }
 
-/* Animations */
 @keyframes fadeIn {
-  from { backdrop-filter: blur(0px); }
-  to { backdrop-filter: blur(2px); }
+  from { 
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px); 
+  }
+  to { 
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px); 
+  }
 }
+  to { 
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px); 
+  }
+
 
 /* Responsive Behavior */
 @media (max-width: 799px) {

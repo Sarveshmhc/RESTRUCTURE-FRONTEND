@@ -131,6 +131,7 @@ const EmployeeCalendar: React.FC<EmployeeCalendarProps> = ({
               return (
                 <button
                   key={di}
+                  type="button"
                   className={[
                     styles.day,
                     !inMonth ? styles.otherMonth : '',
@@ -138,7 +139,7 @@ const EmployeeCalendar: React.FC<EmployeeCalendarProps> = ({
                     isSelected ? styles.selected : ''
                   ].join(' ')}
                   onClick={() => handleSelectDay(dt)}
-                  aria-selected={isSelected}
+                  {...(inMonth ? { 'aria-selected': isSelected } : {})}
                   role="gridcell"
                   tabIndex={0}
                 >
@@ -152,8 +153,10 @@ const EmployeeCalendar: React.FC<EmployeeCalendarProps> = ({
                       // changed from <button> to accessible <div> to avoid nested button error
                       <div
                         key={ev.id}
-                        className={styles.eventItem}
-                        style={{ borderLeftColor: ev.color ?? '#2563eb' }}
+                        className={[
+                          styles.eventItem,
+                          ev.color ? styles[`eventColor_${ev.color.replace('#', '')}`] : styles.eventColor_default
+                        ].join(' ')}
                         onClick={(e) => { e.stopPropagation(); onEventClick?.(ev); }}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {

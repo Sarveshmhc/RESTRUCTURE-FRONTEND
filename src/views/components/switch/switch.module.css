@@ -1,3 +1,92 @@
+:root {
+  --primary: #2563eb; /* blue-600 */
+  --primary-700: #1d4ed8;
+  --muted: #6b7280;
+  --bg: #ffffff;
+  --track-w: 44px;
+  --track-h: 24px;
+  --thumb-size: 20px;
+  --radius: 999px;
+  --transition: 180ms ease;
+}
+
+/* base reset for button */
+.switch {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  line-height: 0;
+}
+
+/* track */
+.track {
+  width: var(--track-w);
+  height: var(--track-h);
+  background: rgba(15, 23, 42, 0.06);
+  border-radius: var(--radius);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+  box-sizing: border-box;
+  padding: 2px;
+}
+
+/* thumb */
+.thumb {
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.12);
+  transform: translateX(0);
+  transition: transform var(--transition), background var(--transition);
+  will-change: transform;
+}
+
+/* ON state (checked) — move thumb to right, color track */
+.on .track {
+  background: linear-gradient(180deg, var(--primary), var(--primary-700));
+  box-shadow: 0 6px 18px rgba(37,99,235,0.18);
+}
+.on .thumb {
+  transform: translateX(calc(var(--track-w) - var(--thumb-size) - 4px));
+  background: #fff;
+}
+
+/* OFF state (unchecked) */
+.off .track {
+  background: rgba(15, 23, 42, 0.06);
+}
+.off .thumb {
+  transform: translateX(0);
+}
+
+/* focus outline */
+.switch:focus-visible .track {
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+  outline: none;
+}
+
+/* disabled */
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.disabled .track {
+  background: rgba(15, 23, 42, 0.04);
+  box-shadow: none;
+}
+.disabled .thumb {
+  box-shadow: none;
+}
+
+/* Toggle Switch Styles */
 .toggleSwitch {
   position: relative;
   display: inline-block;
@@ -57,14 +146,14 @@
 }
 
 /* Dark theme */
-.dark .toggleLabel {
+[data-theme="dark"] .toggleLabel {
   background-color: #4B4B4B;
 }
 
-.dark .toggleInput:checked + .toggleLabel {
+[data-theme="dark"] .toggleInput:checked + .toggleLabel {
   background-color: #717171;
 }
 
-.dark .toggleInput:checked + .toggleLabel::before {
+[data-theme="dark"] .toggleInput:checked + .toggleLabel::before {
   transform: translateX(16px);
 }

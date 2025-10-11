@@ -1,1 +1,47 @@
 .avatar { border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #f3f4f6; /* subtle neutral bg */
+  color: #0f172a;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(2,6,23,0.06);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fallback {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #eef2ff, #e0e7ff); /* subtle brand tint */
+}
+
+.initials {
+  font-weight: 600;
+  color: #051024;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+/* size helpers */
+.sm { width: 28px; height: 28px; font-size: 0.8rem; }
+.md { width: 40px; height: 40px; font-size: 1rem; }
+.lg { width: 56px; height: 56px; font-size: 1.15rem; }
+
+.icon {
+  width: 60%;
+  height: 60%;
+  color: rgba(2,6,23,0.45);
+}

@@ -3,9 +3,9 @@
 ================================================================= */
 
 /* ===== BASE SIDEBAR CONTAINER WITH ENHANCED TRANSITIONS ===== */
-.sidebar {
-  background: var(--sidebar-bg);
-  color: var(--sidebar-text);
+.sidebar, .sidebarWrapper, .appSidebar {
+  background: var(--sidebar-bg) !important;
+  color: var(--sidebar-text) !important;
   height: 100vh;
   width: var(--sidebar-width, 18rem); /* Use shared variable for consistency */
   max-width: 100%; /* prevent exceeding wrapper and creating a second layer */
@@ -13,19 +13,12 @@
   flex-direction: column;
   min-width: 0;
   z-index: var(--z-sidebar, 100);
-  border-right: 1px solid var(--sidebar-border, #e2e8f0);
-  box-shadow: none;
-  overflow: visible;
+  border-right: 1px solid var(--sidebar-border) !important;
+  box-shadow: var(--sidebar-shadow, inset 0 0 30px rgba(2,6,23,0.02));
+  overflow: hidden;
   position: relative;
   /* Enhanced smooth transitions - coordinated timing */
-  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              min-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              max-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  /* Hardware acceleration for smooth performance */
-  will-change: width, min-width, max-width;
-  transform: translateZ(0);
-  margin: 0;
-  padding: 0;
+  transition: background 220ms ease, color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 /* Collapsed state with exact sizing */
@@ -140,6 +133,28 @@
   will-change: transform, color;
 }
 
+.sidebarNav .navItem,
+.sidebarLink {
+  color: var(--sidebar-text);
+  background: transparent;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+/* hover / active */
+.sidebarNav .navItem:hover,
+.sidebarLink:hover,
+.sidebarNav .navItem:focus,
+.sidebarLink:focus {
+  background: var(--sidebar-hover) !important;
+  color: var(--sidebar-text) !important;
+  transition: background 220ms var(--sidebar-ease, cubic-bezier(0.22,0.9,0.25,1));
+}
+.sidebarNav .navItem.active,
+.sidebarLink.active {
+  background: var(--sidebar-active);
+  color: var(--sidebar-text);
+}
+
 .sidebarLink:hover .sidebarIcon {
   transform: none;
 }
@@ -165,10 +180,10 @@
   position: relative;
   flex: 1;
   /* Always show vertical scrollbar to avoid width shift when content grows */
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: visible; /* Allow tooltips */
-  /* Reserve space for scrollbar so width doesn't jump when it appears */
-  scrollbar-gutter: stable both-edges;
+  scrollbar-width: thin;
+  /* Removed 'scrollbar-gutter' for Safari compatibility */
   padding: 0.5rem 1rem;
   transition: padding 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -177,15 +192,22 @@
   padding: 0.5rem 0.25rem;
 }
 
-/* Scrollbar styling */
 .sidebarNav::-webkit-scrollbar {
-  width: 4px;
-  background: transparent;
+  width: 8px;
 }
 
 .sidebarNav::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb, #64748b);
-  border-radius: 2px;
+  background: var(--sidebar-scroll-thumb, rgba(255,255,255,0.07));
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.sidebar:hover .sidebarNav::-webkit-scrollbar-thumb,
+.sidebarNav:focus-within::-webkit-scrollbar-thumb {
+  opacity: 1;
 }
 
 /* ===== SIDEBAR ITEMS ===== */
@@ -236,7 +258,7 @@
 
 .collapsed .sidebarLink:hover,
 .collapsed .sidebarLink:focus-visible {
-  background: var(--sidebar-hover, rgba(37,99,235,0.08));
+  background: var(--sidebar-hover, rgba(8, 86, 255, 0.08));
   transform: none;
   outline: none;
 }
@@ -325,101 +347,43 @@
 
 /* ===== SUBMENU ANIMATIONS ===== */
 .submenu {
-  margin-left: 0.5rem;
-  margin-top: 0.125rem;
-  margin-bottom: 0.125rem;
-  padding-left: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transform: translateY(-10px);
-  transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease, transform 0.25s ease;
-  transform-origin: top;
-  will-change: max-height, opacity, transform;
+  transform: translateY(-6px);
+  overflow: hidden;
+  transition: max-height calc(var(--sidebar-transition) * 0.85) var(--sidebar-ease),
+              opacity calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease),
+              transform calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease);
 }
 
+/* When submenu opens use a single reusable keyframe and per-item delay using --i */
 .submenu.open {
-  max-height: 500px;
+  max-height: 520px;
   opacity: 1;
   transform: translateY(0);
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
 }
 
-.submenu.closing {
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.submenuLink {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 1rem;
-  margin: 0.125rem 0;
-  border-radius: 0.375rem;
-  border: 1px solid transparent; /* keep box model consistent across states */
-  color: var(--sidebar-text);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 400;
-  cursor: pointer;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateX(-15px);
-  min-height: 2.25rem; /* stabilize submenu size */
-  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
-}
-
+/* Each submenuLink animates in using --i as index multiplier (set by JS) */
 .submenu.open .submenuLink {
-  animation: slideInSubmenu 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: submenuItemIn 320ms var(--sidebar-submenu-ease, cubic-bezier(.22,.9,.25,1)) forwards;
+  animation-delay: calc(var(--i, 0) * 40ms); /* <- stagger controlled by --i */
 }
 
-.submenu.open .submenuLink:nth-child(1) { animation-delay: 0.05s; }
-.submenu.open .submenuLink:nth-child(2) { animation-delay: 0.1s; }
-.submenu.open .submenuLink:nth-child(3) { animation-delay: 0.15s; }
-.submenu.open .submenuLink:nth-child(4) { animation-delay: 0.2s; }
+@keyframes submenuItemIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-@keyframes slideInSubmenu {
-  from {
-    opacity: 0;
-    transform: translateX(-15px);
-  }
-  to {
+/* reduced-motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .submenu.open .submenuLink {
+    animation: none !important;
+    transition: opacity 120ms linear, transform 120ms linear;
     opacity: 1;
-    transform: translateX(0);
+    transform: none;
   }
-}
-
-.submenuLink:hover {
-  background: var(--sidebar-hover);
-  /* Keep size static; avoid horizontal shift */
-  transform: none;
-}
-
-/* Prevent size change on click/focus */
-.submenuLink:active,
-.submenuLink:focus,
-.submenuLink:focus-visible {
-  transform: none;
-  padding: 0.5rem 1rem; /* lock padding */
-}
-
-.submenuLink.active {
-  background: var(--sidebar-active);
-  color: var(--sidebar-active-text);
-}
-
-.submenuIcon {
-  width: 1rem;
-  height: 1rem;
-  flex-shrink: 0;
 }
 
 /* ===== SIDEBAR FOOTER ===== */
@@ -469,7 +433,7 @@
 .profileBtn.profileBtnOpen {
   background: var(--sidebar-hover);
   transform: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(232, 232, 232, 0.1);
 }
 
 .collapsed .profileBtn:hover {
@@ -729,4 +693,262 @@
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+/* SLOWER, SMOOTHER SIDEBAR TRANSITIONS (override tokens and key transitions) */
+:root {
+  /* increased duration and softer easing for a smoother feel */
+  --sidebar-transition: 520ms;
+  --sidebar-ease: cubic-bezier(0.16, 0.84, 0.24, 1);
+  --sidebar-stagger: 80ms;            /* used to stagger child fades */
+  --sidebar-collapsed-gap: 0.18rem;   /* slightly tighter when collapsed */
+  --sidebar-expanded-gap: 0.40rem;    /* slightly more breathing room when expanded */
+  --sidebar-logo-fade: 360ms;
+
+  /* === Sidebar: consistent vertical spacing (expanded + collapsed) ===
+     Use gap on the nav container and clear per-link margins so all items
+     have identical spacing and alignment in both states.
+  */
+  --sidebar-item-gap-expanded: 0.6rem;   /* vertical space between items when expanded */
+  --sidebar-item-gap-collapsed: 0.28rem; /* vertical space between items when collapsed (tighter) */
+  --sidebar-item-height-expanded: 44px;  /* stable item height in expanded state */
+  --sidebar-item-height-collapsed: 44px; /* stable item height when collapsed (icons-only) */
+}
+
+/* container: slow width + visual transitions */
+.sidebar,
+.sidebarWrapper,
+.appSidebar {
+  transition: width var(--sidebar-transition) var(--sidebar-ease),
+              background-color calc(var(--sidebar-transition) * 0.9) var(--sidebar-ease),
+              box-shadow calc(var(--sidebar-transition) * 0.9) var(--sidebar-ease),
+              border-color calc(var(--sidebar-transition) * 0.9) var(--sidebar-ease);
+  will-change: width, background-color, box-shadow;
+}
+
+/* nav padding/spacing: smooth change */
+.sidebarNav {
+  transition: padding var(--sidebar-transition) var(--sidebar-ease),
+              gap var(--sidebar-transition) var(--sidebar-ease);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sidebar-item-gap-expanded);
+  padding: 0.5rem 1rem; /* keep existing comfortable left/right padding */
+}
+
+/* each link transitions more gently and with slightly delayed property mixes */
+.sidebarNav .sidebarLink {
+  transition: margin var(--sidebar-transition) var(--sidebar-ease),
+              padding calc(var(--sidebar-transition) * 0.8) var(--sidebar-ease),
+              background calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease),
+              color calc(var(--sidebar-transition) * 0.5) var(--sidebar-ease);
+  margin: var(--sidebar-expanded-gap) 0;
+}
+
+/* collapsed spacing (slower easing to feel smooth) */
+.collapsed .sidebarNav .sidebarLink,
+.sidebarWrapper.collapsed .sidebarNav .sidebarLink {
+  margin: var(--sidebar-collapsed-gap) 0;
+  padding: 0.35rem 0.25rem;
+  height: 44px;
+  justify-content: center;
+  transition: margin var(--sidebar-transition) var(--sidebar-ease),
+              padding calc(var(--sidebar-transition) * 0.8) var(--sidebar-ease);
+}
+
+/* logo container: fade/width transitions staggered so text hides smoothly */
+.logoContainer {
+  transition: opacity var(--sidebar-logo-fade) var(--sidebar-ease) var(--sidebar-stagger),
+              width var(--sidebar-transition) var(--sidebar-ease),
+              transform calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease);
+  will-change: opacity, width, transform;
+}
+.collapsed .logoContainer {
+  transition: opacity calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease),
+              width var(--sidebar-transition) var(--sidebar-ease);
+}
+
+/* label: longer fade so it doesn't pop */
+.sidebarLabel {
+  transition: opacity calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease) var(--sidebar-stagger),
+              width var(--sidebar-transition) var(--sidebar-ease);
+}
+.collapsed .sidebarLabel {
+  transition: opacity calc(var(--sidebar-transition) * 0.5) var(--sidebar-ease),
+              width var(--sidebar-transition) var(--sidebar-ease);
+}
+
+/* submenu animations: slower, smoother */
+.submenu {
+  transition: max-height calc(var(--sidebar-transition) * 0.9) var(--sidebar-ease),
+              opacity calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease),
+              transform calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease);
+}
+.submenu.open {
+  transition-delay: calc(var(--sidebar-stagger) * 0.5);
+}
+
+/* helper classes to indicate animated states (optional: toggle from JS for perfect timing) */
+.sidebarWrapper.collapsing {
+  transition-timing-function: var(--sidebar-ease);
+  transition-duration: var(--sidebar-transition);
+}
+.sidebarWrapper.expanding {
+  transition-timing-function: var(--sidebar-ease);
+  transition-duration: var(--sidebar-transition);
+}
+
+/* micro interaction smoothing */
+.sidebarIcon,
+.toggleIcon,
+.toggleButton {
+  transition: transform calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease),
+              color calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease),
+              opacity calc(var(--sidebar-transition) * 0.6) var(--sidebar-ease);
+}
+
+/* slightly increase gap change smoothness on collapse/expand */
+.collapsed .sidebarNav {
+  transition: padding var(--sidebar-transition) var(--sidebar-ease);
+}
+
+/* Ensure wrapper per-item doesn't add extra vertical spacing */
+.sidebarItem {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Sidebar link: clear margins (gap handles spacing) and keep stable height */
+.sidebarNav .sidebarLink,
+.sidebarItem > .sidebarLink {
+  margin: 0 !important;            /* remove previously set margins */
+  padding: 0.45rem 1rem !important;/* consistent internal padding for expanded state */
+  min-height: var(--sidebar-item-height-expanded);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+}
+
+/* When collapsed, use the collapsed gap and compact link layout */
+.sidebarWrapper.collapsed .sidebarNav,
+.collapsed .sidebarNav {
+  gap: var(--sidebar-item-gap-collapsed) !important;
+  padding: 0.5rem 0.25rem !important;
+}
+
+/* Collapsed links: center icons and keep consistent vertical spacing */
+.sidebarWrapper.collapsed .sidebarNav .sidebarLink,
+.collapsed .sidebarNav .sidebarLink {
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: var(--sidebar-item-height-collapsed);
+  height: var(--sidebar-item-height-collapsed);
+  justify-content: center;
+  gap: 0;
+}
+
+/* Profile button and footer align with same spacing rules */
+.profileContainer,
+.sidebarFooter {
+  margin: 0;
+  padding: 0;
+}
+
+/* If profileBtn used different margins, normalize it */
+.profileBtn {
+  margin: 0;
+  padding: 0.6rem 1rem;
+  height: var(--sidebar-item-height-expanded);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+}
+.collapsed .profileBtn {
+  padding: 0;
+  height: var(--sidebar-item-height-collapsed);
+  justify-content: center;
+}
+
+/* Submenu items should match the same vertical rhythm (no extra margin) */
+.submenu,
+.submenu .submenuLink {
+  margin: 0;
+  padding-left: 0.75rem;
+  gap: 0;
+}
+
+/* Defensive: remove per-item border/outline that can change perceived spacing */
+.sidebarNav .sidebarLink,
+.submenuLink {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Submenu / dropdown item layout — icon + text with consistent spacing */
+.submenuLink,
+.sidebarNav .submenuLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;                     /* space between icon and text */
+  padding: 8px 12px;             /* comfortable hit area */
+  width: 100%;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: var(--sidebar-text);
+  background: transparent;
+  transition: background 180ms ease, transform 120ms ease;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Fixed-size icon slot so labels align vertically across items */
+.submenuIcon,
+.sidebarNav .submenuLink .submenuIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  color: var(--icon-color);
+  font-size: 1.05rem;
+}
+
+/* Label span: flexible, truncates when too long */
+.submenuLabel,
+.sidebarNav .submenuLink .submenuLabel {
+  display: inline-block;
+  flex: 1 1 auto;
+  min-width: 0;                 /* allow ellipsis */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  color: inherit;
+}
+
+/* Hover / active states use centralized tokens */
+.submenuLink:hover,
+.sidebarNav .submenuLink:hover,
+.submenuLink:focus {
+  background: var(--sidebar-hover) !important;
+  color: var(--sidebar-text) !important;
+  transform: translateX(2px);
+}
+
+/* Keep nested submenu indentation while preserving icon alignment */
+.submenu .submenu {
+  padding-left: 8px; /* deeper indentation for nested lists */
+}
+
+/* Small-screen adjustments */
+@media (max-width: 799px) {
+  .submenuLink { padding: 10px 14px; gap: 10px; }
+  .submenuIcon { min-width: 22px; width: 22px; height: 22px; }
 }

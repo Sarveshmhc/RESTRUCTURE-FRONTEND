@@ -1,163 +1,117 @@
-/* ...existing code... */
-
-/* Layout improvements to avoid overlap and make a neat responsive grid */
 :root {
-  --sample-gap: 1rem;
-  --card-min-width: 280px;
-  --card-max-height: 420px;
-  --panel-padding: 1rem;
-  --card-padding: 0.75rem;
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --surface: #f8fafc;
+  --radius: 12px;
+  --gap: 18px;
+  --shadow: 0 8px 30px rgba(17,24,39,0.06);
 }
 
-/* Ensure the panel uses full available space and pads content */
-.root {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: var(--panel-padding);
+.container {
+  padding: 20px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--surface);
+  min-height: 100vh;
   box-sizing: border-box;
-  gap: 0.5rem;
-  background: transparent;
 }
 
-/* Header stays fixed height and doesn't collapse the grid */
+/* header */
 .header {
-  margin-bottom: 0.5rem;
+  margin-bottom: 18px;
 }
-.header h2 { margin:0; font-size:1.15rem; }
-.subtitle { margin:0; font-size:0.9rem; color:rgba(10,46,43,0.6); }
+.title {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+}
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
 
-/* Responsive grid: use auto-fit so cards fill rows without overlapping */
+/* responsive grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width), 1fr));
-  gap: var(--sample-gap);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--gap);
   align-items: start;
-  /* allow grid to use remaining vertical space */
-  overflow: auto;
-  padding-bottom: 0.75rem;
 }
 
-/* Card: fixed visual container with internal scrolling for overflow content */
+/* card */
 .card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
-  border-radius: 12px;
-  padding: var(--card-padding);
-  box-shadow: 0 8px 28px rgba(2,6,23,0.03);
-  border: 1px solid rgba(6,18,16,0.03);
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(15,23,42,0.04);
+  position: relative;   /* ensures nested absolute panels position correctly */
+  overflow: visible;     /* allow popovers/panels to show without clipping */
   min-height: 120px;
-  max-height: var(--card-max-height);
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* keep content inside card */
+  gap: 12px;
+  z-index: 1;
 }
 
-/* Header area inside card */
-.cardHeader {
+.cardTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f1724;
+}
+
+/* layout helpers */
+.previewRow {
   display: flex;
+  gap: 12px;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.45rem;
+  flex-wrap: wrap;
 }
-.cardHeader strong { font-size: 0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.muted { font-size: 0.75rem; opacity: 0.6; margin-left: 0.5rem; }
-
-/* Body becomes a scrollable region so long previews don't overflow the card */
-.cardBody {
-  flex: 1 1 auto;
+.previewCol {
   display: flex;
+  gap: 10px;
   align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.6rem;
-  padding-top: 0.25rem;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-/* Make individual preview content wrap and not overflow parent */
-.cardBody > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* Small helper previews layout (buttons, badges etc) */
-.buttonVariants {
+/* small stacks inside previews */
+.stack {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 64px;
+}
+.note {
+  color: var(--muted);
+  font-size: 12px;
 }
 
-.formPreview {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
+/* meta text */
+.meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
 }
 
-.textarea {
-  min-height: 48px;
-  max-width: 260px;
-  width: 100%;
-  resize: vertical;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(6,18,16,0.06);
-  background: #fff;
-  box-sizing: border-box;
+/* Ensure date panel and popovers render above other cards */
+:global(.panelWrap),
+:global(.panel),
+:global(.panelWrap) {
+  z-index: 99999;
 }
 
-/* Contain calendars, charts, long components */
-.calendarPreview, .chartPreview, .listPreview {
-  width:100%;
-  max-width:100%;
-  overflow:auto;
+/* If your dateselector uses .panelWrap from dateselector.module.css ensure it's visible */
+.card :global(.panelWrap) {
+  position: absolute;
 }
 
-/* Prevent huge images or iframes from breaking layout */
-.cardBody img, .cardBody svg, .cardBody iframe {
-  max-width:100%;
-  height:auto;
-  display:block;
+/* small screens adjustments */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 12px;
+  }
 }
-
-/* Prevent overflowing long text */
-.cardBody code, .cardBody pre, .cardBody p {
-  white-space:normal;
-  word-break:break-word;
-  overflow-wrap:break-word;
-}
-
-/* Fallback visuals */
-.unrenderable { color: rgba(10,46,43,0.45); font-size: 0.9rem; }
-.valuePreview { font-size: 0.9rem; color: rgba(10,46,43,0.8); }
-
-/* small badges inside cards */
-.badgeWrap{ display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
-
-/* Scrollbar styling (optional) */
-.cardBody::-webkit-scrollbar { height:10px; width:8px; }
-.cardBody::-webkit-scrollbar-thumb { background: rgba(6,18,16,0.06); border-radius:8px; }
-
-/* Responsive tweaks */
-@media (max-width: 980px) {
-  :root { --card-min-width: 240px; --card-max-height: 520px; }
-  .grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-}
-
-@media (max-width: 560px) {
-  :root { --card-min-width: 180px; }
-  .grid { grid-template-columns: 1fr; }
-  .card { max-height: none; }
-}
-
-/* Optional: ensure the sample drawer itself doesn't overlap main content */
-.sampleDrawer {
-  max-height: 92vh;
-  overflow: auto;
-  box-sizing: border-box;
-}
-
-/* ...existing code... */

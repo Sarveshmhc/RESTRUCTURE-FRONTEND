@@ -43,12 +43,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!value.trim()) {
+    const val = (value ?? "").toString();
+    if (!val.trim()) {
       setResults([]);
       setActive(-1);
       return;
     }
-    const q = value.toLowerCase();
+    const q = val.toLowerCase();
     const filtered = menuItems.filter(
       s =>
         s.label.toLowerCase().includes(q) ||
@@ -120,11 +121,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div ref={ref} className={styles.root}>
       <div className={styles.inputWrap}>
-        
         <Search className={styles.searchIcon} />
         <input
           aria-label="Search"
-          value={value}
+          value={value ?? ""}
           onChange={e => { onChange(e.target.value); setOpen(true); }}
           onFocus={() => { setOpen(true); updatePos(); }}
           onKeyDown={onKeyDown}
@@ -146,7 +146,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
       {open && (results.length > 0 || recent.length > 0) && typeof document !== "undefined" && (
         <div
           className={styles.dropdown}
-          style={{ top: dropdownRect.top, left: dropdownRect.left, width: dropdownRect.width, zIndex: 99999, position: "absolute" }}
+          ref={el => {
+            if (el) {
+              el.style.setProperty('--dropdown-top', `${dropdownRect.top}px`);
+              el.style.setProperty('--dropdown-left', `${dropdownRect.left}px`);
+              el.style.setProperty('--dropdown-width', `${dropdownRect.width}px`);
+            }
+          }}
         >
           {results.length > 0 ? (
             <div>

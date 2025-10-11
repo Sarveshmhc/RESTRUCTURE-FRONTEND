@@ -1,103 +1,228 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import styles from "./sidebartooltip.module.css";
 
-export interface SidebarTooltipProps {
+type Placement = "bottom" | "top" | "left" | "right";
+
+interface SidebarTooltipProps {
   text: string;
   children: React.ReactNode;
+  placement?: Placement;
+  delay?: number; // ms
   className?: string;
-  placement?: 'right' | 'top' | 'left' | 'bottom';
 }
 
-const SidebarTooltip: React.FC<SidebarTooltipProps> = ({ 
-  text, 
-  children, 
-  className,
-  placement = 'right' 
-}) => {
-  const wrapRef = useRef<HTMLSpanElement>(null);
-  const tipRef = useRef<HTMLSpanElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const delayRef = useRef<number>();
+const sidebarSelectors = [
+  "nav",
+  ".sidebar",
+  ".sidebarWrapper",
+  ".sidebarNav",
+  ".appSidebar",
+  "aside",
+  "[data-sidebar]",
+];
 
-  const updatePosition = () => {
-    if (wrapRef.current && tipRef.current) {
-      const rect = wrapRef.current.getBoundingClientRect();
-      const tip = tipRef.current;
-      const viewport = window.innerWidth;
-      
-      if (placement === 'right') {
-        // Calculate position ensuring it stays within viewport
-        let leftPos = rect.right + 12;
-        const topPos = rect.top + (rect.height / 2);
-        
-        // If tooltip would go off-screen, position it differently
-        if (leftPos + 200 > viewport) {
-          leftPos = rect.left - 12; // Position to the left instead
-          tip.classList.add(styles.leftPlacement);
-        } else {
-          tip.classList.remove(styles.leftPlacement);
-        }
-        
-        tip.style.left = `${leftPos}px`;
-        tip.style.top = `${topPos}px`;
-        tip.style.transform = 'translateY(-50%)';
-      } else if (placement === 'top') {
-        const leftPos = rect.left + (rect.width / 2);
-        const topPos = rect.top - 12;
-        
-        tip.style.left = `${leftPos}px`;
-        tip.style.top = `${topPos}px`;
-        tip.style.transform = 'translate(-50%, -100%)';
-      }
+const SidebarTooltip: React.FC<SidebarTooltipProps> = ({
+  text,
+  children,
+  placement = "bottom",
+  delay = 500,
+  className,
+}) => {
+  const wrapRef = useRef<HTMLSpanElement | null>(null);
+  const tipRef = useRef<HTMLSpanElement | null>(null);
+  const timerRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const [portalEl] = useState<HTMLElement | null>(() => {
+    if (typeof document === "undefined") return null;
+    const el = document.createElement("div");
+    el.className = styles.portal || "";
+    // don't set position here — keep portal a plain body child so tooltip uses fixed positioning
+    return el;
+  });
+
+  useEffect(() => {
+    if (!portalEl) return;
+    document.body.appendChild(portalEl);
+    return () => {
+      if (portalEl.parentNode) portalEl.parentNode.removeChild(portalEl);
+    };
+  }, [portalEl]);
+
+  const clearPending = () => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
     }
   };
 
-  const handleMouseEnter = () => {
-    updatePosition();
-    // Add 1s delay before showing
-    delayRef.current = window.setTimeout(() => setIsVisible(true), 1000);
+  const isInSidebar = (el: Element | null) => {
+    if (!el) return false;
+    return sidebarSelectors.some((sel) => !!el.closest(sel));
   };
 
-  const handleMouseLeave = () => {
-    clearTimeout(delayRef.current);
+  const computePlacement = (trigger: Element | null): Placement => {
+    if (!trigger) return placement;
+    if (isInSidebar(trigger)) return "right";
+    if (!!trigger.closest("header, .headerBar, .appHeader")) return "bottom";
+    return placement;
+  };
+
+  const applyPlacementClassToDom = (tip: HTMLElement | null, p: Placement) => {
+    if (!tip) return;
+    const clsList = [styles.top, styles.bottom, styles.left, styles.right].filter(Boolean) as string[];
+    clsList.forEach((c) => tip.classList.remove(c));
+    const placementClass = (styles as any)[p];
+    if (placementClass) tip.classList.add(placementClass);
+    tip.setAttribute("data-placement", p);
+    tip.setAttribute("data-origin", p === "right" ? "sidebar" : (p === "bottom" ? "header" : "default"));
+  };
+
+  const updatePosition = () => {
+    const trigger = wrapRef.current;
+    const tip = tipRef.current;
+    if (!trigger || !tip) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const gap = 8;
+    const effective = computePlacement(trigger);
+
+    applyPlacementClassToDom(tip, effective);
+
+    // ensure fixed positioning (outside any parent stacking context)
+    tip.style.position = "fixed";
+    tip.style.zIndex = "100000"; // authoritative high z-index to be above sidebar/header
+
+    if (effective === "bottom") {
+      const left = rect.left + rect.width / 2;
+      const top = rect.bottom + gap;
+      tip.style.left = `${Math.round(left)}px`;
+      tip.style.top = `${Math.round(top)}px`;
+      tip.style.transform = "translateX(-50%)";
+    } else if (effective === "top") {
+      const left = rect.left + rect.width / 2;
+      const top = rect.top - gap;
+      tip.style.left = `${Math.round(left)}px`;
+      tip.style.top = `${Math.round(top)}px`;
+      tip.style.transform = "translateX(-50%) translateY(-100%)";
+    } else if (effective === "right") {
+      const arrow = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--tt-arrow-size") || "10", 10) || 10;
+      // add a small extra offset to ensure the tooltip box sits fully outside the sidebar
+      const extra = 6;
+      const left = rect.right + gap + Math.ceil(arrow / 2) + extra;
+      const top = rect.top + rect.height / 2;
+      tip.style.left = `${Math.round(left)}px`;
+      tip.style.top = `${Math.round(top)}px`;
+      tip.style.transform = "translateY(-50%) translateX(0)";
+    } else {
+      const arrow = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--tt-arrow-size") || "10", 10) || 10;
+      const extra = 6;
+      const left = rect.left - gap - Math.ceil(arrow / 2) - extra;
+      const top = rect.top + rect.height / 2;
+      tip.style.left = `${Math.round(left)}px`;
+      tip.style.top = `${Math.round(top)}px`;
+      tip.style.transform = "translateY(-50%) translateX(-100%)";
+    }
+  };
+
+  const showNow = () => {
+    clearPending();
+    rafRef.current = requestAnimationFrame(() => {
+      updatePosition();
+      setIsVisible(true);
+      rafRef.current = null;
+    });
+  };
+
+  const hideNow = () => {
+    clearPending();
     setIsVisible(false);
   };
 
+  const nodeIsInsideTriggerOrTip = (node: EventTarget | null) => {
+    const trigger = wrapRef.current;
+    const tip = tipRef.current;
+    if (!node || typeof node === "string") return false;
+    const n = node as Node;
+    if (trigger && trigger.contains(n)) return true;
+    if (tip && tip.contains(n)) return true;
+    return false;
+  };
+
+  const handleEnter = (ev?: PointerEvent | any) => {
+    if (ev && nodeIsInsideTriggerOrTip(ev.relatedTarget)) return;
+    updatePosition();
+    clearPending();
+    timerRef.current = window.setTimeout(() => {
+      showNow();
+    }, delay);
+  };
+
+  const handleLeave = (ev?: PointerEvent | any) => {
+    if (ev && nodeIsInsideTriggerOrTip(ev.relatedTarget)) return;
+    hideNow();
+  };
+
   useEffect(() => {
-    const element = wrapRef.current;
-    if (element) {
-      element.addEventListener('mouseenter', handleMouseEnter);
-      element.addEventListener('mouseleave', handleMouseLeave);
-      element.addEventListener('focus', handleMouseEnter);
-      element.addEventListener('blur', handleMouseLeave);
+    const el = wrapRef.current;
+    if (!el) return;
 
-      return () => {
-        element.removeEventListener('mouseenter', handleMouseEnter);
-        element.removeEventListener('mouseleave', handleMouseLeave);
-        element.removeEventListener('focus', handleMouseEnter);
-        element.removeEventListener('blur', handleMouseLeave);
-      };
-    }
-  }, [placement]);
+    el.addEventListener("pointerenter", handleEnter);
+    el.addEventListener("pointerleave", handleLeave);
+    el.addEventListener("focus", handleEnter);
+    el.addEventListener("blur", handleLeave);
 
-  useEffect(() => () => clearTimeout(delayRef.current), []);
+    const onDocPointerMove = (e: PointerEvent) => {
+      if (!isVisible) return;
+      if (!nodeIsInsideTriggerOrTip(e.target)) hideNow();
+    };
+    const onDocPointerDown = (e: PointerEvent) => {
+      if (!isVisible) return;
+      if (!nodeIsInsideTriggerOrTip(e.target)) hideNow();
+    };
+
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    document.addEventListener("pointermove", onDocPointerMove);
+    document.addEventListener("pointerdown", onDocPointerDown);
+
+    return () => {
+      el.removeEventListener("pointerenter", handleEnter);
+      el.removeEventListener("pointerleave", handleLeave);
+      el.removeEventListener("focus", handleEnter);
+      el.removeEventListener("blur", handleLeave);
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+      document.removeEventListener("pointermove", onDocPointerMove);
+      document.removeEventListener("pointerdown", onDocPointerDown);
+      clearPending();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placement, delay, isVisible, portalEl]);
+
+  const tipNode = (
+    <span
+      ref={tipRef}
+      className={`${styles.tip} ${isVisible ? styles.visible : ""}`}
+      role="tooltip"
+      aria-hidden={!isVisible}
+      style={{ position: "fixed", left: 0, top: 0, zIndex: 100000 }}
+    >
+      <span className={styles.arrow} aria-hidden />
+      <span className={styles.content}>{text}</span>
+    </span>
+  );
 
   return (
-    <span 
-      ref={wrapRef}
-      className={`${styles.wrap} ${className || ""}`} 
-      aria-label={text} 
-      data-placement={placement}
-    >
+    <span ref={wrapRef} className={`${styles.wrap} ${className || ""}`} aria-label={text} data-placement={placement}>
       {children}
-      <span 
-        ref={tipRef}
-        className={`${styles.tip} ${styles[placement]} ${isVisible ? styles.visible : ''}`} 
-        role="tooltip"
-      >
-        <span className={styles.text}>{text}</span>
-        <span className={`${styles.arrow} ${styles[`arrow${placement.charAt(0).toUpperCase() + placement.slice(1)}`]}`} />
-      </span>
+      {portalEl ? ReactDOM.createPortal(tipNode, portalEl) : tipNode}
     </span>
   );
 };

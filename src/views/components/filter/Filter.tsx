@@ -188,7 +188,7 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({ definitions = [], values = 
                 <button
                   type="button"
                   aria-haspopup="listbox"
-                  aria-expanded={isOpen(def.id)}
+                  aria-expanded={isOpen(def.id) ? 'true' : 'false'}
                   onClick={() => toggleDropdown(def.id)}
                   className={styles.dropdownButton}
                 >
@@ -197,22 +197,33 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({ definitions = [], values = 
                 </button>
 
                 {isOpen(def.id) && (
-                  <div className={styles.pop} role="listbox" aria-label={def.label}>
+                  <div
+                    className={styles.pop}
+                    role="listbox"
+                    aria-label={def.label}
+                    aria-multiselectable={isMulti ? true : undefined}
+                  >
                     <div className={styles.options}>
                       {def.options.map(opt => {
                         const checked = isMulti ? Array.isArray(curVal) && curVal.includes(opt.value) : curVal === opt.value;
                         return (
-                          <label key={opt.value} className={styles.option} onMouseDown={e => e.preventDefault()}>
-                            <input
-                              type={isMulti ? 'checkbox' : 'radio'}
-                              name={def.id}
-                              checked={checked}
-                              onChange={() => handleOptionToggle(def.id, opt.value, isMulti)}
-                              className={styles.optionInput}
-                              aria-checked={checked}
-                            />
+                          <div
+                            key={opt.value}
+                            className={styles.option}
+                            role="option"
+                            aria-selected={checked ? true : false}
+                            tabIndex={0}
+                            onMouseDown={e => e.preventDefault()}
+                            onClick={() => handleOptionToggle(def.id, opt.value, isMulti)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleOptionToggle(def.id, opt.value, isMulti);
+                              }
+                            }}
+                          >
                             <span className={styles.optionLabel}>{opt.label}</span>
-                          </label>
+                          </div>
                         );
                       })}
                     </div>
@@ -226,7 +237,7 @@ const GlobalFilter: React.FC<GlobalFilterProps> = ({ definitions = [], values = 
 
       <div className={styles.actions}>
         <button className={styles.clearBtn} onClick={clearAll} type="button">Reset</button>
-        <div style={{ flex: 1 }} />
+        <div className={styles.flexSpacer} />
         <button className={styles.applyBtn} onClick={apply} type="button">Apply</button>
       </div>
     </div>

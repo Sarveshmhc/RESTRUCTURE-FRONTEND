@@ -39,10 +39,13 @@ export const useThemeStore = create<ThemeState>()(
         document.body.classList.add('theme-switching');
 
         // Update document class
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
+        if (typeof document !== 'undefined') {
+          if (isDark) {
+            document.documentElement.dataset.theme = 'dark';
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
+          document.documentElement.classList.remove('dark'); // remove legacy
         }
 
         // Remove transition prevention

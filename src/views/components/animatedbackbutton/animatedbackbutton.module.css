@@ -54,7 +54,7 @@
 }
 
 /* === DARK MODE (Matching Violet UI Design) === */
-.dark {
+[data-theme="dark"] {
   --color-main: #0F0C29; /* Deep indigo-black base */
   --bg: #0F0C29;
   --text: #EDE9FE; /* Light lavender text */

@@ -34,17 +34,11 @@ const TopLoading: React.FC<TopLoadingProps> = ({
   return (
     <div
       aria-hidden
+      className="top-loading-bar"
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
         height: `${height}px`,
         background: color,
-        zIndex: 99999,
-        transition: "opacity 180ms ease",
         opacity,
-        pointerEvents: "none",
       }}
     />
   );

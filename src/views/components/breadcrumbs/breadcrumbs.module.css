@@ -1,4 +1,185 @@
-.breadcrumbs { font-size: 14px; color: #555; }
-.sep { margin: 0 4px; color: #bbb; }
-a { color: #2563eb; text-decoration: none; }
-a:hover { text-decoration: underline; }
+.root { width: 100%; font-family: inherit; }
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  align-items: center;
+}
+
+/* common crumb styles */
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: transparent;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crumb:hover { background: rgba(79,124,243,0.03); }
+
+.current {
+  color: #0f1724;
+  background: rgba(79,124,243,0.06);
+  border: 1px solid rgba(79,124,243,0.08);
+}
+
+/* icon inside crumb */
+.icon { display:inline-flex; align-items:center; justify-content:center; color: #4f7cf3; flex-shrink: 0; }
+
+/* label */
+.label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* separator */
+.sep { display: inline-flex; align-items: center; color: #9ca3af; margin: 0 6px; }
+
+/* overflow (ellipsis) button */
+.overflow { position: relative; display: inline-flex; align-items: center; }
+.overflowBtn {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+}
+.overflowBtn:hover { background: rgba(79,124,243,0.03); color: #0f1724; }
+
+/* overflow menu */
+.overflowMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.06);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 99999;
+}
+.overflowItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.overflowItem:hover { background: rgba(79,124,243,0.03); }
+
+/* dark mode */
+:root.dark .overflowMenu { background: linear-gradient(180deg,#071021,#06101b); border-color: rgba(255,255,255,0.04); box-shadow: 0 12px 40px rgba(0,0,0,0.6); color: #e6eef8; }
+:root.dark .crumb { color: #e6eef8; }
+:root.dark .current { color: #e6eef8; background: rgba(21,96,255,0.08); border-color: rgba(21,96,255,0.08); }
+```/* filepath: c:\Users\sarxx\Downloads\front\src\components\Breadcrumbs\breadcrumbs.module.css */
+.root { width: 100%; font-family: inherit; }
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  align-items: center;
+}
+
+/* common crumb styles */
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: transparent;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crumb:hover { background: rgba(79,124,243,0.03); }
+
+.current {
+  color: #0f1724;
+  background: rgba(79,124,243,0.06);
+  border: 1px solid rgba(79,124,243,0.08);
+}
+
+/* icon inside crumb */
+.icon { display:inline-flex; align-items:center; justify-content:center; color: #4f7cf3; flex-shrink: 0; }
+
+/* label */
+.label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* separator */
+.sep { display: inline-flex; align-items: center; color: #9ca3af; margin: 0 6px; }
+
+/* overflow (ellipsis) button */
+.overflow { position: relative; display: inline-flex; align-items: center; }
+.overflowBtn {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+}
+.overflowBtn:hover { background: rgba(79,124,243,0.03); color: #0f1724; }
+
+/* overflow menu */
+.overflowMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.06);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 99999;
+}
+.overflowItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.overflowItem:hover { background: rgba(79,124,243,0.03); }
+
+/* dark mode */
+:root.dark .overflowMenu { background: linear-gradient(180deg,#071021,#06101b); border-color: rgba(255,255,255,0.04); box-shadow: 0 12px 40px rgba(0,0,0,0.6); color: #e6eef8; }
+:root.dark .crumb { color: #e6eef8; }
+:root.dark .current { color: #e6eef8; background: rgba(21,96,255,0.08); border-color: rgba(21,96,255,0.08); }

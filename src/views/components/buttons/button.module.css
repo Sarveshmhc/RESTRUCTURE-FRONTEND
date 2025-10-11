@@ -1,32 +1,77 @@
 .button {
   cursor: pointer;
-  transition: all 0.2s;
-  /* Light-black default with white text */
-  background: #374151; /* slate-700 */
-  color: #fff;
+  transition: all 0.15s ease;
   padding: 0.75em 1.5em;
   border-radius: var(--radius-button, 0.5em);
   border: none;
-  /* Subtle bottom edge using darker shade for depth */
-  border-bottom: 4px solid #1f2937; /* slate-800 */
   font-size: 1rem;
   font-weight: 500;
   outline: none;
   box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.button:hover {
-  /* Slightly darker on hover */
-  background: #1f2937; /* slate-800 */
+/* Primary (blue) */
+.primary {
+  background: #2563eb; /* blue-600 */
+  color: #ffffff;
+  border-bottom: 4px solid #1e40af; /* blue-800 */
+}
+.primary:hover {
+  background: #1d4ed8; /* blue-700 */
   transform: translateY(-1px);
   border-bottom-width: 6px;
-  border-bottom-color: #111827; /* slate-900 */
+  border-bottom-color: #1e3a8a; /* darker blue */
 }
-
-.button:active {
-  /* Darkest on active (pressed) */
-  background: #111827; /* slate-900 */
+.primary:active {
+  background: #1e3a8a; /* blue-800 */
   transform: translateY(2px);
   border-bottom-width: 2px;
-  border-bottom-color: #0b1220; /* deeper edge */
+}
+
+/* Secondary (red) */
+.secondary {
+  background: #dc2626; /* red-600 */
+  color: #ffffff;
+  border-bottom: 4px solid #991b1b; /* red-800 */
+}
+.secondary:hover {
+  background: #b91c1c; /* red-700 */
+  transform: translateY(-1px);
+  border-bottom-width: 6px;
+  border-bottom-color: #7f1d1d;
+}
+.secondary:active {
+  background: #7f1d1d; /* red-800-ish */
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Danger (green) */
+.danger {
+  background: #16a34a; /* green-600 */
+  color: #ffffff;
+  border-bottom: 4px solid #166534; /* green-800 */
+}
+.danger:hover {
+  background: #15803d; /* green-700 */
+  transform: translateY(-1px);
+  border-bottom-width: 6px;
+  border-bottom-color: #14532d;
+}
+.danger:active {
+  background: #14532d; /* green-800-ish */
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Disabled state helper */
+.disabled,
+.button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  pointer-events: none;
 }

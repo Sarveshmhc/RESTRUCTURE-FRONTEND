@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export interface AnimatedBackButtonProps {
-  to?: string;                 // optional explicit route, defaults to history back
+  to?: string;
   ariaLabel?: string;
-  size?: number;               // square button size in px (default 44)
+  size?: number;
   className?: string;
 }
 
 const AnimatedBackButton: React.FC<AnimatedBackButtonProps> = ({
   to,
-  ariaLabel = 'Go back',
+  ariaLabel = "Go back",
   size = 44,
-  className
+  className,
 }) => {
   const navigate = useNavigate();
   const [pressed, setPressed] = useState(false);
 
   const handleClick = () => {
     setPressed(true);
-    setTimeout(() => setPressed(false), 250);
+    setTimeout(() => setPressed(false), 180);
     if (to) navigate(to);
     else navigate(-1);
   };
@@ -31,16 +31,15 @@ const AnimatedBackButton: React.FC<AnimatedBackButtonProps> = ({
       aria-label={ariaLabel}
       title={ariaLabel}
       onClick={handleClick}
-      data-pressed={pressed ? 'true' : 'false'}
+      data-pressed={pressed ? "true" : "false"}
       style={
         {
-          // expose size/scale via CSS vars (keeps original line math intact)
-          ['--btn-size' as any]: `${size}px`,
-          ['--scale' as any]: `${size / 58}`, // original artboard height was 58
+          ["--btn-size" as any]: `${size}px`,
+          ["--scale" as any]: `${size / 58}`,
         } as React.CSSProperties
       }
     >
-      <div className="lines">
+      <div className="lines" aria-hidden>
         <div className="line line1" />
         <div className="line line2" />
         <div className="line line3" />
@@ -50,85 +49,79 @@ const AnimatedBackButton: React.FC<AnimatedBackButtonProps> = ({
 };
 
 const ButtonWrapper = styled.button`
-  /* Button base */
   --btn-size: 44px;
   --scale: 0.76;
   appearance: none;
-  border: 1px solid var(--sidebar-border, #334155);
-  background: rgba(120,130,150,0.08);
-  color: var(--sidebar-text, #e2e8f0);
+  border: 1px solid var(--sidebar-border, rgba(15, 23, 42, 0.06));
+  background: var(--sidebar-btn-bg, transparent);
+  color: var(--sidebar-text, #0f1724);
   width: var(--btn-size);
   height: var(--btn-size);
-  border-radius: 12px;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: relative;
   outline: none;
-  transition: background 0.2s, border-color 0.2s, transform 0.12s ease-out;
+  padding: 0;
+  transition: transform 0.12s ease-out, background 0.18s ease,
+    border-color 0.18s ease;
 
   &:hover {
-    background: var(--sidebar-hover, #2a364a);
-    border-color: var(--color-primary, #3b82f6);
+    transform: translateY(-2px);
   }
-
   &:active {
     transform: scale(0.98);
   }
 
-  /* Inner drawing area matches the original code’s coordinate system */
   .lines {
     position: relative;
-    width: calc(70px * var(--scale));
-    height: calc(58px * var(--scale));
+    width: calc(40px * var(--scale));
+    height: calc(28px * var(--scale));
+    margin: 0 auto;
   }
 
   .line {
     position: absolute;
-    width: calc(70px * var(--scale));
-    height: calc(6px * var(--scale));
-    background-color: currentColor;
-    left: 0;
-    border-radius: 6px;
-    transition: transform 0.3s ease, width 0.3s ease, border-radius 0.3s ease, opacity 0.2s ease;
-    will-change: transform, width;
+    left: 50%;
+    transform-origin: center;
+    background: currentColor;
+    width: calc(34px * var(--scale));
+    height: calc(5px * var(--scale));
+    border-radius: calc(4px * var(--scale));
+    transition: transform 0.22s ease, width 0.22s ease, opacity 0.18s ease;
   }
 
-  /* Positions (from your original) scaled to the new canvas */
-  .line1 { top: 0; }
-  .line2 { top: calc(18px * var(--scale)); }
-  .line3 { top: calc(36px * var(--scale)); }
-
-  /* “Arrow” state: we always render as a back chevron using your transforms */
+  /* top angled stroke (upper arm of chevron) */
   .line1 {
-    transform: rotate(-35deg) scaleX(0.55) translate(calc(-39px * var(--scale)), calc(-4.5px * var(--scale)));
-    border-radius: 50px 0 0 50px;
-    transform-origin: left center;
+    top: 4px;
+    transform: translateX(-50%) rotate(-35deg);
   }
 
-  .line3 {
-    transform: rotate(35deg) scaleX(0.55) translate(calc(-39px * var(--scale)), calc(4.5px * var(--scale)));
-    border-radius: 50px 0 0 50px;
-    transform-origin: left center;
-  }
-
+  /* middle short stroke */
   .line2 {
-    width: calc(45px * var(--scale));
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
+    top: calc(50% - calc(2.5px * var(--scale)));
+    width: calc(20px * var(--scale));
+    transform: translateX(-50%);
   }
 
-  /* Small press feedback (subtle morph) */
+  /* bottom angled stroke (lower arm of chevron) */
+  .line3 {
+    bottom: 4px;
+    transform: translateX(-50%) rotate(35deg);
+  }
+
+  /* pressed (subtle) */
   &[data-pressed="true"] .line1 {
-    transform: rotate(-40deg) scaleX(0.5) translate(calc(-41px * var(--scale)), calc(-5px * var(--scale)));
+    transform: translateX(-50%) rotate(-42deg) translateY(-1px);
   }
   &[data-pressed="true"] .line3 {
-    transform: rotate(40deg) scaleX(0.5) translate(calc(-41px * var(--scale)), calc(5px * var(--scale)));
+    transform: translateX(-50%) rotate(42deg) translateY(1px);
   }
   &[data-pressed="true"] .line2 {
-    width: calc(42px * var(--scale));
+    width: calc(18px * var(--scale));
   }
-`
+`;
 
 export default AnimatedBackButton;

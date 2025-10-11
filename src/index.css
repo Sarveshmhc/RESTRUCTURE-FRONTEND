@@ -1,582 +1,218 @@
-/* ================================
-   THEME VARIABLES (GLOBAL)
-   - Light theme defaults in :root
-   - Dark theme overrides in .dark
-   - Grouped by area: Background, Text, Sidebar, Header, Search, Borders, Brand, Status, Utility
-   ================================ */
+/* Global tokens & theme variables (single source of truth) */
+
+/* ---------- Light (default) ---------- */
 :root {
-  /* Primary gradient */
-  --primary-1: #023E8A;
-  --primary-2: #00B4D8;
-  --primary-gradient: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
+  /* Brand / Accent */
+  --brand-50: #eef2ff;
+  --brand-500: #7a0090;
 
-  /* Glass tokens */
-  --glass-bg: rgba(255,255,255,0.56);
-  --glass-bg-strong: rgba(255,255,255,0.68);
-  --glass-border: rgba(255,255,255,0.28);
-  --glass-shadow: 0 10px 30px rgba(2,6,23,0.08);
+  /* Text & surfaces */
+  --text: #0f1724;
+  --muted: #6b7280;
+  --bg: #ffffff;
 
-  /* Accent */
-  --accent: #9D4EDD;
-  --accent-soft: rgba(157,78,221,0.08);
+  /* Sidebar / Header (light) */
+  --sidebar-bg: #eeeeee;        /* <-- change sidebar color here for light mode */
+  --sidebar-text: #111827;
+  --sidebar-border: rgba(15,23,42,0.06);
+  --sidebar-hover: rgba(124,58,237,0.12);       /* light mode hover (subtle violet) */
+  --sidebar-active: rgba(99,102,241,0.08);
 
-  /* Typography */
-  --font-primary: 'Inter', 'Poppins', 'Helvetica Neue', sans-serif;
-  
-  /* --- Background Colors (Light) --- */
-  --bg: #fff;
-  --bg-secondary:#f1f1f1;
-  --bg-tertiary: #f1f5f9;
-  
-  /* --- Text Colors (Light) --- */
-  --text: #222;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  
-  /* --- Sidebar Colors (Light) --- */
-  --sidebar-bg: rgba(255,255,255,0.85);
-  --sidebar-text: #222;
-  --sidebar-hover: #f1f5f9;
-  --sidebar-active: #3b82f6;
-  --sidebar-active-text: #ffffff;
-  --sidebar-border: #e2e8f0;
-  --sidebar-header-bg: #ffffff;
-  --sidebar-footer-bg: #ffffff;
-  
-  /* --- Header Colors (Light) --- */
-  --header-bg: rgba(255,255,255,0.85);
-  --header-text: #222;
-  --header-border: #e2e8f0;
-  
-  /* --- Search Colors (Light) --- */
-  --search-bg: #f8fafc;
-  --search-border: #e2e8f0;
-  --search-border-hover: #cbd5e1;
-  --search-border-focus: #3b82f6;
-  --search-text: #1e293b;
-  --search-placeholder: #94a3b8;
-  
-  /* --- Border Colors (Light) --- */
-  --border-color: #e2e8f0;
-  --border-light: #f1f5f9;
-  --border-dark: #cbd5e0;
-  
-  /* --- Brand Colors --- */
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-primary-light: #dbeafe;
-  --color-accent: #b84ff3;
-  --color-accent-dark: #8c33c7;
-  --color-accent-light: #e1a4f5;
-  
-  /* --- Status Colors --- */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-danger-dark: #dc2626;
-  --color-info: #06b6d4;
-  
-  /* --- Gray Scale --- */
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
-  --color-surface: #ffffff;
-  --color-surface-dark: #18181b;
-  
-  /* --- Utility Colors --- */
-  --shadow: rgba(0, 0, 0, 0.1);
-  --shadow-lg: rgba(0, 0, 0, 0.15);
-  --overlay: rgba(0, 0, 0, 0.5);
-  --glass: rgba(255, 255, 255, 0.1);
-  --glass-blur: blur(18px);
-  --glass-border: 1.5px solid rgba(255,255,255,0.25);
-  
-  /* Spacing System */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
-  
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  
-  /* Transitions */
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Z-Index Scale */
+  /* Header follows sidebar by default */
+  --header-bg: #ffffff;
+  --header-text: var(--sidebar-text);
+  --header-border: var(--sidebar-border);
+
+  /* Content / outlet surface */
+  --content-bg: #f3f4f6;        /* <-- light gray for main content area (change to taste) */
+  --content-text: var(--text);
+
+  /* Spacing / radii / z */
+  --card-radius: 12px;
+  --shadow-1: 0 6px 24px rgba(15,23,42,0.06);
   --z-sidebar: 100;
   --z-header: 95;
-  --z-dropdown: 200;
-  --z-modal: 1000;
-  --z-toast: 1100;
+  --z-popover: 900;
 
-  /* Font settings */
-  font-family: var(--font-primary);
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* font */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Tooltip tokens (change these values to update ALL tooltips app-wide) */
+  --tooltip-bg: #0b0b0b;             /* background color of the tooltip box */
+  --tooltip-text: #ffffff;           /* text color inside tooltip */
+  --tooltip-border: rgba(255,255,255,0.06);
+  --tooltip-shadow: 0 8px 24px rgba(2,6,23,0.12);
+  --tooltip-radius: 8px;
+
+  /* arrow/diamond (you can keep same as box or set different) */
+  --tooltip-arrow-bg: var(--tooltip-bg);
+  --tooltip-arrow-border: var(--tooltip-border);
+
+  /* arrow size / gap */
+  --tt-arrow-size: 10px;
+  --tt-gap: 8px;
 }
 
-/* ================================
-  DARK MODE OVERRIDES (.dark)
-  Attach .dark to <html> (ThemeStore toggles it)
-  ================================ */
-.dark {
-  color-scheme: dark;
-  /* --- Background & Text (Dark) --- */
-  --bg: #f5f5f5;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --text: #f1f5f9;
-  --text-secondary: #cbd5e0;
-  --text-muted: #94a3b8;
-
-  --color-surface: #18181b;
-  --color-primary: #3356c7;
-  --color-accent: #8c33c7;
-  --color-gray-100: #374151;
-  --color-gray-200: #4b5563;
-  --color-gray-300: #6b7280;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #d1d5db;
-  --color-gray-900: #f3f4f6;
-  
-  /* --- Borders (Dark) --- */
-  --sidebar-border: #374151;
-  --header-border: #374151;
-  --border-color: #374151;
-  
-  /* --- Sidebar & Header (Dark) --- */
-  --sidebar-bg: #1e293b;
-  --sidebar-header-bg: #1e293b;
-  --header-bg: #1e293b;
-
-  /* --- Sidebar & Header Text (Dark) --- */
-  --header-text: #f1f5f9;
-  --sidebar-text: #f1f5f9;
-  --sidebar-hover: #334155;
-  --sidebar-active: #3b82f6;
-  --sidebar-active-text: #ffffff;
-
-  /* --- Search (Dark) --- */
-  --search-bg: #334155;
-  --search-border: #475569;
-  --search-text: #f1f5f9;
-  --search-placeholder: #94a3b8;
-
-  /* --- Utility (Dark) --- */
-  --shadow: rgba(0, 0, 0, 0.3);
-  --shadow-lg: rgba(0, 0, 0, 0.4);
-  --overlay: rgba(0, 0, 0, 0.7);
-}
-
-/* Drapora POS tokens (Aqua glassmorphism) */
+/* Add sidebar hover tokens (edit values here to change app-wide sidebar hover) */
 :root {
-  --drapora-primary-1: #DDF5F2;
-  --drapora-primary-2: #0C736B;
-  --drapora-primary-gradient: linear-gradient(135deg, var(--drapora-primary-1) 0%, var(--drapora-primary-2) 100%);
-  --drapora-accent: #009688;
-  --drapora-text: #0A2E2B;
-  --drapora-bg: #F7FAFA;
-  --drapora-hover: rgba(12,115,107,0.1);
-
-  --glass-bg: rgba(255,255,255,0.5);
-  --glass-border: rgba(255,255,255,0.4);
-  --glass-blur: 12px;
-
-  --br: 1rem;
-  --shadow-soft: 0 4px 30px rgba(0,0,0,0.05);
-  --transition-md: all 0.3s ease;
-  --z-sidebar: 200;
-  --z-header: 180;
-
-  --font-system: "Inter", "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Segoe UI Emoji";
+  /* ...existing tokens... */
+  --sidebar-hover: #7944ff86;       /* light mode hover (subtle violet) */       /* light mode hover (subtle violet) */
+  --sidebar-hover-dark: #7b2cbf; /* dark mode hover (subtle white) */
 }
 
-/* base */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-html, body {
-  font-family: var(--font-system);
-  background: linear-gradient(180deg, rgba(221,245,242,0.6), var(--drapora-bg));
-  color: var(--drapora-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 0;
-  height: 100%;
-  transition: var(--transition-md);
-  -webkit-font-smoothing: antialiased;
+/* ---------- Dark theme overrides (toggle by setting html[data-theme="dark"]) ---------- */
+[data-theme="dark"] {
+  --text: #000000;
+  --muted: #9aa3b2;
+  --bg: #c7c5c5;
+
+  --sidebar-bg: #10002b;
+  --sidebar-text: #e6eef8;
+  --sidebar-border: rgba(255,255,255,0.04);
+  --sidebar-hover: var(--sidebar-hover-dark);
+  --sidebar-active: rgba(99,102,241,0.08);
+
+  --header-bg: var(--sidebar-bg);
+  --header-text: var(--sidebar-text);
+
+  /* content slightly lighter than sidebar/header in dark */
+  --content-bg: #0f1724;
+  --content-text: var(--text);
+
+  /* Tooltip tokens + authoritative tooltip styling (keeps previous correct colors) */
+  --tooltip-bg: rgba(2,6,23,0.9);
+  --tooltip-text: #e6eef8;
+  --tooltip-border: rgba(255,255,255,0.04);
+  --tooltip-arrow-bg: var(--tooltip-bg);
+  --tooltip-arrow-border: var(--tooltip-border);
 }
 
-/* Reusable glass utilities */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
-  border-radius: var(--br);
-  box-shadow: var(--shadow-soft);
-  transition: var(--transition-md);
-}
-
-.glass-card {
-  padding: 1rem;
-  border-radius: calc(var(--br) - 0.25rem);
-  background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.6));
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.glass-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.08);
-}
-
-/* accent helpers */
-.btn-accent {
-  background: var(--drapora-accent);
-  color: #fff;
-  border-radius: 12px;
-  padding: .5rem .9rem;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.btn-accent:hover { background: color-mix(in srgb, var(--drapora-accent) 85%, white); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-
-:root {
-  --focus-color: var(--drapora-accent);
-}
-
-/* ===== GLOBAL RESETS ===== */
+/* ---------- Base / reset ---------- */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*::after { box-sizing: border-box; }
 
-html, body {
-  margin: 0;
-  padding: 0;
+html, body, #root {
   height: 100%;
-  width: 100%;
-  overflow: hidden;
-  border: none;
-}
-
-#root {
   margin: 0;
-  font-family: var(--font-primary);
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: var(--bg);
+  font-family: var(--font-sans);
+  background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Prevent page/body scrolling - internal areas will scroll explicitly */
+}
+
+/* App shell helpers (consumers should prefer tokens) */
+.appSidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 220px;
+  padding: 16px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border-right: 1px solid var(--sidebar-border);
+  box-shadow: inset 0 0 30px rgba(2,6,23,0.02);
+  z-index: var(--z-sidebar);
+  overflow: auto;
+}
+
+.appHeader, .headerBar {
+  position: relative;
+  height: 64px;
+  padding: 12px 20px;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-/* ===== INSTANT THEME SWITCHING ===== */
-/* Prevent color transitions during theme changes */
-body.theme-switching * {
-  transition: none !important;
-}
-
-/* Only allow layout transitions, never colors */
-*:not(.no-transition) {
-  transition-property: transform, opacity, width, height, padding, margin, left, right, top, bottom;
-  transition-duration: var(--transition-normal);
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ===== SCROLLBAR STYLING ===== */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-dark);
-}
-
-/* ===== FOCUS STYLES ===== */
-.focus-ring:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-/* ===== UTILITY CLASSES ===== */
-.no-transition {
-  transition: none !important;
-}
-
-.layout-transition-only {
-  transition-property: transform, opacity, width, height, padding, margin, left, right, top, bottom !important;
-}
-
-/* ===== LINK STYLES ===== */
-a {
-  font-weight: 500;
-  color: var(--color-primary);
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: var(--color-primary-dark);
-}
-
-/* ===== TYPOGRAPHY ===== */
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-/* ===== BUTTON STYLES ===== */
-button {
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  background-color: var(--bg-secondary);
-  color: var(--text);
-  /* Only layout transitions */
-  transition: transform var(--transition-fast), 
-              box-shadow var(--transition-fast);
-}
-
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px var(--shadow);
-}
-
-button:focus,
-button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-/* --- Glassmorphism & Theme Tokens --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-  /* Primary gradient */
-  --primary-1: #023E8A;
-  --primary-2: #00B4D8;
-  --primary-gradient: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
-
-  /* Glass tokens */
-  --glass-bg: rgba(255,255,255,0.56);
-  --glass-bg-strong: rgba(255,255,255,0.68);
-  --glass-border: rgba(255,255,255,0.28);
-  --glass-shadow: 0 10px 30px rgba(2,6,23,0.08);
-
-  /* Accent */
-  --accent: #9D4EDD;
-  --accent-soft: rgba(157,78,221,0.08);
-
-  /* Typography */
-  --font-primary: 'Inter', system-ui, sans-serif;
-  --font-secondary: 'Poppins', system-ui, sans-serif;}
-
-/* Apply modern font globally */
-html, body {
-  font-family: var(--font-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Reusable glass utilities */
-.glass-panel {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: var(--glass-shadow);
-}
-
-.glass-card {
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.45));
-  border: 1px solid rgba(255,255,255,0.22);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: transform 0.22s cubic-bezier(0.2,0.9,0.2,1), box-shadow 0.22s;
-  box-shadow: 0 6px 20px rgba(2,6,23,0.05);
-}
-.glass-card:hover { transform: translateY(-6px); box-shadow: 0 14px 40px rgba(2,6,23,0.10); }
-
-/* Accent helpers */
-.btn-gradient {
-  background: var(--primary-gradient);
-  color: #fff;
-  border-radius: 12px;
-  padding: .5rem .9rem;
-  border: none;
-  box-shadow: 0 6px 20px rgba(2,6,23,0.06);
-}
-
-/* (No additional .dark blocks; consolidated above) */
-
-/* ===== ANIMATION KEYFRAMES ===== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ===== ANIMATION UTILITY CLASSES ===== */
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.2s ease-out;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.3s ease-out;
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* ===== SPACING UTILITIES ===== */
-.space-y-2 > * + * {
-  margin-top: 0.5rem;
-}
-
-.space-y-4 > * + * {
-  margin-top: 1rem;
-}
-
-/* ===== RESPONSIVE BREAKPOINTS REFERENCE ===== */
-/* Mobile: max-width: 799px */
-/* Tablet: 800px - 1024px */
-/* Desktop: min-width: 1025px */
-
-/* ===== MEDIA QUERIES FOR THEME-SPECIFIC ADJUSTMENTS ===== */
-@media (prefers-color-scheme: light) {
-  body {
-    color: var(--text);
-    background-color: var(--bg);
-  }
-}
-
-/* Remove all button tap highlights and backgrounds for theme toggle */
-*[class*="iconToggle"],
-*[class*="toggleSwitch"] {
-  -webkit-tap-highlight-color: transparent !important;
-  background: transparent !important;
-}
-
-*[class*="iconToggle"]:hover,
-*[class*="iconToggle"]:focus,
-*[class*="iconToggle"]:active {
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-/* Remove underlines from all sidebar links */
-.sidebar a,
-.sidebar a:hover,
-.sidebar a:focus,
-.sidebar a:active,
-.sidebar a:visited {
-  text-decoration: none !important;
-}
-
-/* Ensure no global link styles interfere with sidebar */
-*[class*="sidebar"] a,
-*[class*="sidebar"] a:hover,
-*[class*="sidebar"] a:focus {
-  text-decoration: none !important;
-}
-
-/* Ensure header bar uses the exact same background token as the sidebar */
-.headerBar {
-  background: var(--sidebar-bg) !important;
-  border-bottom: 1px solid var(--sidebar-border);
+  align-items: center;
+  background: var(--header-bg);
   color: var(--header-text);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--header-border);
+  z-index: var(--z-header);
 }
 
-/* Optional stronger override for header elements (icons / buttons) */
-.headerBar .iconToggle,
-.headerBar .headerRight .iconToggle {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.04);
+/* Header tokens: single source for header text + bg (fallbacks included) */
+:root {
+  --header-bg: var(--sidebar-bg, #f5f5f7);
+  --header-text: #0b1220; /* light mode header text */
+}
+
+/* Dark overrides */
+[data-theme="dark"] {
+  --header-bg: var(--sidebar-bg, linear-gradient(180deg,#050318,#0b0830));
+  --header-text: #e6eef8; /* light text for dark header */
+}
+
+/* Example component tokens */
+.card { background: var(--surface); color: var(--text); border-radius: var(--card-radius); box-shadow: var(--shadow-1); }
+
+/* Utilities */
+.hidden { display: none !important; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Responsive adjustments */
+@media (max-width: 880px) {
+  .appSidebar { width: 72px; }
+  .appMain { margin-left: 72px; padding: 12px; }
+}
+
+@media (max-width: 480px) {
+  .appSidebar { display: none; position: static; width: 100%; }
+  .appMain { margin-left: 0; padding: 12px; }
+}
+
+/* Generic tooltip rules — cover common tooltip implementations used in UI */
+.tooltip,
+.tooltip-inner,
+[role="tooltip"],
+.rc-tooltip .rc-tooltip-inner,
+.ant-tooltip-inner,
+.react-tooltip,
+.chakra-tooltip__inner,
+.popper__tooltip {
+  background: var(--tooltip-bg) !important;
+  color: var(--tooltip-text) !important;
+  border: 1px solid var(--tooltip-border) !important;
+  box-shadow: var(--tooltip-shadow) !important;
+  border-radius: var(--tooltip-radius) !important;
+  font-size: var(--tooltip-font-size) !important;
+  padding: 6px 10px !important;
+  z-index: 999999 !important;
+  max-width: 320px !important;
+  white-space: normal !important;
+}
+
+/* Arrow color/appearance for common tooltip libraries */
+.rc-tooltip .rc-tooltip-arrow,
+.ant-tooltip-arrow,
+.tooltip-arrow,
+.popper__arrow {
+  color: var(--tooltip-bg) !important; /* for svg-based arrows */
+  background: transparent !important;  /* neutralize accidental backgrounds */
+}
+
+/* some libraries use a separate inner arrow element */
+.ant-tooltip .ant-tooltip-arrow:before,
+.rc-tooltip .rc-tooltip-arrow-inner,
+.tooltip-arrow::before,
+.popper__arrow::before {
+  background: var(--tooltip-bg) !important;
+  border-color: var(--tooltip-border) !important;
+}
+
+/* Ensure links/strong text inside tooltips are visible */
+.tooltip a,
+.tooltip strong,
+[role="tooltip"] a,
+[role="tooltip"] strong {
+  color: var(--tooltip-text) !important;
+}
+
+/* defensive: override inline SVG fills used for arrow shapes */
+.tooltip svg,
+[role="tooltip"] svg {
+  fill: var(--tooltip-bg) !important;
+  color: var(--tooltip-bg) !important;
 }
 
 

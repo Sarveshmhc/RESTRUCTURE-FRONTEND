@@ -1,3 +1,76 @@
-.card { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; }
-.header { font-weight: bold; padding: 10px; cursor: pointer; background: #f7f7f7; }
-.content { padding: 10px; }
+:root {
+  --accent: #4f7cf3;
+  --muted: #6b7280;
+  --card-bg: #ffffff;
+  --card-surface: #f8fafc;
+  --dark-bg: #071021;
+}
+
+/* wrapper tweaks to integrate with app Card */
+.wrapper {
+  width: 100%;
+  overflow: visible;
+  --tw-shadow: 0 12px 40px rgba(2,6,23,0.04);
+}
+
+/* header row */
+.headerRow { display: block; }
+
+.header {
+  width: 100%;
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+.header:focus { outline: 2px solid rgba(79,124,243,0.12); outline-offset: 2px; border-radius: 8px; }
+
+/* title area */
+.titleWrap { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.title { font-weight: 700; font-size: 1rem; color: #0f1724; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.subtitle { font-size: 13px; color: var(--muted); }
+
+/* right side (actions + chevron) */
+.headerRight { display:flex; align-items:center; gap:10px; }
+.actions { display:flex; gap:8px; align-items:center; }
+
+/* chevron */
+.chev { color: var(--muted); display:inline-flex; align-items:center; justify-content:center; }
+
+/* when open change title color slightly */
+.open .title { color: var(--accent); }
+
+/* panel area animated */
+.panelWrap {
+  overflow: hidden;
+  will-change: height, opacity;
+}
+.panelInner {
+  padding: 12px 14px;
+  border-top: 1px dashed rgba(15,23,42,0.04);
+  background: var(--card-surface);
+  color: #374151;
+  line-height: 1.6;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* subtle hover style when header hovered (visual cue) */
+.header:hover .title { text-decoration: none; }
+
+/* dark mode */
+:root.dark .title { color: #e6eef8; }
+:root.dark .subtitle, :root.dark .panelInner { color: #9aa3b2; }
+:root.dark .panelInner { background: rgba(255,255,255,0.02); border-top-color: rgba(255,255,255,0.03); }
+
+/* responsive */
+@media (max-width: 640px) {
+  .header { padding: 10px 12px; }
+  .panelInner { padding: 10px 12px; }
+}

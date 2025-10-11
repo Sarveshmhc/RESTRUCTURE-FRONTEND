@@ -1,157 +1,172 @@
-import React, { useState } from "react";
-import * as Components from "../../components";
-import styles from "./SamplePanel.module.css";
+"use client"
 
-/**
- * SamplePanel
- * - Renders previews for each export from src/views/components/index.ts
- * - Provides safe sample props for common components to avoid runtime errors
- * - Does NOT pass children by default to avoid void-element errors
- */
-const SamplePanel: React.FC = () => {
-  const [tabId, setTabId] = useState<string>("t1");
-  const entries = Object.entries(Components).sort(([a], [b]) => a.localeCompare(b));
+import React from "react"
+import styles from "./SamplePanel.module.css"
 
-  const sampleProps: Record<string, any> = {
-    Breadcrumbs: { items: [{ label: "Home", href: "/" }, { label: "Library" }, { label: "Current" }] },
-    BreadCrumbs: { items: [{ label: "Home", href: "/" }, { label: "Library" }, { label: "Current" }] },
-    BasicCalendar: { date: new Date() },
-    BasicCalender: { date: new Date() },
-    ProgressBar: { value: 64 },
-    Tabs: {
-      tabs: [
-        { id: "t1", label: "One" },
-        { id: "t2", label: "Two" },
-      ],
-      activeTab: tabId,
-      onTabChange: (id: string) => setTabId(id),
-    },
-    Toast: { message: "Sample toast", type: "info" },
-    FileViewer: { url: "https://example.com/sample.png", type: "image/png" },
+// import everything from the components barrel
+import * as Components from "../../../views/components"
+import BadgeVariants from "../../../views/components/badge/BadgeVariants";
+import ButtonVariants from "../../../views/components/buttons/ButtonVariants";
 
-    // safe DropDown and EmployeeCalendar samples
-    DropDown: { options: [{ value: "1", label: "One" }, { value: "2", label: "Two" }], placeholder: "Choose" },
-    EmployeeCalendar: {
-      events: [
-        { id: "e1", date: new Date().toISOString().slice(0,10), start: "09:00", end: "10:00", title: "Standup", employeeName: "Alice", color: "#0C736B", status: "confirmed" }
-      ],
-      initialDate: new Date().toISOString().slice(0,10),
-      onEventClick: () => {}
-    },
+/* Minimal error boundary so a broken component doesn't break the whole panel */
+class PreviewErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: any) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() { return { hasError: true } }
+  componentDidCatch(err: any) { console.warn("Preview render error:", err) }
+  render() {
+    if (this.state.hasError) return <div className={styles.previewUnavailable}>Preview unavailable</div>
+    return this.props.children
+  }
+}
 
-    // NEW: provide Accordion required props so it won't crash
-    Accordion: {
-      items: [
-        { id: "a1", title: "Section 1", content: "Content for section 1" },
-        { id: "a2", title: "Section 2", content: "Content for section 2" },
-      ],
-      allowMultiple: true,
-      defaultExpanded: ["a1"],
-    },
+/* Try to render an exported value safely */
+function RenderExport({ name, value }: { name: string; value: any }) {
+  const isReactComponent = typeof value === "function" || (value && (value.$$typeof || value.prototype?.isReactComponent))
 
-    // add more explicit samples here for components that require data (Charts, Cards, Table, etc.)
-  };
-  
-  // optional: blacklist problematic names so they are skipped instead of crashing
-  const blacklist = new Set(["default", "__esModule", "prakash", "SomeProblematicExport"]);
-  
-  const safeRender = (name: string, Comp: any) => {
-    try {
-      if (!Comp) return <div className={styles.unrenderable}>No export</div>;
-      if (blacklist.has(name)) return <div className={styles.unrenderable}>skipped</div>;
+  if (!isReactComponent) {
+    return <div className={styles.previewUnavailable}>Not a renderable export</div>
+  }
 
-      // Primitive / non-renderable exports
-      if (typeof Comp !== "function" && typeof Comp !== "object") {
-        return <div className={styles.valuePreview}>{String(Comp)}</div>;
-      }
+  const Comp = value as React.ComponentType<any>
+  const safeProps: Record<string, any> = {
+    value: undefined,
+    onChange: () => {},
+    items: [],
+    tabs: [],
+    children: undefined,
+    label: "Preview",
+    title: "Preview",
+  }
 
-      // If we have explicit sample props for this component, use them
-      if (sampleProps[name]) {
-        return React.createElement(Comp, sampleProps[name]);
-      }
+  try {
+    return (
+      <PreviewErrorBoundary>
+        <div className={styles.previewInner}>
+          <Comp {...safeProps} />
+        </div>
+      </PreviewErrorBoundary>
+    )
+  } catch (err) {
+    console.warn("Render failed for", name, err)
+    return <div className={styles.previewUnavailable}>Preview failed</div>
+  }
+}
 
-      const n = name.toLowerCase();
+/* small Card wrapper */
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className={styles.card} aria-label={`${title} preview`}>
+      <h3 className={styles.cardTitle}>{title}</h3>
+      <div className={styles.previewRow} style={{ minHeight: 96 }}>{children}</div>
+    </section>
+  )
+}
 
-      // Heuristics for known types (these use safe prop renders)
-      if (n.includes("button") || n.includes("btn")) {
-        return (
-          <div className={styles.buttonVariants}>
-            {React.createElement(Comp, { variant: "primary", size: "lg" }, "Primary")}
-            {React.createElement(Comp, { variant: "secondary", size: "md" }, "Secondary")}
-            {React.createElement(Comp, { variant: "ghost", size: "sm" }, "Ghost")}
-          </div>
-        );
-      }
+export default function SamplePanel() {
+  // get exports and stable sort
+  const entries = React.useMemo(
+    () =>
+      Object.entries(Components)
+        .filter(([k]) => !!k && k !== "default")
+        .sort(([a], [b]) => a.localeCompare(b)),
+    []
+  )
 
-      if (n.includes("input") || n.includes("field") || n.includes("search")) {
-        return (
-          <div className={styles.formPreview}>
-            {React.createElement(Comp, { placeholder: "Sample input", "aria-label": "sample-input" })}
-            <textarea className={styles.textarea} placeholder="Sample textarea" />
-          </div>
-        );
-      }
+  // auto-discover badge/button exports (case-insensitive)
+  const badgeEntries = entries.filter(([name]) => /badge/i.test(name))
+  const buttonEntries = entries.filter(([name]) => /button/i.test(name))
 
-      if (n.includes("badge") || n.includes("pill")) {
-        return (
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            {React.createElement(Comp, { label: "New", color: "primary" })}
-            {React.createElement(Comp, { label: "12", color: "danger" })}
-          </div>
-        );
-      }
+  // Breadcrumbs preview items
+  const bcItems = [
+    { label: "Home", href: "/hr/home" },
+    { label: "Samples", href: "/hr/samples" },
+    { label: "Component Preview" },
+  ]
 
-      if (n.includes("avatar")) {
-        return React.createElement(Comp, { src: "", alt: "Sample avatar", size: 40 });
-      }
-
-      if (n.includes("table") || n.includes("list")) {
-        const sampleData = [{ id: 1, name: "Alpha" }, { id: 2, name: "Beta" }];
-        return React.createElement(Comp, { data: sampleData });
-      }
-
-      if (n.includes("card") || n.includes("panel") || n.includes("widget")) {
-        return React.createElement(Comp, {}, (
-          <div style={{ padding: 8 }}>
-            <strong>Title</strong>
-            <div style={{ fontSize: 12, opacity: 0.85 }}>Card preview content</div>
-          </div>
-        ));
-      }
-
-      if (n.includes("modal") || n.includes("toast") || n.includes("notif")) {
-        try {
-          return React.createElement(Comp, { open: false, message: "Preview" });
-        } catch {
-          return React.createElement(Comp, {});
-        }
-      }
-
-      // Generic fallback: create element WITHOUT children to avoid injecting children into <input /> or other void elements
-      return React.createElement(Comp, {});
-    } catch (err) {
-      console.error(`SamplePanel render error for ${name}:`, err);
-      return <div className={styles.unrenderable}>Unable to render preview</div>;
-    }
-  };
+  // Breadcrumbs component reference (safe)
+  const BreadcrumbsComp = (Components as any).Breadcrumbs
+  const BadgeComp = (Components as any).Badge
+  const ButtonComp = (Components as any).Button
+  const IconComp = (Components as any).Icon // optional icon component
 
   return (
-    <div className={styles.root}>
+    <div className={styles.container}>
       <header className={styles.header}>
-        <h2>Global Components Preview</h2>
-        <p className={styles.subtitle}>Rendering all exports from <code>src/views/components/index.ts</code></p>
+        <h1 className={styles.title}>Component Preview — All Exports</h1>
+        <p className={styles.subtitle}>Automatic gallery of every export from the components barrel.</p>
       </header>
 
-      <div className={styles.grid}>
-        {entries.map(([name, Comp]) => (
-          <div className={styles.card} key={name}>
-            <div className={styles.cardHeader}><strong>{name}</strong></div>
-            <div className={styles.cardBody}>{safeRender(name, Comp)}</div>
+      {/* Breadcrumbs preview (top of panel) */}
+      <div style={{ marginBottom: 14 }}>
+        {BreadcrumbsComp ? (
+          <div style={{ maxWidth: 820 }}>
+            {/* @ts-ignore */}
+            <BreadcrumbsComp items={bcItems} />
           </div>
+        ) : (
+          <div style={{ color: "var(--muted)" }}>Breadcrumbs component not exported — see <a href="src/views/components/breadcrumbs/BreadCrumbs.tsx">BreadCrumbs.tsx</a></div>
+        )}
+      </div>
+
+      <div className={styles.grid}>
+        {/* Handcrafted Badge variants (explicit examples) */}
+        <Card title="Badge — Variants (explicit)">
+          <div className={styles.previewCol} style={{ gap: 12 }}>
+            <BadgeVariants />
+            <div style={{ color: "var(--muted)", fontSize: 13 }}>Badge variants rendered with explicit props.</div>
+          </div>
+        </Card>
+
+        {/* Handcrafted Button variants (explicit examples) */}
+        <Card title="Button — Variants (explicit)">
+          <div className={styles.previewCol} style={{ gap: 12 }}>
+            <ButtonVariants />
+            <div style={{ color: "var(--muted)", fontSize: 13 }}>Button variants including loading and icon-only previews.</div>
+          </div>
+        </Card>
+
+        {/* Badges section (auto-discovered) */}
+        <Card title={`Badges (${badgeEntries.length})`}>
+          {badgeEntries.length === 0 ? (
+            <div className={styles.note}>No badge exports found in the components barrel.</div>
+          ) : (
+            <div className={styles.previewCol}>
+              {badgeEntries.map(([name, value]) => (
+                <div key={name} style={{ width: "100%", marginBottom: 8 }}>
+                  <div style={{ marginBottom: 6, fontSize: 13, color: "var(--muted)" }}>{name}</div>
+                  <RenderExport name={name} value={value} />
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+
+        {/* Buttons section (auto-discovered) */}
+        <Card title={`Buttons (${buttonEntries.length})`}>
+          {buttonEntries.length === 0 ? (
+            <div className={styles.note}>No button exports found in the components barrel.</div>
+          ) : (
+            <div className={styles.previewCol}>
+              {buttonEntries.map(([name, value]) => (
+                <div key={name} style={{ width: "100%", marginBottom: 8 }}>
+                  <div style={{ marginBottom: 6, fontSize: 13, color: "var(--muted)" }}>{name}</div>
+                  <RenderExport name={name} value={value} />
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+
+        {/* Render remaining components as before (compact preview) */}
+        {entries.map(([name, value]) => (
+          <Card key={name} title={name}>
+            <RenderExport name={name} value={value} />
+          </Card>
         ))}
       </div>
     </div>
-  );
-};
-
-export default SamplePanel;
+  )
+}

@@ -1,2 +1,2 @@
 .light { background: #fff; color: #222; }
-.dark { background: #18181b; color: #f3f4f6; }
+[data-theme="dark"] { background: #18181b; color: #f3f4f6; }

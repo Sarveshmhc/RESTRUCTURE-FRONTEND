@@ -1,20 +1,57 @@
 .headerBar {
+  /* authoritative: header follows sidebar tokens exactly */
+  background: var(--header-bg) !important;
+  color: var(--header-text) !important;
+  border-bottom: 1px solid var(--header-border) !important;
+  box-shadow: none !important;
+
+  /* remove glass / gradients / shadows so header is identical to sidebar */
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border-radius: 0 !important;
+
+  /* layout */
   height: 4rem;
-  background: var(--header-bg, linear-gradient(90deg, rgba(255,255,255,0.56), rgba(248,249,250,0.42)));
-  border-bottom: 1px solid var(--header-border, rgba(0,0,0,0.06));
-  color: var(--header-text, #1e293b);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
-  position: sticky;
-  top: 14px;
-  margin: 0 1rem;
-  z-index: 60;
+  width: 100%;
+  position: relative !important;
+  z-index: var(--z-header, 95);
+}
+
+/* ensure header background uses token so contrast calculations are consistent */
+.headerBar {
+  background: var(--header-bg) !important;
+  color: var(--header-text) !important;
+  z-index: 220; /* keep header above sidebar */
+}
+
+/* Ensure header children DON'T accidentally overwrite interactive controls,
+   but avoid a blanket rule that clears button backgrounds. Use scoped resets if needed. */
+.headerBar > :not(button) {
+  background: transparent; /* non-forced reset for non-button children */
+}
+
+/* Dark-mode keeps the same tokens */
+.headerBar[data-theme="dark"],
+[data-theme="dark"] .headerBar {
+  background: var(--header-bg) !important;
+  color: var(--header-text) !important;
+  border-bottom: 1px solid var(--header-border) !important;
+}
+
+/* hamburger container / left slot */
+.headerLeft {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  width: 64px;
+  padding-left: 8px;
+  z-index: 230;
 }
 
 /* Left section - ensure no gaps */
@@ -25,31 +62,91 @@
 
 /* Mobile hamburger button */
 .mobileHamburger {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 4px;
+  display: none; /* media query controls visibility */
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 0.375rem;
+  border-radius: 8px;
   border: none;
-  background: transparent;
-  color: var(--header-text, #1e293b);
+  background: rgba(255,255,255,0.04); /* subtle contrast on dark/bg */
+  color: var(--header-text, #fff);
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobileHamburger:hover {
   background: var(--sidebar-hover, #f1f5f9);
 }
 
-.hamburgerLine {
+.hamburgerBar {
   display: block;
-  width: 20px;
+  width: 18px;
   height: 2px;
   background-color: currentColor;
+  margin: 2px 0;
   border-radius: 1px;
+}
+
+/* Strong explicit hamburger rules (covers both class names) */
+.headerBar .mobileHamburger {
+  display: inline-flex !important;
+  flex-direction: column;       /* stack bars vertically */
+  gap: 4px;                     /* vertical spacing between bars */
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 8px;                 /* comfortable hit area */
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--header-text) !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+}
+
+/* Ensure bars are identical and animate smoothly */
+.headerBar .mobileHamburger {
+  transition: background 180ms ease, transform 360ms cubic-bezier(.2,.9,.3,1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Explicit bar sizing + smooth transform */
+.headerBar .mobileHamburger .hamburgerBar,
+.headerBar .mobileHamburger .hamburgerLine {
+  width: 20px !important;           /* equal length for all bars */
+  height: 2px !important;
+  border-radius: 2px !important;
+  background-color: currentColor !important;
+  transition: transform 360ms cubic-bezier(.2,.9,.3,1), opacity 200ms ease, width 200ms ease;
+  transform-origin: center;
+  display: block !important;
+}
+
+/* Per-bar selectors used by TSX */
+.headerBar .mobileHamburger .bar1 { transform: translateY(0) rotate(0); }
+.headerBar .mobileHamburger .bar2 { transform: translateY(0) scaleX(1); }
+.headerBar .mobileHamburger .bar3 { transform: translateY(0) rotate(0); }
+
+/* Animated "open" state -> morph to X */
+.headerBar .mobileHamburger.open .bar1 {
+  transform: translateY(6px) rotate(45deg);
+  width: 20px !important;
+}
+.headerBar .mobileHamburger.open .bar2 {
+  opacity: 0;
+  transform: scaleX(0.2);
+}
+.headerBar .mobileHamburger.open .bar3 {
+  transform: translateY(-6px) rotate(-45deg);
+  width: 20px !important;
+}
+
+/* subtle pressed / active feedback */
+.headerBar .mobileHamburger:active .hamburgerBar,
+.headerBar .mobileHamburger:active .hamburgerLine {
+  transform: scale(0.98);
 }
 
 /* Center section */
@@ -74,14 +171,24 @@
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem; /* increased spacing so notification and theme buttons are not cramped */
   margin: 0;
   padding: 0;
 }
 
-/* Notification button - Match theme toggle exactly */
+/* Ensure action buttons don't visually collide */
+.headerRight > button {
+  margin: 0;
+}
+
+/* If you need explicit separation between specific buttons */
+.headerRight .notificationWrapper {
+  margin-right: 6px;
+}
+
+/* Notification / action button styling (match theme toggle) */
 .actionButton {
-  border-radius: 0.375rem; /* Match theme toggle border-radius */
+  border-radius: 0.375rem;
   border: none;
   background: transparent;
   color: var(--header-text, #1e293b);
@@ -93,22 +200,21 @@
   flex-shrink: 0;
   position: relative;
   outline: none;
-  /* Match theme toggle dimensions exactly */
   min-width: 44px;
   min-height: 44px;
   width: 44px;
   height: 44px;
-  padding: 0.25rem; /* Match theme toggle padding */
+  padding: 0.25rem;
 }
 
 .actionButton:hover {
   background: var(--sidebar-hover, #f1f5f9) !important;
 }
 
-/* Increase the bell icon size to match theme toggle icon */
+/* Match theme toggle sizes */
 .actionIcon {
-  width: 22px; /* Match theme toggle icon size */
-  height: 22px; /* Match theme toggle icon size */
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
   fill: currentColor;
   stroke: currentColor;
@@ -128,18 +234,9 @@
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* Ensure theme toggle matches button styling exactly */
@@ -148,7 +245,6 @@
   border-radius: 0.375rem;
   margin: 0;
   padding: 0.25rem;
-  /* Match bell button dimensions */
   min-width: 44px;
   min-height: 44px;
   width: 44px;
@@ -159,48 +255,13 @@
   background: var(--sidebar-hover, #f1f5f9) !important;
 }
 
-/* Dark theme for theme toggle */
+/* Dark theme tweaks */
 [data-theme="dark"] .headerRight .iconToggle {
   color: #f1f5f9;
   background: #23263a;
 }
-
 [data-theme="dark"] .headerRight .iconToggle:hover {
   background: #374151 !important;
-}
-
-/* Light theme (default) */
-.headerBar {
-  height: 4rem;
-  background: var(--header-bg, linear-gradient(90deg, rgba(255,255,255,0.56), rgba(248,249,250,0.42)));
-  border-bottom: 1px solid var(--header-border, rgba(0,0,0,0.06));
-  color: var(--header-text, #1e293b);
-}
-
-/* Dark theme override */
-[data-theme="dark"] .headerBar {
-  background: var(--header-bg, #1e293b); /* fallback to dark blue if no variable */
-  color: var(--header-text, #f1f5f9);
-  border-bottom: 1px solid var(--header-border, #374151);
-}
-
-/* Notification button: highlight in dark mode */
-[data-theme="dark"] .actionButton {
-  background: #fff !important;
-  color: #18181b !important;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-}
-
-[data-theme="dark"] .actionButton:hover {
-  background: #f3f4f6 !important;
-  color: #18181b !important;
-  border-color: #cbd5e1;
-}
-
-/* Notification badge border matches header bg */
-.notificationBadge {
-  border: 2px solid var(--header-bg, #1e293b);
 }
 
 /* Responsive adjustments */
@@ -210,57 +271,32 @@
     max-width: 250px;
   }
 }
-
 @media (min-width: 800px) and (max-width: 1024px) {
-  .headerBar {
-    padding: 0 2rem;
-  }
-  
-  .searchWrapper {
-    max-width: 450px;
-  }
+  .headerBar { padding: 0 2rem; } .searchWrapper { max-width: 450px; }
 }
-
 @media (min-width: 1025px) {
-  .headerBar {
-    padding: 0 2rem;
-  }
-  
-  .headerRight {
-    gap: 0.2rem; /* Slightly larger gap on desktop but still smaller than before */
-  }
-  
-  .searchWrapper {
-    max-width: 500px;
-  }
+  .headerBar { padding: 0 2rem; }
+  .headerRight { gap: 0.75rem; }
+  .searchWrapper { max-width: 500px; }
 }
 
-/* Remove any conflicting button styles */
-.actionButton,
-.actionButton:hover,
-.actionButton:focus,
-.actionButton:active {
-  box-shadow: none !important;
-  outline: none !important;
-  border: none !important;
-}
-
-.headerRight .iconToggle,
-.headerRight .iconToggle:hover,
-.headerRight .iconToggle:focus,
-.headerRight .iconToggle:active {
-  box-shadow: none !important;
-  outline: none !important;
-  border: none !important;
-}
-
-/* Focus states for accessibility */
-.actionButton:focus-visible {
-  outline: 2px solid var(--focus-color, #2563eb);
-  outline-offset: 2px;
-}
-
+/* Accessibility focus states */
+.actionButton:focus-visible,
 .headerRight .iconToggle:focus-visible {
   outline: 2px solid var(--focus-color, #2563eb);
   outline-offset: 2px;
 }
+
+/* show on tablet and below */
+@media (max-width: 1024px) {
+  .mobileHamburger {
+    display: inline-flex !important;
+  }
+}
+
+/* also allow showing when sidebar collapsed on desktop (optional) */
+/* .sidebarWrapper.collapsed + .mainArea .headerBar .mobileHamburger { display:inline-flex !important; } */
+
+/* keep header overflow visible so the button won't be clipped */
+.headerBar, .headerLeft { overflow: visible; }
+

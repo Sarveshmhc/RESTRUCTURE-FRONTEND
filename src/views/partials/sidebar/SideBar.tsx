@@ -8,9 +8,7 @@ import mhCover from "../../../assets/MH Cognizant LOGO_White.png";
 import mhLogo from "../../../assets/MH Cognition LOGO.png";
 import styles from "./sidebar.module.css";
 import { SidebarTooltip } from "@components";
-import {
-  ChevronDown, ChevronRight, LogOut, ChevronLeft, ChevronUp, User as UserIcon, X
-} from "../../components/icons";
+import { ChevronRight, LogOut, ChevronLeft, ChevronUp, User as UserIcon, X} from "../../components/icons";
 
 interface SideBarProps {
   isCollapsed: boolean;
@@ -112,12 +110,13 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
                   className={`${styles.submenuLink} ${isSubItemActive ? styles.active : ""}`}
                   style={{
                     textDecoration: "none",
-                    animationDelay: isDropdownOpen ? `${0.1 + (index * 0.05)}s` : '0s'
+                    // set CSS variable used by CSS to stagger items
+                    ['--i' as any]: index
                   }}
                   aria-label={subItem.label}
                 >
-                  <SubIcon className={styles.submenuIcon} />
-                  <span>{subItem.label}</span>
+                  <span className={styles.submenuIcon}><SubIcon /></span>
+                  <span className={styles.submenuLabel}>{subItem.label}</span>
                 </Link>
               );
             })}
@@ -217,7 +216,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
         className={`${styles.profileBtn} ${open ? styles.profileBtnOpen : ''}`}
         onClick={() => open ? handleClose() : handleOpen()}
         aria-haspopup="menu"
-        aria-expanded={open === true}
+        aria-expanded={open}
         aria-controls="sidebar-profile-menu"
         aria-label="Profile"
       >
@@ -339,7 +338,7 @@ const SideBar: React.FC<SideBarProps> = ({ isCollapsed, onToggle, isMobile = fal
           <span className={styles.navIcon} aria-hidden>
             {/* svg icon */}
           </span>
-          <span className={styles.navLabel}>Sample</span>
+          <span className={styles.navLabel}></span>
         </div>
       </nav>
 

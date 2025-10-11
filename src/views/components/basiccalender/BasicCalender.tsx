@@ -21,9 +21,6 @@ function startOfMonth(d: Date) {
   return new Date(d.getFullYear(), d.getMonth(), 1);
 }
 
-function endOfMonth(d: Date) {
-  return new Date(d.getFullYear(), d.getMonth() + 1, 0);
-}
 
 function addDays(d: Date, days: number) {
   const n = new Date(d);
@@ -102,13 +99,13 @@ const BasicCalendar: React.FC<BasicCalendarProps> = ({ events = [], initialDate,
         <button className={styles.todayButton} onClick={gotoToday}>Today</button>
       </div>
 
-      <div className={styles.grid} role="grid" aria-rowcount={6}>
-        <div className={styles.weekNames} aria-hidden>
-          {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
-            <div key={d} className={styles.dayName}>{d}</div>
-          ))}
-        </div>
+      <div className={styles.weekNames} role="presentation" aria-hidden="true">
+        {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+          <div key={d} className={styles.dayName}>{d}</div>
+        ))}
+      </div>
 
+      <div className={styles.grid} role="grid">
         {matrix.map((week, wi) => (
           <div key={wi} className={styles.week} role="row">
             {week.map((dt, di) => {
@@ -120,8 +117,9 @@ const BasicCalendar: React.FC<BasicCalendarProps> = ({ events = [], initialDate,
               return (
                 <button
                   key={di}
+                  type="button"
                   role="gridcell"
-                  aria-selected={isSelected}
+                  {...(isSelected ? { 'aria-selected': "true" } : {})}
                   onClick={() => handleSelect(dt)}
                   className={[
                     styles.day,
@@ -133,7 +131,12 @@ const BasicCalendar: React.FC<BasicCalendarProps> = ({ events = [], initialDate,
                   <div className={styles.dayNumber}>{dt.getDate()}</div>
                   <div className={styles.eventRow}>
                     {ev?.slice(0,2).map((e, idx) => (
-                      <span key={idx} className={styles.event} style={{ backgroundColor: e.color ?? '#2563eb' }} title={e.title}>
+                      <span
+                        key={idx}
+                        className={`${styles.event} ${e.color ? styles['eventColor'] : styles['eventDefault']}`}
+                        data-event-color={e.color ?? ''}
+                        title={e.title}
+                      >
                         {e.title ? (e.title.length > 12 ? e.title.slice(0,12)+'…' : e.title) : ''}
                       </span>
                     ))}

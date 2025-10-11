@@ -1,182 +1,95 @@
-.container {
+/* Modern accordion styled to match your app (dark/light aware) */
+
+:root {
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --border: rgba(15,23,42,0.06);
+  --accent: #4f7cf3;
+  --surface: #f8fafc;
+  --radius: 10px;
+}
+
+/* Dark theme variables (if your app toggles .dark on root) */
+:root.dark {
+  --bg: #0b1220;
+  --muted: #9aa3b2;
+  --border: rgba(255,255,255,0.04);
+  --surface: rgba(255,255,255,0.02);
+  --accent: #1560ff;
+}
+
+.accordion {
   width: 100%;
-  max-width: 800px;
-  border-radius: 8px;
-  background: var(--card-bg, #fff);
-  border: 1px solid rgba(0,0,0,0.06);
-  overflow: hidden;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-
-.item + .item {
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.heading {
-  margin: 0;
-}
-
-.trigger {
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  border: none;
-  padding: 14px 16px;
+  border-radius: var(--radius);
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: inherit;
+}
+
+/* each item */
+.item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 150ms ease, transform 120ms ease;
+}
+.item:hover { box-shadow: 0 8px 28px rgba(2,6,23,0.04); transform: translateY(-1px); }
+
+/* disabled state */
+.disabled { opacity: 0.6; pointer-events: none; }
+
+/* header */
+.header {
+  width: 100%;
+  display:flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text, #111827);
-  transition: background 0.12s;
-}
-.trigger:hover {
-  background: rgba(0,0,0,0.03);
-}
-.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.title {
-  display: inline-block;
-  min-width: 0;
-  flex: 1;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.icon {
-  transform: rotate(0deg);
-  transition: transform 0.18s ease;
-  color: var(--muted, #6b7280);
-}
-.expanded .icon {
-  transform: rotate(180deg);
-  color: var(--accent, #2563eb);
-}
-
-/* Panel with collapsing animation */
-.panel {
-  overflow: hidden;
-  transition: max-height 0.22s ease, padding 0.18s ease;
-  max-height: 0;
-  padding: 0 16px;
-  background: transparent;
-}
-.panelOpen {
-  padding: 12px 16px;
-}
-
-/* content area */
-.panelInner {
-  padding-bottom: 6px;
-  color: var(--muted-text, #374151);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-/* small responsive tweaks */
-@media (max-width: 640px) {
-  .trigger {
-    padding: 12px 12px;
-    font-size: 14px;
-  }
-  .panelInner {
-    font-size: 13px;
-  }
-}
-.container {
-  width: 100%;
-  max-width: 800px;
-  border-radius: 8px;
-  background: var(--card-bg, #fff);
-  border: 1px solid rgba(0,0,0,0.06);
-  overflow: hidden;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-
-.item + .item {
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.heading {
-  margin: 0;
-}
-
-.trigger {
-  width: 100%;
-  text-align: left;
+  padding: 12px 14px;
   background: transparent;
   border: none;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text, #111827);
-  transition: background 0.12s;
+  text-align: left;
 }
-.trigger:hover {
-  background: rgba(0,0,0,0.03);
-}
-.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+.header:focus { outline: 2px solid rgba(79,124,243,0.12); outline-offset: 2px; border-radius: 8px; }
 
-.title {
-  display: inline-block;
-  min-width: 0;
-  flex: 1;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
+/* left area containing title & subtitle */
+.headerLeft { display:flex; flex-direction:column; gap:2px; min-width: 0; }
+.title { font-weight: 700; color: #0f1724; font-size: 0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.subtitle { font-size: 13px; color: var(--muted); }
 
-.icon {
-  transform: rotate(0deg);
-  transition: transform 0.18s ease;
-  color: var(--muted, #6b7280);
-}
-.expanded .icon {
-  transform: rotate(180deg);
-  color: var(--accent, #2563eb);
-}
+/* chevron */
+.chev { display:inline-flex; align-items:center; justify-content:center; color: var(--muted); transition: transform 180ms ease, color 120ms ease; }
+.chevOpen { transform: rotate(180deg); color: var(--accent); }
 
-/* Panel with collapsing animation */
+/* when header has .open */
+.header.open .title { color: var(--accent); }
+
+/* panel - collapsible area */
 .panel {
-  overflow: hidden;
-  transition: max-height 0.22s ease, padding 0.18s ease;
   max-height: 0;
-  padding: 0 16px;
-  background: transparent;
+  overflow: hidden;
+  transition: max-height 240ms cubic-bezier(.22,.9,.3,1), opacity 180ms ease;
+  opacity: 0;
+  background: var(--surface);
 }
-.panelOpen {
-  padding: 12px 16px;
+.panelInner {
+  padding: 12px 14px;
+  color: #374151;
+  background: transparent;
+  line-height: 1.6;
 }
 
-/* content area */
-.panelInner {
-  padding-bottom: 6px;
-  color: var(--muted-text, #374151);
-  font-size: 14px;
-  line-height: 1.4;
-}
+/* dark mode adjustments */
+:root.dark .item { background: linear-gradient(180deg,#071021,#06101b); border-color: var(--border); }
+:root.dark .title { color: #e6eef8; }
+:root.dark .subtitle, :root.dark .panelInner { color: #9aa3b2; }
+:root.dark .header { color: #e6eef8; }
 
 /* small responsive tweaks */
 @media (max-width: 640px) {
-  .trigger {
-    padding: 12px 12px;
-    font-size: 14px;
-  }
-  .panelInner {
-    font-size: 13px;
-  }
+  .header { padding: 10px 12px; }
+  .panelInner { padding: 10px 12px; }
 }

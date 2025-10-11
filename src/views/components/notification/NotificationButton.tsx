@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./notification.module.css";
 import { useThemeStore } from "../../contexts/ThemeStore";
-import Tooltip from "../../components/tooltip/ToolTip";
+import SidebarTooltip from "../../components/sidebartooltip/SidebarTooltip";
 
 const NotificationButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
   const { isDark } = useThemeStore();
 
   return (
-    <Tooltip text="Notifications" delay={500} placement="bottom">
+    <SidebarTooltip text="Notifications" placement="bottom">
       <button
         type="button"
         onClick={onClick}
@@ -19,7 +19,7 @@ const NotificationButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => 
         </svg>
         <span className={styles.counter} aria-hidden>3</span>
       </button>
-    </Tooltip>
+    </SidebarTooltip>
   );
 };
 

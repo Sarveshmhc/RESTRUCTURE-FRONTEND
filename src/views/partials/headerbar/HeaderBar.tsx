@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Bell } from "../../components/icons";
 import { SearchBar, ThemeToggle } from "@components";
-import Tooltip from "../../components/tooltip/ToolTip";
+// replace generic Tooltip import with SidebarTooltip
+import SidebarTooltip from "../../components/sidebartooltip/SidebarTooltip";
 import styles from "./headerbar.module.css";
 import { useThemeStore } from "../../contexts/ThemeStore";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +22,21 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ isCollapsed, onToggle, isMobile }
   const { user } = useAuth(); // get user role
 
   // Flatten menu items for search
-  function flattenMenu(items) {
-    let out = [];
+  type MenuItem = {
+    label: string;
+    path: string;
+    icon?: React.ReactNode;
+    subItems?: MenuItem[];
+  };
+
+  function flattenMenu(items: MenuItem[] | any[]): { label: string; path: string; icon?: React.ComponentType<any> }[] {
+    let out: { label: string; path: string; icon?: React.ComponentType<any> }[] = [];
     for (const it of items) {
-      if (it.label && it.path) out.push({ label: it.label, path: it.path, icon: it.icon });
+      let iconComp: React.ComponentType<any> | undefined = undefined;
+      if (it.icon && (typeof it.icon === "function" || (typeof it.icon === "object" && it.icon.$$typeof))) {
+        iconComp = it.icon;
+      }
+      if (it.label && it.path) out.push({ label: it.label, path: it.path, icon: iconComp });
       if (it.subItems) out = out.concat(flattenMenu(it.subItems));
     }
     return out;
@@ -41,22 +53,20 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ isCollapsed, onToggle, isMobile }
   };
 
   return (
-    <header
-      className={`${styles.headerBar} ${isCollapsed ? styles.collapsed : ""} ${isMobile ? styles.mobile : ""} ${isDark ? styles.dark : styles.light}`}
-      data-theme={isDark ? "dark" : "light"}
-    >
-      {/* Left section - empty */}
+    <header className={styles.headerBar}>
       <div className={styles.headerLeft}>
         {/* Mobile hamburger - visible only on mobile */}
         {isMobile && (
           <button
-            className={styles.mobileHamburger}
-            aria-label="Open menu"
+            type="button"
+            aria-label="Toggle sidebar"
+            title="Toggle sidebar"
             onClick={onToggle}
+            className={`${styles.mobileHamburger} ${!isCollapsed ? styles.open : ""}`}
           >
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
+            <span className={`${styles.hamburgerBar} ${styles.bar1}`} />
+            <span className={`${styles.hamburgerBar} ${styles.bar2}`} />
+            <span className={`${styles.hamburgerBar} ${styles.bar3}`} />
           </button>
         )}
       </div>
@@ -76,22 +86,18 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ isCollapsed, onToggle, isMobile }
 
       {/* Right section - Bell and ThemeToggle */}
       <div className={styles.headerRight}>
-        {/* Notification button with Tooltip */}
-        <Tooltip text="Notifications" delay={500} placement="bottom">
-          <button
-            className={styles.actionButton}
-            aria-label="Notifications"
-            type="button"
-          >
-            <Bell className={styles.actionIcon} />
+        {/* Notifications - use SidebarTooltip */}
+        <SidebarTooltip text="Notifications" delay={400} placement="bottom">
+          <button className={styles.actionButton} aria-label="Notifications">
+            <Bell />
             <span className={styles.notificationBadge}></span>
           </button>
-        </Tooltip>
+        </SidebarTooltip>
 
-        {/* Theme toggle with Tooltip */}
-        <Tooltip text={isDark ? "Switch to Light" : "Switch to Dark"} delay={500} placement="bottom">
+        {/* Theme toggle - use SidebarTooltip */}
+        <SidebarTooltip text={isDark ? "Switch to Light" : "Switch to Dark"} delay={500} placement="bottom">
           <ThemeToggle />
-        </Tooltip>
+        </SidebarTooltip>
       </div>
     </header>
   );

@@ -1,186 +1,315 @@
-:root {
-  --search-bg: #f8fafc;
-  --search-border: #e2e8f0;
-  --search-border-hover: #cbd5e1;
-  --search-border-focus: #3b82f6;
-  --search-text: #1e293b;
-  --search-placeholder: #94a3b8;
-}
-
-[data-theme="dark"] {
-  --search-bg: #334155;
-  --search-border: #475569;
-  --search-border-hover: #64748b;
-  --search-border-focus: #2563eb;
-  --search-text: #f1f5f9;
-  --search-placeholder: #94a3b8;
-}
-
-/* searchbar.module.css */
-
-/* Make the search bar longer */
 .root {
-  width: 100%;
-  max-width: 700px; /* or increase to 800px if you want it even longer */
-}
-
-/* Input wrapper: ensure correct height and alignment */
-.inputWrap {
-  display: flex;
-  align-items: center;
   position: relative;
   width: 100%;
-  background: var(--search-bg, #fff);
-  border-radius: 10px;
-  border: 1px solid var(--search-border, #e2e8f0);
-  min-height: 52px; /* slightly taller for better vertical centering */
-  transition: border-color 0.2s, background 0.2s;
+  max-width: 740px;
+  margin: 0 auto;
+  font-family: inherit;
 }
 
-.inputWrap:focus-within {
-  border-color: var(--search-border-focus, #3b82f6);
-  box-shadow: 0 0 0 2px rgba(59,130,246,0.08);
-}
-
-/* Input: match height and padding */
-.input {
-  width: 100%;
-  height: 52px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--search-text, #1e293b);
-  font-size: 1.08rem;
-  padding-left: 2.7rem; /* enough space for icon */
-  padding-right: 4.5rem;
-  border-radius: 10px;
-  transition: color 0.2s, background 0.2s;
-}
-
-.input::placeholder {
-  color: var(--search-placeholder, #94a3b8);
-  opacity: 1;
-}
-
-/* Search icon: perfectly centered vertically */
-.icon {
-  position: absolute;
-  left: rem;
-  top: 50%;
-  transform: translateY(-50%);
-  fill: var(--search-placeholder, #94a3b8);
-  width: 1rem;
-  height: 1rem;
-  pointer-events: none;
-}
-
-
-.clearBtn {
-  position: absolute;
-  right: 1.1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--search-placeholder, #94a3b8);
-  padding: 0;
-  z-index: 2;
-}
-
-.clearIcon {
-  width: 1.1rem;
-  height: 1.1rem;
-}
-
-.dropdown {
-  position: absolute;
-  top: 120%;
-  left: 50%;
-  margin-top: -15px;
-  width: 100%;
-  min-width: 700px;
-  max-width: 900px;
-  background: #fff;
-  color: #222;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(16, 30, 54, 0.18);
-  border: none;
-  z-index: 99999;
-  padding: 0.5rem 0;
-  overflow-y: auto;
-  max-height: 250vh;
-}
-
-.sectionHeader {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #94a3b8;
-  padding: 1rem 2rem 0.5rem 2rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.item,
-.recentItem {
+/* input wrapper */
+.inputWrap {
+  position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
-  background: none;
+  background: var(--search-bg, #ffffff); /* solid background */
+  border: 1px solid var(--search-border, rgba(15,23,42,0.06));
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.03); /* subtle shadow, optional */
+  /* remove backdrop/blur/glass effects */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* search icon left */
+.searchIcon {
+  margin-right: 8px;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* input */
+.input {
   border: none;
-  color: #222;
-  font-size: 1.08rem;
-  padding: 0.75rem 2rem;
-  cursor: pointer;
-  transition: background 0.15s;
-  border-radius: 0;
-  gap: 1.1rem;
-}
-
-.itemActive,
-.item:hover,
-.recentItem:hover {
-  background: #f1f5f9;
-}
-
-.itemIcon,
-.recentIcon {
-  margin-right: 0.7rem;
-  width: 1.3rem;
-  height: 1.3rem;
-  color: #94a3b8;
-  flex-shrink: 0;
-}
-
-.itemLabel {
+  outline: none;
   flex: 1;
-  font-weight: 500;
+  font-size: 0.95rem;
+  color: #0f1724;
+  background: transparent;
+  padding: 6px 8px;
+}
+
+/* clear button (x) */
+.clearBtn {
+  border: none;
+  background: transparent;
+  margin-left: 6px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;    /* square hit area */
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted, #6b7280);
+}
+.clearBtn:hover { background: rgba(15,23,42,0.03); color: var(--text, #0f1724); }
+
+.clearIcon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  line-height: 1;
+}
+
+/* dropdown surface — ensure good contrast both light & dark */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: var(--dropdown-bg, #ffffff);       /* solid light bg */
+  border: 1px solid var(--dropdown-border, rgba(15,23,42,0.06));
+  border-radius: 10px;
+  box-shadow: var(--dropdown-shadow, 0 12px 30px rgba(2,6,23,0.08));
+  z-index: 99999;
+  max-height: 360px;
+  overflow: auto;
+  padding: 8px;
+  color: var(--text, #0f1724);
+  /* remove any glass effects */
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-image: none !important;
+}
+
+/* Force dropdown to be a solid surface (override any glass/backdrop/gradient bleed) */
+.root > .dropdown,
+.root .dropdown,
+.dropdown {
+  background: var(--dropdown-bg, #ffffff) !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 1px solid var(--dropdown-border, rgba(15,23,42,0.06)) !important;
+  box-shadow: var(--dropdown-shadow, 0 12px 30px rgba(2,6,23,0.08)) !important;
+  color: var(--dropdown-text, var(--text, #0f1724)) !important;
+  opacity: 1 !important;
+}
+
+/* Dark theme variant */
+:root.dark .root > .dropdown,
+[data-theme="dark"] .root > .dropdown,
+:root.dark .dropdown,
+[data-theme="dark"] .dropdown {
+  background: var(--dropdown-bg-dark, #0b1220) !important;
+  border-color: var(--dropdown-border-dark, rgba(255,255,255,0.04)) !important;
+  box-shadow: var(--dropdown-shadow-dark, 0 12px 30px rgba(0,0,0,0.6)) !important;
+  color: var(--dropdown-text-dark, var(--text, #e6eef8)) !important;
+}
+
+/* ensure children don't re-introduce glassy backgrounds */
+.dropdown * {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+/* section */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* section header */
+.sectionHeader {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  padding: 6px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* item */
+.item,
+.resultItem,
+.recentItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  text-align: left;
+  border-radius: 8px;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+  line-height: 1.15;
+  font-size: 13px;
+  color: var(--text, #0f1724) !important; /* ensure not washed-out */
+}
+
+/* Remove boxed borders around each result row — plain list style */
+.dropdown .item,
+.dropdown .resultItem,
+.dropdown .recentItem,
+.dropdown button {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  outline: none !important;
+  padding: 8px 10px; /* keep comfortable touch area */
+  border-radius: 6px; /* small radius for hover only */
+  width: 100%;
   text-align: left;
 }
 
-.itemMeta {
-  font-size: 0.95rem;
-  color: #b0b8c9;
-  margin-left: 0.5rem;
-  text-align: right;
-  min-width: 80px;
+/* Keep subtle hover highlight but no boxed outline */
+.dropdown .item:hover,
+.dropdown .resultItem:hover,
+.dropdown .recentItem:hover {
+  background: rgba(15,23,42,0.03) !important;
+  box-shadow: none !important;
 }
 
-@media (max-width: 600px) {
-  .dropdown {
-    min-width: 0;
-    max-width: 98vw;
-    left: 1%;
-    right: 1%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .item, .recentItem {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  .sectionHeader {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+/* Ensure active/selected state is a background fill not a border */
+.dropdown .itemActive,
+.dropdown .selected {
+  background: rgba(79,124,243,0.08) !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--text) !important;
 }
+
+/* tighter vertical rhythm */
+.section > .resultItem + .resultItem,
+.section > .item + .item,
+.section > .recentItem + .recentItem {
+  margin-top: 6px;
+}
+
+/* icon sizing and alignment */
+.itemIcon,
+.resultIcon,
+.recentIcon,
+.itemIcon svg,
+.resultIcon svg,
+.recentIcon svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15,23,42,0.02);
+  color: var(--muted, #6b7280);
+}
+
+/* label + optional path */
+.itemBody,
+.itemLabelWrap {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.itemLabel {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text, #0f1724) !important; /* stronger */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.itemPath {
+  font-size: 11px;
+  color: var(--muted, #6b7280);
+  line-height: 1.1;
+}
+
+/* subtle hover highlight */
+.item:hover,
+.resultItem:hover,
+.recentItem:hover {
+  background: rgba(15,23,42,0.03);
+}
+
+/* ensure icon vertical centering even if svg sets viewBox offsets */
+.recentItem svg,
+.resultItem svg {
+  vertical-align: middle;
+  transform: none !important;
+  margin: 0;
+}
+
+/* dark mode support if your app uses .dark on html/body */
+:root.dark .inputWrap { background: #0f1724; border-color: rgba(255,255,255,0.04); color: #e6eef8; box-shadow: none; }
+:root.dark .input { color: #e6eef8; }
+:root.dark .clearBtn { color: #9aa3b2; }
+:root.dark .dropdown { background: #0b1220; border-color: rgba(255,255,255,0.04); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+:root.dark .itemLabel { color: #e6eef8; }
+:root.dark .itemPath, :root.dark .empty, :root.dark .hint { color: #9aa3b2; }
+:root.dark .itemIcon { background: rgba(255,255,255,0.02); color: #9aa3b2; }
+/* Compact result list: smaller icons, tighter spacing */
+.resultItem,
+.item {
+  display: flex;
+  gap: 8px;                /* smaller gap between icon and text */
+  align-items: center;
+  padding: 6px 8px;        /* reduced vertical padding */
+  text-align: left;
+  border-radius: 6px;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+  line-height: 1.1;
+  font-size: 13px;         /* slightly smaller text */
+}
+
+/* reduce vertical spacing between rows */
+.section > .resultItem + .resultItem,
+.section > .item + .item {
+  margin-top: 6px;
+}
+
+/* smaller left icon */
+.itemIcon,
+.resultIcon,
+.itemIcon svg,
+.resultIcon svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15,23,42,0.02);
+  color: var(--muted, #6b7280);
+}
+
+/* text blocks */
+.itemBody,
+.itemLabelWrap {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemLabel {
+  font-weight: 600;
+  font-size: 13px;         /* match row font-size */
+  color: var(--text, #0f1724);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

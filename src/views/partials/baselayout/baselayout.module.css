@@ -1,7 +1,11 @@
+/* Base layout - updated: base color = white, header matches sidebar color */
+
 .layoutWrapper {
   display: flex;
   height: 100vh;
   width: 100vw;
+  /* force base page color to white (scoped) */
+  --bg: #ffffff;
   background: var(--bg);
   position: relative;
   overflow: hidden;
@@ -19,8 +23,17 @@
   border: none;
   margin: 0;
   padding: 0;
+  align-items: stretch;
+  width: 100%;
+
+  /* Make header visually match the sidebar */
+  background: var(--sidebar-bg, linear-gradient(180deg,#ffffff,#f8fafc));
+  color: var(--sidebar-text, #111827);
+  border-bottom: 1px solid var(--sidebar-border, rgba(15,23,42,0.06));
+  box-shadow: none;
 }
 
+/* content row layout */
 .contentRow {
   display: flex;
   flex: 1;
@@ -87,47 +100,193 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  border: none;
   margin: 0;
   padding: 0;
   background: var(--bg);
-  outline: none;
   position: relative;
+  overflow: hidden; /* prevent main wrapper from scrolling */
 }
 
-.headerArea {
-  height: 4rem;
-  flex-shrink: 0;
-  border: none;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  
-  background: var(--sidebar-bg); /* Match sidebar background */
-  position: relative;
-  z-index: 49; /* Below sidebar but above content */
-}
-
+/* contentArea becomes the only vertical scroll container */
 .contentArea {
   flex: 1;
   padding: 1.5rem 2rem;
-  background: var(--bg);
-  overflow-y: auto;
-  border: none;
-  margin: 0;
-  outline: none;
+  background: var(--content-bg) !important;
+  color: var(--content-text) !important;
+  overflow-y: auto; /* content scrolls here */
+  -webkit-overflow-scrolling: touch;
   position: relative;
 }
 
-/* Apply theme variables and smooth animations */
-.layoutWrapper {
-  background: var(--bg);
-  color: var(--text);
+/* Ensure main area and content text use theme tokens (light & dark) */
+.mainArea,
+.contentArea,
+.appMain,
+.main-content,
+.page {
+  color: var(--text, #0f1724) !important;
+  background: var(--bg, #ffffff) !important;
 }
 
-.sidebarWrapper,
-.mainArea {
-  will-change: transform; /* Optimize animations */
+/* -------- Safer, theme-aware content rendering (replace previous aggressive overrides) --------
+   Uses theme tokens (var(--text), --content-text / --content-bg) and avoids blanket !important
+   and universal selectors which caused the "layered/faded" text in dark mode.
+-------------------------------------------------------------------------------------------*/
+
+/* Base content area: respect theme tokens and keep normal blending */
+.mainArea,
+.contentArea {
+  position: relative;
+  isolation: isolate;               /* avoid unexpected blend from ancestors */
+  mix-blend-mode: normal;           /* ensure normal text rendering */
+  filter: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--content-text, var(--text));   /* respects light/dark tokens */
+  background: var(--content-bg, var(--bg));
+  opacity: 1;
+  -webkit-text-fill-color: unset;
+  transition: color 180ms ease, background 240ms ease;
+}
+
+/* Headings / paragraphs inside content: explicit, token-driven colors */
+.mainArea h1,
+.mainArea h2,
+.mainArea h3,
+.mainArea h4,
+.contentArea h1,
+.contentArea h2,
+.contentArea h3,
+.contentArea h4,
+.contentArea p,
+.pageTitle,
+.pageSubtitle {
+  color: var(--content-text, var(--text));
+  opacity: 1;
+  text-shadow: none;
+  -webkit-text-fill-color: unset;
+}
+
+/* Avoid blanket resets on all descendants — fix only known problematic elements */
+.welcomeCard,
+.welcomeCard h1,
+.welcomeCard p {
+  position: relative;
+  z-index: 2;
+  color: var(--content-text, var(--text));
+  mix-blend-mode: normal;
+  opacity: 1;
+  text-shadow: none;
+  filter: none;
+  backdrop-filter: var(--content-backdrop, none); /* optional glass support via token */
+}
+
+/* Defensive: neutralize obvious global overlays but scoped to known overlay classes only */
+.mobileOverlay,
+.overlay,
+.pageOverlay,
+.globalOverlay {
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Defensive fixes for ghosted / semi-opaque content (dark mode overlay issues) */
+/* Force content area and its children to be fully visible and above accidental overlays */
+.mainArea,
+.contentArea {
+  opacity: 1 !important;
+  color: --text, #000000 !important;
+  -webkit-text-fill-color: unset !important;
+  mix-blend-mode: normal !important;
+  isolation: isolate !important; /* avoid blend from ancestors */
+}
+
+/* Ensure direct children render above any accidental translucent pseudo-layers */
+.contentArea > * {
+  position: relative !important;
+  z-index: 2 !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  -webkit-text-fill-color: unset !important;
+  text-shadow: none !important;
+}
+
+/* Remove accidental overlay pseudo-elements on content/main area */
+.mainArea::before,
+.mainArea::after,
+.contentArea::before,
+.contentArea::after {
+  display: none !important;
+  content: none !important;
+  pointer-events: none !important;
+  background: transparent !important;
+}
+
+/* Neutralize common overlay classes that might be left visible accidentally */
+.mobileOverlay,
+.overlay,
+.pageOverlay,
+.globalOverlay {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Defensive: if any element sets very low opacity via inline style, restore it inside content */
+.mainArea *[style*="opacity"],
+.contentArea *[style*="opacity"] {
+  opacity: 1 !important;
+}
+
+/* Respect reduced motion / accessibility (don't interfere) */
+@media (prefers-reduced-motion: reduce) {
+  .contentArea > * { transition: none !important; }
+}
+
+/* Strong defensive reset for content text rendering (fixes ghosted / layered text in dark mode) */
+.contentArea,
+.contentArea * {
+  /* normal blending / no filters */
+  mix-blend-mode: normal !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  /* ensure full opacity / correct color */
+  opacity: 1 !important;
+  color: --text, #000000 !important;
+  -webkit-text-fill-color: unset !important;
+  text-shadow: none !important;
+
+  /* avoid being clipped or rendered in an isolated stacking context */
+  isolation: isolate !important;
+  position: relative !important;
+}
+
+/* Make sure pseudo-elements are not left visible above content */
+.contentArea::before,
+.contentArea::after,
+.contentArea *::before,
+.contentArea *::after {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+
+/* Specific fix for the welcome card / hero area where text was faded */
+.welcomeCard,
+.welcomeCard * {
+  mix-blend-mode: normal !important;
+  color: --text, #000000 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: unset !important;
+  text-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 /* Mobile responsive styles - Clean and optimized */
@@ -154,10 +313,8 @@
     transform: translateX(-100%);
     z-index: 1000;
     box-shadow: none;
-    /* Enhanced smooth mobile transitions */
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Hardware acceleration for mobile performance */
     will-change: transform;
     backface-visibility: hidden;
   }
