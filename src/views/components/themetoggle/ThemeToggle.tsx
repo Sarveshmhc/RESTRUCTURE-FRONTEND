@@ -12,20 +12,15 @@ const ThemeToggle: React.FC = () => {
     }
   }, [isDark]);
 
-  const cssVars: React.CSSProperties = {
-    ["--sun-color" as any]: isDark ? "#f6c84c" : "#f59e0b",
-    ["--toggle-icon-color" as any]: isDark ? "#ffffff" : "var(--header-text, #111827)",
-  };
-
+  // CSS variables moved to external CSS file (see themetoggle.module.css)
   return (
     <button
       type="button"
       className={`${styles.iconToggle} ${isDark ? styles.dark : styles.light}`}
       onClick={toggleTheme}
-      aria-pressed={!!isDark}
+      aria-pressed={isDark ? true : false}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
-      style={cssVars}
     >
       <span className={styles.icons} aria-hidden>
         {/* Sun */}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Bell } from "../../components/icons";
-import { SearchBar, ThemeToggle } from "@components";
+import { SearchBar, ThemeToggle, SidebarTooltip } from "@components";
 // replace generic Tooltip import with SidebarTooltip
-import SidebarTooltip from "../../components/sidebartooltip/SidebarTooltip";
+
 import styles from "./headerbar.module.css";
 import { useThemeStore } from "../../contexts/ThemeStore";
 import { useNavigate } from "react-router-dom";

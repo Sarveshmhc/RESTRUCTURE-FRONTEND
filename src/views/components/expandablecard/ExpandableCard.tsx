@@ -16,6 +16,13 @@ export type ExpandableCardProps = {
   children?: React.ReactNode;
 };
 
+export type CardProps = {
+  hover?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+  shadow?: string; // Add this line to accept the 'shadow' prop
+};
+
 const chevronVariants = {
   closed: { rotate: 0 },
   open: { rotate: 180 },
@@ -102,7 +109,6 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
 
   return (
     <Card
-      variant="soft"
       shadow={hover ? "soft" : "none"}
       hover={hover}
       className={`${styles.wrapper} ${className}`}
@@ -114,7 +120,7 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
           className={`${styles.header} ${open ? styles.open : ""}`}
           onClick={toggle}
           onKeyDown={onKeyDown}
-          aria-expanded={open}
+          aria-expanded={!!open}
           aria-controls={id ? `panel-${id}` : undefined}
           type="button"
         >

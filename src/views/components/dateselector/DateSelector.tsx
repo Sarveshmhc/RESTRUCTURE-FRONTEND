@@ -110,7 +110,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({ value, onChange, placeholde
         type="button"
         className={styles.inputBtn}
         aria-haspopup="dialog"
-        aria-expanded={open}
+        aria-expanded={open ? "true" : "false"}
         onClick={() => setOpen(v => !v)}
       >
         <svg className={styles.icon} viewBox="0 0 24 24" width="18" height="18" aria-hidden>

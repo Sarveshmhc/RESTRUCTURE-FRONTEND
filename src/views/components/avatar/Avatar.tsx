@@ -39,10 +39,10 @@ const Avatar: React.FC<AvatarProps> = ({
         styles.root,
         className ?? "",
         numericSize <= 32 ? styles.sm : numericSize >= 56 ? styles.lg : styles.md,
+        typeof size === "number" ? `${styles[`size${numericSize}`]}` : "",
       ]
         .filter(Boolean)
         .join(" ")}
-      style={{ width: numericSize, height: numericSize }}
       {...rest}
     >
       {showImg ? (

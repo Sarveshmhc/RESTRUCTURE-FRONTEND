@@ -212,9 +212,8 @@ const SidebarTooltip: React.FC<SidebarTooltipProps> = ({
       className={`${styles.tip} ${isVisible ? styles.visible : ""}`}
       role="tooltip"
       aria-hidden={!isVisible}
-      style={{ position: "fixed", left: 0, top: 0, zIndex: 100000 }}
     >
-      <span className={styles.arrow} aria-hidden />
+      <span className={styles.arrow} aria-hidden="true" />
       <span className={styles.content}>{text}</span>
     </span>
   );

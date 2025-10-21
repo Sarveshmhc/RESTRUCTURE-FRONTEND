@@ -60,7 +60,7 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   return (
     <section className={styles.card} aria-label={`${title} preview`}>
       <h3 className={styles.cardTitle}>{title}</h3>
-      <div className={styles.previewRow} style={{ minHeight: 96 }}>{children}</div>
+      <div className={`${styles.previewRow} ${styles.previewRowMinHeight}`}>{children}</div>
     </section>
   )
 }
@@ -88,9 +88,6 @@ export default function SamplePanel() {
 
   // Breadcrumbs component reference (safe)
   const BreadcrumbsComp = (Components as any).Breadcrumbs
-  const BadgeComp = (Components as any).Badge
-  const ButtonComp = (Components as any).Button
-  const IconComp = (Components as any).Icon // optional icon component
 
   return (
     <div className={styles.container}>
@@ -100,31 +97,31 @@ export default function SamplePanel() {
       </header>
 
       {/* Breadcrumbs preview (top of panel) */}
-      <div style={{ marginBottom: 14 }}>
+      <div className={styles.breadcrumbsWrapper}>
         {BreadcrumbsComp ? (
-          <div style={{ maxWidth: 820 }}>
+          <div className={styles.breadcrumbsMaxWidth}>
             {/* @ts-ignore */}
             <BreadcrumbsComp items={bcItems} />
           </div>
         ) : (
-          <div style={{ color: "var(--muted)" }}>Breadcrumbs component not exported — see <a href="src/views/components/breadcrumbs/BreadCrumbs.tsx">BreadCrumbs.tsx</a></div>
+          <div className={styles.mutedText}>Breadcrumbs component not exported — see <a href="src/views/components/breadcrumbs/BreadCrumbs.tsx">BreadCrumbs.tsx</a></div>
         )}
       </div>
 
       <div className={styles.grid}>
         {/* Handcrafted Badge variants (explicit examples) */}
         <Card title="Badge — Variants (explicit)">
-          <div className={styles.previewCol} style={{ gap: 12 }}>
+          <div className={`${styles.previewCol} ${styles.previewColGap12}`}>
             <BadgeVariants />
-            <div style={{ color: "var(--muted)", fontSize: 13 }}>Badge variants rendered with explicit props.</div>
+            <div className={styles.badgeVariantsNote}>Badge variants rendered with explicit props.</div>
           </div>
         </Card>
 
         {/* Handcrafted Button variants (explicit examples) */}
         <Card title="Button — Variants (explicit)">
-          <div className={styles.previewCol} style={{ gap: 12 }}>
+          <div className={`${styles.previewCol} ${styles.previewColGap}`}>
             <ButtonVariants />
-            <div style={{ color: "var(--muted)", fontSize: 13 }}>Button variants including loading and icon-only previews.</div>
+            <div className={styles.buttonVariantsNote}>Button variants including loading and icon-only previews.</div>
           </div>
         </Card>
 
@@ -135,8 +132,8 @@ export default function SamplePanel() {
           ) : (
             <div className={styles.previewCol}>
               {badgeEntries.map(([name, value]) => (
-                <div key={name} style={{ width: "100%", marginBottom: 8 }}>
-                  <div style={{ marginBottom: 6, fontSize: 13, color: "var(--muted)" }}>{name}</div>
+                <div key={name} className={styles.badgeEntry}>
+                  <div className={styles.badgeEntryName}>{name}</div>
                   <RenderExport name={name} value={value} />
                 </div>
               ))}
@@ -151,8 +148,8 @@ export default function SamplePanel() {
           ) : (
             <div className={styles.previewCol}>
               {buttonEntries.map(([name, value]) => (
-                <div key={name} style={{ width: "100%", marginBottom: 8 }}>
-                  <div style={{ marginBottom: 6, fontSize: 13, color: "var(--muted)" }}>{name}</div>
+                <div key={name} className={styles.buttonEntry}>
+                  <div className={styles.buttonEntryName}>{name}</div>
                   <RenderExport name={name} value={value} />
                 </div>
               ))}

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useId, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import styles from "./dropdown.module.css";
 
+
 export type DropOption = {
   value: string;
   label: React.ReactNode;
@@ -171,31 +172,46 @@ export default function DropDown({
 
   return (
     <div className={`${styles.customDropdown} ${className}`} >
-      <button
-        type="button"
-        ref={triggerRef}
-        className={`${styles.dropdownTrigger} ${isOpen ? styles.open : ""} ${disabled ? styles.disabled : ""}`}
-        onClick={() => openToggle()}
-        onKeyDown={onTriggerKey}
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-controls={`dropdown-${id}`}
-        disabled={disabled}
-      >
-        <span className={styles.selectedText}>{selectedOption?.label ?? placeholder}</span>
-        <ChevronDown className={`${styles.chevronIcon} ${isOpen ? styles.rotated : ""}`} />
-      </button>
+      {customTrigger ? (
+        React.cloneElement(
+          customTrigger as React.ReactElement<any>,
+          {
+            ref: triggerRef,
+            onClick: () => openToggle(),
+            onKeyDown: onTriggerKey,
+            'aria-haspopup': "listbox",
+            'aria-expanded': isOpen ? "true" : "false",
+            'aria-controls': `dropdown-${id}`,
+            disabled,
+          }
+        )
+      ) : (
+        <button
+          type="button"
+          ref={triggerRef}
+          className={`${styles.dropdownTrigger} ${isOpen ? styles.open : ""} ${disabled ? styles.disabled : ""}`}
+          onClick={() => openToggle()}
+          onKeyDown={onTriggerKey}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-controls={`dropdown-${id}`}
+          disabled={disabled}
+        >
+          <span className={styles.selectedText}>{selectedOption?.label ?? placeholder}</span>
+          <ChevronDown className={`${styles.chevronIcon} ${isOpen ? styles.rotated : ""}`} />
+        </button>
+      )}
 
       {isOpen && (
         <div
           id={`dropdown-${id}`}
           ref={menuRef}
-          className={styles.dropdownMenu}
+          className={`${styles.dropdownMenu} ${styles.dropdownMenuMaxHeight}`}
           role="listbox"
           tabIndex={0}
           aria-activedescendant={highlight >= 0 ? `opt-${id}-${highlight}` : undefined}
-          style={{ maxHeight }}
           onKeyDown={onMenuKey}
+          style={{ maxHeight: `${maxHeight}px`, overflowY: "auto" }}
         >
           {allowSearch && (
             <div className={styles.menuSearch}>
@@ -206,12 +222,13 @@ export default function DropDown({
                 placeholder="Search..."
                 className={styles.menuSearchInput}
                 aria-label="Filter options"
+                title="Search options"
               />
             </div>
           )}
 
           {filters.length > 0 && (
-            <div className={styles.filters} role="toolbar" aria-label="Filter options">
+            <div className={styles.filters} aria-label="Filter options">
               {filters.map((f) => {
                 const active = activeFilters.includes(f.id);
                 return (
@@ -243,7 +260,7 @@ export default function DropDown({
                     data-index={i}
                     type="button"
                     role="option"
-                    aria-selected={sel}
+                    aria-selected={sel ? true : false}
                     className={`${styles.dropdownOption} ${sel ? styles.selected : ""} ${act ? styles.itemActive : ""}`}
                     onMouseEnter={() => setHighlight(i)}
                     onClick={() => commit(opt)}

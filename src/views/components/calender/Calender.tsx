@@ -211,7 +211,10 @@ const HRScheduleCalendar: React.FC<Props> = ({ initialEvents = sampleEvents, onO
 
                   <div className={styles.dotRow} aria-hidden>
                     {evs.slice(0, 3).map((e) => (
-                      <span key={e.id} className={styles.eventDot} style={{ background: e.color ?? "#4f7cf3" }} />
+                      <span
+                        key={e.id}
+                        className={`${styles.eventDot} ${e.color ? styles[`eventDot_${e.color.replace("#", "")}`] : styles.eventDot_default}`}
+                      />
                     ))}
                   </div>
                 </button>
@@ -252,7 +255,9 @@ const HRScheduleCalendar: React.FC<Props> = ({ initialEvents = sampleEvents, onO
                 title={ev.title}
               >
                 <div className={styles.eventLeft}>
-                  <span className={styles.eventBadge} style={{ background: ev.color ?? "#4f7cf3" }} />
+                  <span
+                    className={`${styles.eventBadge} ${ev.color ? styles[`eventBadge_${ev.color.replace("#", "")}`] : styles.eventBadge_default}`}
+                  />
                   <div className={styles.eventInfo}>
                     <div className={styles.eventTitle}>{ev.title}</div>
                     <div className={styles.eventMeta}>
@@ -289,7 +294,13 @@ const HRScheduleCalendar: React.FC<Props> = ({ initialEvents = sampleEvents, onO
 
               <div className={styles.modalBody}>
                 <label className={styles.label}>Title</label>
-                <input className={styles.input} value={draftTitle} onChange={(e) => setDraftTitle(e.target.value)} />
+                <input
+                  className={styles.input}
+                  value={draftTitle}
+                  onChange={(e) => setDraftTitle(e.target.value)}
+                  placeholder="Enter event title"
+                  title="Event title"
+                />
 
                 <label className={styles.label}>Date</label>
                 <input
@@ -297,10 +308,19 @@ const HRScheduleCalendar: React.FC<Props> = ({ initialEvents = sampleEvents, onO
                   type="date"
                   value={draftDate ?? isoDate(today)}
                   onChange={(e) => setDraftDate(e.target.value)}
+                  title="Event date"
+                  placeholder="Select event date"
                 />
 
                 <label className={styles.label}>Time (optional)</label>
-                <input className={styles.input} type="time" value={draftTime} onChange={(e) => setDraftTime(e.target.value)} />
+                <input
+                  className={styles.input}
+                  type="time"
+                  value={draftTime}
+                  onChange={(e) => setDraftTime(e.target.value)}
+                  title="Event time"
+                  placeholder="Enter event time"
+                />
               </div>
 
               <div className={styles.modalFooter}>

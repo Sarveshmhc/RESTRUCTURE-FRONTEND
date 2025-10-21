@@ -36,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
           height="16"
           viewBox="0 0 50 50"
           aria-hidden="true"
-          style={{ marginRight: 8 }}
+          className={styles.loadingIcon}
         >
           <circle
             cx="25"

@@ -153,15 +153,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
         onDragLeave={onDragLeave}
       >
         <div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "center" }}>
+          <div className={styles.dropzoneHeader}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M12 3v10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M21 15v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M12 3l4 4M12 3l-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <div className="hint" style={{ display: "inline-block" }}>
-              <div style={{ fontWeight: 700 }}>Drag & drop files here</div>
-              <div className="hint" style={{ fontSize: 13, color: "var(--muted)" }}>or click to select (images, pdf)</div>
+            <div className={styles.hintBlock}>
+              <div className={styles.hintTitle}>Drag & drop files here</div>
+              <div className={styles.hintSubtitle}>or click to select (images, pdf)</div>
             </div>
           </div>
         </div>
@@ -173,8 +173,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
           type="file"
           accept={accept}
           multiple={multiple}
-          style={{ display: "none" }}
+          className={styles.hiddenInput}
           onChange={(e) => addFiles(e.target.files)}
+          title="Select files to upload"
+          placeholder="Choose files"
         />
         <button type="button" className={`${styles.btn} ${styles.ghost}`} onClick={() => inputRef.current?.click()}>
           Choose files
@@ -201,9 +203,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
             <div className={styles.meta}>
               <div className={styles.name}>{it.file.name}</div>
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <div style={{ width: "100%" }}>
-                  <div className={styles.progress}><i style={{ width: `${it.progress}%` }} /></div>
+              <div className={styles.flexRow}>
+                <div className={styles.fullWidth}>
+                  <div className={styles.progress}>
+                    <i className={`${styles.progressBar} ${styles[`progress${Math.round(it.progress)}`]}`} />
+                  </div>
                 </div>
                 <div className={styles.size}>{(it.file.size / 1024).toFixed(0)} KB</div>
               </div>

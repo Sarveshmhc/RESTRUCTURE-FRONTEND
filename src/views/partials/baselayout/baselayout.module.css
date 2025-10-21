@@ -114,7 +114,6 @@
   background: var(--content-bg) !important;
   color: var(--content-text) !important;
   overflow-y: auto; /* content scrolls here */
-  -webkit-overflow-scrolling: touch;
   position: relative;
 }
 
@@ -178,6 +177,7 @@
   opacity: 1;
   text-shadow: none;
   filter: none;
+  -webkit-backdrop-filter: var(--content-backdrop, none); /* Safari/iOS support */
   backdrop-filter: var(--content-backdrop, none); /* optional glass support via token */
 }
 
@@ -250,8 +250,8 @@
   /* normal blending / no filters */
   mix-blend-mode: normal !important;
   filter: none !important;
-  backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 
   /* ensure full opacity / correct color */
   opacity: 1 !important;
