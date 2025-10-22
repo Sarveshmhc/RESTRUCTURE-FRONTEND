@@ -30,7 +30,6 @@ export { Filter } from "./filter";
 export { Icon } from "./icons";
 export { Loader } from "./loader";
 export { Modal } from "./modals";
-export { prakash } from "./prakash";
 export { ProgressBar } from "./progressbar";
 export { QuickActions } from "./quickaction";
 export { RecentAnnouncements } from "./recentannouncements";

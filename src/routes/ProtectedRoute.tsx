@@ -1,7 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+
+type User = { role?: 'hr' | 'employee' };
+
+interface AuthContextType {
+    isAuthReady: boolean;
+    isAuthenticated: boolean;
+    user: User;
+}
+
+export const AuthContext = React.createContext<AuthContextType>({
+    isAuthReady: false,
+    isAuthenticated: false,
+    user: {},
+});
 
 interface ProtectedRouteProps {
     children: ReactNode;

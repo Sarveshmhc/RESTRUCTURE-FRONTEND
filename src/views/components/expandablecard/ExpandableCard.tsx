@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Card from "../cards/Cards";
-import styles from "./ExpandableCard.module.css";
+import styles from "./expandablecard.module.css";
 
 export type ExpandableCardProps = {
   id?: string;
@@ -110,7 +110,6 @@ const ExpandableCard: React.FC<ExpandableCardProps> = ({
   return (
     <Card
       shadow={hover ? "soft" : "none"}
-      hover={hover}
       className={`${styles.wrapper} ${className}`}
     >
       <div className={styles.headerRow}>
